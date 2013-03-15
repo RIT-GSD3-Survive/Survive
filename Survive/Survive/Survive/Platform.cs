@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Survive
 {
-    class WeaponMelee : Weapon
+    class Platform : Ground
     {
-        protected string name;
-        protected int range;
+
     }
 }

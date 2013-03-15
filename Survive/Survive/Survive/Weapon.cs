@@ -7,8 +7,8 @@ namespace Survive
 {
     class Weapon : Item
     {
-        private int baseAttackPower;
-        private int baseWeight;
-        private int baseAccuracy;
+        protected int baseAttackPower;
+        protected int baseWeight;
+        protected int baseAccuracy;
     }
 }

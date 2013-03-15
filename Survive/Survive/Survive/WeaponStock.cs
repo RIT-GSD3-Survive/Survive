@@ -7,6 +7,6 @@ namespace Survive
 {
     class WeaponStock : Weapon
     {
-        private string name;
+        protected string name;
     }
 }

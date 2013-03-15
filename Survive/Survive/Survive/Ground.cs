@@ -5,9 +5,11 @@ using System.Text;
 
 namespace Survive
 {
-    class WeaponMelee : Weapon
+    class Ground : Terrian
     {
-        protected string name;
-        protected int range;
+        public Ground()
+        {
+            collidable = true;
+        }
     }
 }
