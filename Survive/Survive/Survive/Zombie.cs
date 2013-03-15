@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Survive
 {
-    class Zombie
+    class Zombie : Humanoid
     {
+        int attackPower;
     }
 }

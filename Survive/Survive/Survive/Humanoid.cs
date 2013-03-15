@@ -9,6 +9,5 @@ namespace Survive
     {
         int moveSpeed;
         int health;
-
     }
 }
