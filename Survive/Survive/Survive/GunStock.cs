@@ -5,7 +5,11 @@ using System.Text;
 
 namespace Survive
 {
-    class GunStock
+    class GunStock : GunBits
     {
+        public GunStock()
+        {
+
+        }
     }
 }

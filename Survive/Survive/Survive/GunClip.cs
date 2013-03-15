@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Survive
 {
-    class GunBody : GunBits
+    class GunClip : GunBits
     {
-        public GunBody()
+        public GunClip()
         {
 
         }
