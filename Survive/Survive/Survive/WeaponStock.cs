@@ -8,5 +8,11 @@ namespace Survive
     class WeaponStock : Weapon
     {
         protected string name;
+        protected int accuarcy;
+        protected int charSpeed;
+        protected int weight;
+        protected int attackPower;
+        protected int reloadSpeed;
+        protected int clipCapacity;
     }
 }
