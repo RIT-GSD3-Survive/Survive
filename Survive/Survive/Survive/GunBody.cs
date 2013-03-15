@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survive
 {
-    class GunStock
+    class GunBody
     {
     }
 }
