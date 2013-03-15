@@ -17,6 +17,10 @@ namespace Survive {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+
+        // Class containing all of the resources we're using
+        Resources res;
+
         public SurviveGame() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -43,6 +47,7 @@ namespace Survive {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            res = new Resources(this.Content);
         }
 
         /// <summary>
