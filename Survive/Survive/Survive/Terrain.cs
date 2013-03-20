@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survive
 {
-    class Terrian
+    class Terrain
     {
         protected int x;
         protected int y;

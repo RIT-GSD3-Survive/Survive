@@ -7,7 +7,7 @@ namespace Survive
 {
     class GunBits : Item
     {
-        protected int accuarcy;
+        protected int accuracy;
         protected int charSpeed;
         protected int weight;
         protected int attackPower;

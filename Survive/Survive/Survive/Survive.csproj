@@ -125,7 +125,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="SurviveGame.cs" />
-    <Compile Include="Terrian.cs" />
+    <Compile Include="Terrain.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="WeaponCustomizable.cs" />
     <Compile Include="WeaponMelee.cs" />

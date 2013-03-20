@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survive
 {
-    class Ground : Terrian
+    class Ground : Terrain
     {
         public Ground()
         {

@@ -15,7 +15,7 @@ namespace Survive
         protected GunScope scope;
         protected GunStock stock;
         //Gun attributes
-        protected int accuarcy;
+        protected int accuracy;
         protected int charSpeed;
         protected int weight;
         protected int attackPower;
