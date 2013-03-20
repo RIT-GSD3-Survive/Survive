@@ -119,6 +119,7 @@
     <Compile Include="HealingItem.cs" />
     <Compile Include="Humanoid.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="NBTAssist\NBTTag.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
