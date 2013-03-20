@@ -7,9 +7,10 @@ namespace Survive
 {
     class GunClip : GunBits
     {
-        public GunClip()
+        public GunClip(int reloadSpeedAddition, int clipCapacityAddition)
         {
-
+            reloadSpeed += reloadSpeedAddition;
+            clipCapacity += clipCapacityAddition;
         }
     }
 }

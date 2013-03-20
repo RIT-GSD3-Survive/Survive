@@ -7,9 +7,11 @@ namespace Survive
 {
     class GunBarrel : GunBits
     {
-        public GunBarrel()
+        public GunBarrel(int accuracyAddition, int attackPowerAddition, int charSpeedAddition)
         {
-
+            accuracy += accuracyAddition;
+            attackPower += attackPowerAddition;
+            charSpeed += charSpeedAddition;
         }
     }
 }
