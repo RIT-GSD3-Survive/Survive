@@ -9,5 +9,11 @@ namespace Survive
     {
         protected int amount;
         protected string name;
+
+        public HealingItem(int amt, string nm)
+        {
+            amount = amt;
+            name = nm;
+        }
     }
 }
