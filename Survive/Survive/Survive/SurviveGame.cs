@@ -70,7 +70,30 @@ namespace Survive {
                 this.Exit();
 
             // TODO: Add your update logic here
+            if (gameState == GameState.Menu)
+            {
 
+            }
+            if (gameState == GameState.InGame)
+            {
+
+            }
+            if (gameState == GameState.Pause)
+            {
+
+            }
+            if (gameState == GameState.MultiTinker)
+            {
+
+            }
+            if (gameState == GameState.SingleTinker)
+            {
+
+            }
+            if(gameState == GameState.GameOver)
+            {
+
+            }
             base.Update(gameTime);
         }
 
@@ -82,6 +105,32 @@ namespace Survive {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            if (gameState == GameState.Menu)
+            {
+
+            }
+            if (gameState == GameState.InGame)
+            {
+
+            }
+            if (gameState == GameState.Pause)
+            {
+
+            }
+            if (gameState == GameState.MultiTinker)
+            {
+
+            }
+            if (gameState == GameState.SingleTinker)
+            {
+
+            }
+            if (gameState == GameState.GameOver)
+            {
+
+            }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
