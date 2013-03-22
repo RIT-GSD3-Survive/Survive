@@ -7,6 +7,14 @@ namespace Survive
 {
     class Zombie : Humanoid
     {
+        //Attributes
         int attackPower;
+
+        //Properties
+        public int AttackPower
+        {
+            get { return attackPower; }
+            set { attackPower = value; }
+        }
     }
 }
