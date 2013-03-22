@@ -10,6 +10,7 @@ namespace Survive
         //Attributes
         protected string name;
         protected int range;
+        protected int attackSpeed;
 
         //Properties
         public string Name
@@ -22,6 +23,12 @@ namespace Survive
         {
             get { return range; }
             set { range = value; }
+        }
+
+        public int AttackSpeed
+        {
+            get { return attackSpeed; }
+            set { attackSpeed = value; }
         }
     }
 }

@@ -7,6 +7,14 @@ namespace Survive
 {
     class Player : Humanoid
     {
+        //Attributes
+        string name;
 
+        //Properties
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
     }
 }
