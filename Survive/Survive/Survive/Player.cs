@@ -11,6 +11,13 @@ namespace Survive
     {
         //Attributes
         string name;
+        int number;
+
+        public Player(string nm, int num)
+        {
+            name = nm;
+            number = num;
+        }
 
         //Properties
         public string Name
