@@ -16,7 +16,8 @@ namespace Survive {
     public class SurviveGame : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
+        GameState gameState;
 
         // Class containing all of the resources we're using
         Resources res;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
@@ -11,6 +13,7 @@ namespace Survive
         protected int x;
         protected int y;
         protected Boolean collidable;
+        protected Rectangle location;
 
         //Properties
         public int X
@@ -29,6 +32,12 @@ namespace Survive
         {
             get { return collidable; }
             set { collidable = value; }
+        }
+
+        public Rectangle Location
+        {
+            get { return location; }
+            set { location = value; }
         }
     }
 }

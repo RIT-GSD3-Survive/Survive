@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
@@ -10,7 +12,7 @@ namespace Survive
         //Attributes
         protected string name;
         protected int accuracy;
-        protected int charSpeed; //Steven: I dont believe we need this variable, our speed is based on weight
+        //protected int charSpeed; //Steven: I dont believe we need this variable, our speed is based on weight
         protected int weight;
         protected int attackPower;
         protected int reloadSpeed;
