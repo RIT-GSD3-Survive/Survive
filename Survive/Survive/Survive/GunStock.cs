@@ -7,10 +7,10 @@ namespace Survive
 {
     class GunStock : GunBits
     {
-        public GunStock(int accuracyAddition, int charSpeedAddition)
+        public GunStock(int accuracyAddition, int weightAddition)
         {
             accuracy += accuracyAddition;
-            charSpeed += charSpeedAddition;
+            weight += weightAddition;
         }
     }
 }
