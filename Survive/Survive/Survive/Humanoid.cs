@@ -9,6 +9,7 @@ namespace Survive
 {
     class Humanoid : GameObject
     {
+        //attributes
         int moveSpeed;
         int health;
     }
