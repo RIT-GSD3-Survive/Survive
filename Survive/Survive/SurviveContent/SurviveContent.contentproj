@@ -42,13 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="acknowtt.ttf">
-      <Name>acknowtt</Name>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AcknowTT.spritefont">
-      <Name>AcknowTT</Name>
+    <Compile Include="Courier.spritefont">
+      <Name>Courier</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>

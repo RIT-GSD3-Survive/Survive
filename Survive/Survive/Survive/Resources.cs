@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive {
     class Resources {
-        SpriteFont acknow;
+        SpriteFont courier;
 
         public Resources(ContentManager cm) {
-            acknow = cm.Load<SpriteFont>("AcknowTT");
+            courier = cm.Load<SpriteFont>("Courier");
         }
     }
 }

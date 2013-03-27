@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survive", "Survive\Survive\Survive.csproj", "{75C8EC30-CB6A-4D9A-9E77-2A48FD76235B}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "SurviveContent", "Survive\SurviveContent\SurviveContent.contentproj", "{4D428CC2-FBBA-453C-9AD5-7768A71D1C00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurviveContent", "Survive\SurviveContent\SurviveContent.contentproj", "{4D428CC2-FBBA-453C-9AD5-7768A71D1C00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapEditor", "MapEditor\MapEditor\MapEditor.csproj", "{086A5C92-55C3-420F-A40D-53F7BB3B2A5E}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MapEditorContent", "MapEditor\MapEditorContent\MapEditorContent.contentproj", "{419CEAF2-8710-49BF-889D-3FFDF69B2277}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,12 @@ Global
 		{75C8EC30-CB6A-4D9A-9E77-2A48FD76235B}.Release|x86.Build.0 = Release|x86
 		{4D428CC2-FBBA-453C-9AD5-7768A71D1C00}.Debug|x86.ActiveCfg = Debug|x86
 		{4D428CC2-FBBA-453C-9AD5-7768A71D1C00}.Release|x86.ActiveCfg = Release|x86
+		{086A5C92-55C3-420F-A40D-53F7BB3B2A5E}.Debug|x86.ActiveCfg = Debug|x86
+		{086A5C92-55C3-420F-A40D-53F7BB3B2A5E}.Debug|x86.Build.0 = Debug|x86
+		{086A5C92-55C3-420F-A40D-53F7BB3B2A5E}.Release|x86.ActiveCfg = Release|x86
+		{086A5C92-55C3-420F-A40D-53F7BB3B2A5E}.Release|x86.Build.0 = Release|x86
+		{419CEAF2-8710-49BF-889D-3FFDF69B2277}.Debug|x86.ActiveCfg = Debug|x86
+		{419CEAF2-8710-49BF-889D-3FFDF69B2277}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
