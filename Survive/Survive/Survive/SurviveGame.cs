@@ -17,6 +17,7 @@ namespace Survive {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
+        enum MenuButtonState { None, Single, Multi };
         GameState gameState;
         enum PlayerMovementInput { Left, Right };
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact };
