@@ -37,11 +37,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Brick32.png">
-      <Name>Brick32</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Erase32.png">
       <Name>Erase32</Name>
       <Importer>TextureImporter</Importer>
@@ -51,6 +46,23 @@
   <ItemGroup>
     <Compile Include="Reticle8.png">
       <Name>Reticle8</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="New32.png">
+      <Name>New32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Open32.png">
+      <Name>Open32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Save32.png">
+      <Name>Save32</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
