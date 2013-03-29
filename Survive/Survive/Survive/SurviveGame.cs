@@ -16,21 +16,37 @@ namespace Survive {
     public class SurviveGame : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //images
         Texture2D playerImage;
+        Texture2D GUIAmmo;
+        Texture2D GUIAmmoClipEmpty;
+        Texture2D GUIAmmoClipFull;
+        Texture2D GUIhpBARgrey;
+        Texture2D GUIhpBARgreyside;
+        Texture2D GUIhpBARred;
+        Texture2D GUIhpBARredside;
+        Texture2D GUIMain;
+        Texture2D GUIVerticalFadeBars;
+        //game/menu state
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
         MenuButtonState menuButtonState;
         GameState gameState;
+        //player input
         enum PlayerMovementInput { Left, Right };
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact };
         PlayerMovementInput playerMovementInput;
         PlayerOtherInput playerOtherInput;
+        //controller state
         GamePadState previousGPS;
         GamePadState currentGPS;
+        //players
         Player p1;
         Player p2;
         Player p3;
         Player p4;
+        //gui variables
+        int hpBarWidth;
 
         // Class containing all of the resources we're using
         Resources res;
@@ -38,6 +54,10 @@ namespace Survive {
         public SurviveGame() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            //sets screen size to 800x500
+            graphics.PreferredBackBufferHeight = 500;
+            graphics.PreferredBackBufferWidth = 800;
         }
 
         /// <summary>
@@ -63,6 +83,18 @@ namespace Survive {
             // TODO: use this.Content to load your game content here
             res = new Resources(this.Content);
             playerImage = this.Content.Load<Texture2D>("Person");
+
+            GUIAmmo = this.Content.Load<Texture2D>("GUIAmmo");
+            GUIAmmoClipEmpty = this.Content.Load<Texture2D>("GUIAmmoClipEmpty");
+            GUIAmmoClipFull = this.Content.Load<Texture2D>("GUIAmmoClipFull");
+
+            GUIhpBARred = this.Content.Load<Texture2D>("GUIhpBARred");
+            GUIhpBARgrey = this.Content.Load<Texture2D>("GUIhpBARgrey");
+            GUIhpBARredside = this.Content.Load<Texture2D>("GUIhpBARredside");
+            GUIhpBARgreyside = this.Content.Load<Texture2D>("GUIhpBARgreyside");
+
+            GUIMain = this.Content.Load<Texture2D>("GUIInGame4player");
+            GUIVerticalFadeBars = this.Content.Load<Texture2D>("GUIInGameVerticalFadeBars");
         }
         
         /// <summary>
@@ -168,6 +200,7 @@ namespace Survive {
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
             if (gameState == GameState.Menu)
             {
                 if (menuButtonState == MenuButtonState.None)
@@ -213,7 +246,11 @@ namespace Survive {
 
                     }
                 }
-            }
+
+                //************************GUI************************
+
+
+            }//end gameState.InGame
             if (gameState == GameState.Pause)
             {
 
@@ -230,6 +267,7 @@ namespace Survive {
             {
 
             }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
