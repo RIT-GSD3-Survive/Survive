@@ -12,6 +12,7 @@ namespace Survive
         //Attributes
         string name;
         int number;
+        Boolean onGround; //Prevents jumping while in air
 
         public Player(string nm, int num)
         {
@@ -24,6 +25,18 @@ namespace Survive
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public int Number
+        {
+            get { return number; }
+            set { number = value; }
+        }
+
+        public Boolean OnGround
+        {
+            get { return onGround; }
+            set { onGround = value; }
         }
     }
 }

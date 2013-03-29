@@ -18,10 +18,16 @@ namespace Survive {
         SpriteBatch spriteBatch;
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         GameState gameState;
-        enum PlayerInput { Left, Right, Jump, Fire };
-        PlayerInput playerInput;
+        enum PlayerMovementInput { Left, Right};
+        enum PlayerOtherInput { Jump, Fire };
+        PlayerMovementInput playerMovementInput;
+        PlayerOtherInput playerOtherInput;
         GamePadState previousGPS;
         GamePadState currentGPS;
+        Player p1;
+        Player p2;
+        Player p3;
+        Player p4;
 
         // Class containing all of the resources we're using
         Resources res;
@@ -81,25 +87,42 @@ namespace Survive {
             // TODO: Add your update logic here
             if (gameState == GameState.Menu)
             {
-               
+                p1 = new Player("Name", 1);
+                
             }
             if (gameState == GameState.InGame)
             {
                 if (left.X > 0)
                 {
-                    playerInput = PlayerInput.Right;
+                    playerMovementInput = PlayerMovementInput.Right;
                 }
                 if (left.X < 0)
                 {
-                    playerInput = PlayerInput.Left;
+                    playerMovementInput = PlayerMovementInput.Left;
                 }
-                if (left.Y > 0 || currentGPS.IsButtonDown(Buttons.A))
+                if (left.Y > 0.8  || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
                 {
-                    playerInput = PlayerInput.Jump;
+                    playerOtherInput = PlayerOtherInput.Jump;
                 }
                 if(currentGPS.IsButtonDown(Buttons.RightTrigger))
                 {
-                    playerInput = PlayerInput.Fire;
+                    playerOtherInput = PlayerOtherInput.Fire;
+                }
+                if (playerMovementInput == PlayerMovementInput.Left)
+                {
+
+                }
+                if (playerMovementInput == PlayerMovementInput.Right)
+                {
+
+                }
+                if (playerOtherInput == PlayerOtherInput.Jump)
+                {
+
+                }
+                if (playerOtherInput == PlayerOtherInput.Fire)
+                {
+
                 }
             }
             if (gameState == GameState.Pause)
@@ -136,7 +159,20 @@ namespace Survive {
             }
             if (gameState == GameState.InGame)
             {
+                if (playerMovementInput == PlayerMovementInput.Left)
+                {
+                    if (playerOtherInput == PlayerOtherInput.Jump)
+                    {
 
+                    }
+                }
+                if (playerMovementInput == PlayerMovementInput.Right)
+                {
+                    if (playerOtherInput == PlayerOtherInput.Jump)
+                    {
+
+                    }
+                }
             }
             if (gameState == GameState.Pause)
             {
