@@ -19,7 +19,7 @@ namespace Survive {
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         GameState gameState;
         enum PlayerMovementInput { Left, Right};
-        enum PlayerOtherInput { Jump, Fire };
+        enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact };
         PlayerMovementInput playerMovementInput;
         PlayerOtherInput playerOtherInput;
         GamePadState previousGPS;
@@ -107,6 +107,14 @@ namespace Survive {
                 if(currentGPS.IsButtonDown(Buttons.RightTrigger))
                 {
                     playerOtherInput = PlayerOtherInput.Fire;
+                }
+                if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
+                {
+                    playerOtherInput = PlayerOtherInput.SwitchWeapon;
+                }
+                if (currentGPS.IsButtonDown(Buttons.B))
+                {
+                    playerOtherInput = PlayerOtherInput.Interact;
                 }
                 if (playerMovementInput == PlayerMovementInput.Left)
                 {
