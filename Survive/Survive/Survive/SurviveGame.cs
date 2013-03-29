@@ -64,7 +64,7 @@ namespace Survive {
             res = new Resources(this.Content);
             playerImage = this.Content.Load<Texture2D>("Person");
         }
-
+        
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -120,19 +120,10 @@ namespace Survive {
                 {
                     playerOtherInput = PlayerOtherInput.Interact;
                 }
-                p1.Gravity();
-                p1.PosUpdate();
-                if (playerMovementInput == PlayerMovementInput.Left)
-                {
-
-                }
-                if (playerMovementInput == PlayerMovementInput.Right)
-                {
-
-                }
+                p1.Walk(currentGPS);
                 if (playerOtherInput == PlayerOtherInput.Jump)
                 {
-
+                    p1.Jump(currentGPS);
                 }
                 if (playerOtherInput == PlayerOtherInput.Fire)
                 {
@@ -146,6 +137,8 @@ namespace Survive {
                 {
 
                 }
+                p1.Gravity();
+                p1.PosUpdate();
             }
             if (gameState == GameState.Pause)
             {
@@ -240,6 +233,36 @@ namespace Survive {
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        /*
+        /// <summary>
+        /// Prevents a key from being processed mutliple times if held
+        /// </summary>
+        /// <returns></returns>
+        public Boolean SingleKeyPress(Keys k)
+        {
+            if (kState.IsKeyDown(k) && kStatePrevious.IsKeyUp(k))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        */
+
+        public Boolean SingleKeyPress(Buttons b)
+        {
+            if (currentGPS.IsButtonDown(b) && previousGPS.IsButtonUp(b))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

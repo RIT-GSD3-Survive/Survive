@@ -17,8 +17,6 @@ namespace Survive
         string name;
         int number;
         double yVelocity = 0.0;
-        List<Item> items;
-        List<Weapon> weapons;
         Boolean onGround; //Prevents jumping while in air
         List<Item> items;
         List<Weapon> weapons;
@@ -26,8 +24,6 @@ namespace Survive
         public Player(string nm, int num, Rectangle location)
         {
             this.location = location;
-            items = new List<Item>();
-            weapons = new List<Weapon>();
             name = nm;
             number = num;
             items = new List<Item>();
@@ -82,7 +78,7 @@ namespace Survive
         {
             if (onGround == true)
             {
-
+                //onGround = false;
             }
         }
     }
