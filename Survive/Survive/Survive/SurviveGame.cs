@@ -117,6 +117,8 @@ namespace Survive {
                 {
                     playerOtherInput = PlayerOtherInput.Interact;
                 }
+                p1.Gravity();
+                p1.PosUpdate();
                 if (playerMovementInput == PlayerMovementInput.Left)
                 {
 

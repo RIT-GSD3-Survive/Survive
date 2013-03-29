@@ -16,7 +16,7 @@ namespace Survive
         //Attributes
         string name;
         int number;
-        int yVelocity = 0;
+        double yVelocity = 0.0;
         List<Item> items;
         List<Weapon> weapons;
         Boolean onGround; //Prevents jumping while in air
@@ -48,19 +48,29 @@ namespace Survive
             set { onGround = value; }
         }
 
+        public void Gravity()
+        {
+            if(!onGround)
+            {
+                yVelocity += 1.6;
+            }
+        }
+
+        public void PosUpdate()
+        {
+            Y += (int)Math.Round(yVelocity);
+        }
+
         // methods
         public void Walk(GamePadState pad)
         {
-            if (onGround == true)
+            if (pad.ThumbSticks.Left.X < 0)
             {
-                if (pad.ThumbSticks.Left.X < 0)
-                {
-                    this.X -= 1;
-                }
-                if (pad.ThumbSticks.Left.X > 0)
-                {
-                    this.X += 1;
-                }
+                this.X -= 1;
+            }
+            if (pad.ThumbSticks.Left.X > 0)
+            {
+                this.X += 1;
             }
         }
         public void Jump(GamePadState pad)
