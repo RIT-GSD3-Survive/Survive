@@ -18,7 +18,7 @@ namespace Survive {
         SpriteBatch spriteBatch;
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         GameState gameState;
-        enum PlayerInput { Left, Right, Jump, Fire };
+        enum PlayerInput { Left, Right, Jump, Fire, SwitchWeapon, Interact};
         PlayerInput playerInput;
         GamePadState previousGPS;
         GamePadState currentGPS;
@@ -100,6 +100,14 @@ namespace Survive {
                 if(currentGPS.IsButtonDown(Buttons.RightTrigger))
                 {
                     playerInput = PlayerInput.Fire;
+                }
+                if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
+                {
+                    playerInput = PlayerInput.SwitchWeapon;
+                }
+                if (currentGPS.IsButtonDown(Buttons.B))
+                {
+                    playerInput = PlayerInput.Interact;
                 }
             }
             if (gameState == GameState.Pause)
