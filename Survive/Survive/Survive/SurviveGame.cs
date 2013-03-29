@@ -18,6 +18,10 @@ namespace Survive {
         SpriteBatch spriteBatch;
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         GameState gameState;
+        enum PlayerInput { Left, Right, Jump, Fire };
+        PlayerInput playerInput;
+        GamePadState previousGPS;
+        GamePadState currentGPS;
 
         // Class containing all of the resources we're using
         Resources res;
@@ -68,15 +72,35 @@ namespace Survive {
             // Allows the game to exit
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            // getting gamePad info
+            previousGPS = currentGPS;
+            currentGPS = GamePad.GetState(0);
+            GamePadThumbSticks sticks = currentGPS.ThumbSticks;
+            Vector2 left = sticks.Left;
+            Vector2 right = sticks.Right;
             // TODO: Add your update logic here
             if (gameState == GameState.Menu)
             {
-
+               
             }
             if (gameState == GameState.InGame)
             {
-
+                if (left.X > 0)
+                {
+                    playerInput = PlayerInput.Right;
+                }
+                if (left.X < 0)
+                {
+                    playerInput = PlayerInput.Left;
+                }
+                if (left.Y > 0 || currentGPS.IsButtonDown(Buttons.A))
+                {
+                    playerInput = PlayerInput.Jump;
+                }
+                if(currentGPS.IsButtonDown(Buttons.RightTrigger))
+                {
+                    playerInput = PlayerInput.Fire;
+                }
             }
             if (gameState == GameState.Pause)
             {
