@@ -16,12 +16,17 @@ namespace Survive
         //Attributes
         string name;
         int number;
+        int yVelocity = 0;
+        List<Item> items;
+        List<Weapon> weapons;
         Boolean onGround; //Prevents jumping while in air
 
         public Player(string nm, int num)
         {
             name = nm;
             number = num;
+            items = new List<Item>();
+            weapons = new List<Weapon>();
         }
 
         //Properties
