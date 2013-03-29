@@ -18,10 +18,15 @@ namespace MapEditor {
         SpriteBatch spriteBatch;
 
         Texture2D pencil, erase, reticle;
+        SpriteFont courier;
 
         Vector2 mouseLoc;
 
         Boolean left, right;
+
+        List<Button> buttons = new List<Button>();
+
+        List<Area> areas = new List<Area>();
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -52,6 +57,31 @@ namespace MapEditor {
             pencil = Content.Load<Texture2D>("Pencil32");
             erase = Content.Load<Texture2D>("Erase32");
             reticle = Content.Load<Texture2D>("Reticle8");
+
+            courier = Content.Load<SpriteFont>("Courier");
+
+            Area.cap = Content.Load<Texture2D>("areaCap");
+            Area.mid = Content.Load<Texture2D>("areaMid");
+
+            buttons.Add(new Button(Content.Load<Texture2D>("NewArea32"), false, 16, 16, delegate() { // New Area Function
+
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("EditArea32"), false, 48, 16, delegate() { // New Area Function
+
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("DeleteArea32"), false, 80, 16, delegate() { // New Area Function
+
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("Save32"), false, 112, 16, delegate() { // Save Function
+
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("ScrollLeft"), true, 0, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Left
+
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("ScrollRight"), true, GraphicsDevice.Viewport.Width - 16, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Right
+
+            }));
+
         }
 
         /// <summary>
@@ -69,7 +99,7 @@ namespace MapEditor {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             // Allows the game to exit
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             MouseState mState = Mouse.GetState();
@@ -91,10 +121,14 @@ namespace MapEditor {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.AliceBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
+            foreach(Button alpha in buttons) {
+                alpha.Draw(spriteBatch);
+            }
 
             if(left) {
                 spriteBatch.Draw(pencil, mouseLoc + new Vector2(-4, -29), Color.White);
