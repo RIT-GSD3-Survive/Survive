@@ -16,8 +16,10 @@ namespace Survive {
     public class SurviveGame : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D playerImage;
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
-        enum MenuButtonState { None, Single, Multi };
+        enum MenuButtonState { None, Single, Multi, Quit };
+        MenuButtonState menuButtonState;
         GameState gameState;
         enum PlayerMovementInput { Left, Right };
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact };
@@ -46,7 +48,7 @@ namespace Survive {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-
+            menuButtonState = MenuButtonState.None;
             base.Initialize();
         }
 
@@ -60,6 +62,7 @@ namespace Survive {
 
             // TODO: use this.Content to load your game content here
             res = new Resources(this.Content);
+            playerImage = this.Content.Load<Texture2D>("Person");
         }
 
         /// <summary>
@@ -88,8 +91,8 @@ namespace Survive {
             // TODO: Add your update logic here
             if (gameState == GameState.Menu)
             {
-                p1 = new Player("Name", 1);
-                
+                p1 = new Player("Name", 1, new Rectangle(200,200,playerImage.Width, playerImage.Height));
+                gameState = GameState.InGame;
             }
             if (gameState == GameState.InGame)
             {
@@ -174,12 +177,28 @@ namespace Survive {
             spriteBatch.Begin();
             if (gameState == GameState.Menu)
             {
+                if (menuButtonState == MenuButtonState.None)
+                {
 
+                }
+                if (menuButtonState == MenuButtonState.Single)
+                {
+
+                }
+                if (menuButtonState == MenuButtonState.Multi)
+                {
+
+                }
+                if (menuButtonState == MenuButtonState.Quit)
+                {
+
+                }
             }
             if (gameState == GameState.InGame)
             {
                 if (playerMovementInput == PlayerMovementInput.Left)
                 {
+                    spriteBatch.Draw(playerImage, p1.Location, Color.White);
                     if (playerOtherInput == PlayerOtherInput.Jump)
                     {
 
@@ -191,6 +210,7 @@ namespace Survive {
                 }
                 if (playerMovementInput == PlayerMovementInput.Right)
                 {
+                    spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(17.5f, 38.5f), SpriteEffects.FlipHorizontally, 0.0f);
                     if (playerOtherInput == PlayerOtherInput.Jump)
                     {
 

@@ -20,9 +20,14 @@ namespace Survive
         List<Item> items;
         List<Weapon> weapons;
         Boolean onGround; //Prevents jumping while in air
+        List<Item> items;
+        List<Weapon> weapons;
 
-        public Player(string nm, int num)
+        public Player(string nm, int num, Rectangle location)
         {
+            this.location = location;
+            items = new List<Item>();
+            weapons = new List<Weapon>();
             name = nm;
             number = num;
             items = new List<Item>();
