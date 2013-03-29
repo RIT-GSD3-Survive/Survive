@@ -18,7 +18,7 @@ namespace Survive {
         SpriteBatch spriteBatch;
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         GameState gameState;
-        enum PlayerMovementInput { Left, Right};
+        enum PlayerMovementInput { Left, Right };
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact };
         PlayerMovementInput playerMovementInput;
         PlayerOtherInput playerOtherInput;
@@ -132,6 +132,14 @@ namespace Survive {
                 {
 
                 }
+                if (playerOtherInput == PlayerOtherInput.SwitchWeapon)
+                {
+
+                }
+                if (playerOtherInput == PlayerOtherInput.Interact)
+                {
+
+                }
             }
             if (gameState == GameState.Pause)
             {
@@ -139,7 +147,7 @@ namespace Survive {
             }
             if (gameState == GameState.MultiTinker)
             {
-
+                
             }
             if (gameState == GameState.SingleTinker)
             {
@@ -173,10 +181,18 @@ namespace Survive {
                     {
 
                     }
+                    if (playerOtherInput == PlayerOtherInput.Fire)
+                    {
+
+                    }
                 }
                 if (playerMovementInput == PlayerMovementInput.Right)
                 {
                     if (playerOtherInput == PlayerOtherInput.Jump)
+                    {
+
+                    }
+                    if (playerOtherInput == PlayerOtherInput.Fire)
                     {
 
                     }
