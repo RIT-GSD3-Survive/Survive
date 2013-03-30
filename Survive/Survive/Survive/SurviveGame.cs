@@ -55,7 +55,7 @@ namespace Survive {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            //sets screen size to 800x500
+            //sets screen size
             graphics.PreferredBackBufferHeight = 500;
             graphics.PreferredBackBufferWidth = 800;
         }
@@ -69,6 +69,7 @@ namespace Survive {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
+            hpBarWidth = 130;
             base.Initialize();
         }
 
@@ -248,8 +249,15 @@ namespace Survive {
                 }
 
                 //************************GUI************************
+                spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
 
+                //draw more GUI stuff here
+                //get number of users then loop through and draw GUI elements
+                /*drawAmmo(p1);
+                drawAmmoClips(p1);
+                drawHPBar(p1);*/
 
+                spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
             }//end gameState.InGame
             if (gameState == GameState.Pause)
             {
@@ -301,6 +309,88 @@ namespace Survive {
             {
                 return false;
             }
+        }
+
+        private void drawHPBar(Player player)
+        {
+            int barX = 6;
+            if (player.Number == 2 || player.Number == 4)
+                barX = 662;
+
+            int barY = 63;
+            if (player.Number == 3 || player.Number == 4)
+                barY = 428;
+
+            //calculates bar size
+            int percentHP = (player.HP * hpBarWidth / player.MaxHP);
+            if (percentHP > hpBarWidth) { percentHP = hpBarWidth; }
+
+            //draws the bar
+            spriteBatch.Draw(GUIhpBARredside, new Rectangle(barX, barY, 1, 9), Color.White);
+            spriteBatch.Draw(GUIhpBARred, new Rectangle(barX + 1, barY, percentHP, 9), Color.White);
+            spriteBatch.Draw(GUIhpBARgrey, new Rectangle(percentHP + barX + 1, barY, hpBarWidth - percentHP, 9), Color.White);
+            if (percentHP >= hpBarWidth)
+                spriteBatch.Draw(GUIhpBARredside, new Rectangle(hpBarWidth + barX + 1, barY, 1, 9), Color.White);
+            else
+                spriteBatch.Draw(GUIhpBARgreyside, new Rectangle(hpBarWidth + barX + 1, barY, 1, 9), Color.White);
+        }
+
+        private void drawAmmoClips(Player player)
+        {
+            int ammoX = 89;
+            if (player.Number == 2 || player.Number == 4)
+                ammoX = 696;
+
+            int ammoY = 50;
+            if (player.Number == 3 || player.Number == 4)
+                ammoY = 443;
+
+            int ammoDir = -1;
+            if (player.Number == 2 || player.Number == 4)
+                ammoDir = 1;
+
+            for (int i = 0; i < ammoClipsUserHasLeft; i++)
+            {
+                spriteBatch.Draw(GUIAmmo, 
+                    new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
+            }
+        }
+
+        private void drawAmmo(Player player)
+        {
+            int ammoX = 106;
+            if (player.Number == 2 || player.Number == 4)
+                ammoX = 632;
+            int ammoY = 5;
+            if (player.Number == 3 || player.Number == 4)
+                ammoY = 443;
+
+            int width = GUIAmmoClipEmpty.Width;
+            int height = GUIAmmoClipEmpty.Height;
+            SpriteEffects rotate = SpriteEffects.None;
+            if (player.Number == 2)
+                rotate = SpriteEffects.FlipHorizontally;
+            else if (player.Number == 3)
+                rotate = SpriteEffects.FlipVertically;
+            else if (player.Number == 4)
+                rotate = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
+
+            int ammoDir = 1;
+            if (player.Number == 3 || player.Number == 4)
+                ammoDir = 0;
+
+            //empty clip
+            spriteBatch.Draw(GUIAmmoClipEmpty,
+                new Rectangle(ammoX, ammoY, width, height), new Rectangle(0, 0, width, height), Color.White,
+                0, Vector2.Zero, rotate, 0);
+
+            int ammoLeft = (ammoLeftinCurrentClip * height / totalAmmoLeftinCurrentClip);
+
+            //full/partially full clip
+            spriteBatch.Draw(GUIAmmoClipFull,
+                new Vector2(ammoX, ammoY + (height - ammoLeft) * ammoDir),
+                new Rectangle(0, height - ammoLeft, width, ammoLeft), Color.White,
+                0, Vector2.Zero, 1, rotate, 0);
         }
     }
 }

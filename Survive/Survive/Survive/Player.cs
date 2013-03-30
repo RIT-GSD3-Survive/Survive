@@ -20,6 +20,8 @@ namespace Survive
         Boolean onGround; //Prevents jumping while in air
         List<Item> items;
         List<Weapon> weapons;
+        int hp;
+        int maxHP;
 
         public Player(string nm, int num, Rectangle location)
         {
@@ -80,6 +82,24 @@ namespace Survive
             {
                 //onGround = false;
             }
+        }
+
+        public int HP
+        {
+            get { return hp; }
+            set
+            {
+                if (hp > maxHP)
+                    hp = maxHP;
+                else
+                    hp = value;
+            }
+        }
+
+        public int MaxHP
+        {
+            get { return maxHP; }
+            set { maxHP = value; }
         }
     }
 }
