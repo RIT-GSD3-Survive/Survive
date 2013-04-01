@@ -40,6 +40,9 @@ namespace Survive {
         //controller state
         GamePadState previousGPS;
         GamePadState currentGPS;
+        //Keyboard State
+        KeyboardState kStateCurrent;
+        KeyboardState kStatePrevious;
         //players
         Player p1;
         Player p2;
@@ -118,6 +121,8 @@ namespace Survive {
             // getting gamePad info
             previousGPS = currentGPS;
             currentGPS = GamePad.GetState(0);
+            kStatePrevious = kStateCurrent;
+            kStateCurrent = Keyboard.GetState();
             GamePadThumbSticks sticks = currentGPS.ThumbSticks;
             Vector2 left = sticks.Left;
             Vector2 right = sticks.Right;
@@ -129,49 +134,75 @@ namespace Survive {
             }
             if (gameState == GameState.InGame)
             {
-                if (left.X > 0)
+                if (currentGPS.IsConnected)
                 {
-                    playerMovementInput = PlayerMovementInput.Right;
-                }
-                if (left.X < 0)
-                {
-                    playerMovementInput = PlayerMovementInput.Left;
-                }
-                if (left.Y > 0.8  || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
-                {
-                    playerOtherInput = PlayerOtherInput.Jump;
-                }
-                if(currentGPS.IsButtonDown(Buttons.RightTrigger))
-                {
-                    playerOtherInput = PlayerOtherInput.Fire;
-                }
-                if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
-                {
-                    playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                }
-                if (currentGPS.IsButtonDown(Buttons.B))
-                {
-                    playerOtherInput = PlayerOtherInput.Interact;
-                }
-                p1.Walk(currentGPS);
-                if (playerOtherInput == PlayerOtherInput.Jump)
-                {
-                    p1.Jump(currentGPS);
-                }
-                if (playerOtherInput == PlayerOtherInput.Fire)
-                {
+                    if (left.X > 0)
+                    {
+                        playerMovementInput = PlayerMovementInput.Right;
+                        p1.WalkRight();
+                    }
+                    if (left.X < 0)
+                    {
+                        playerMovementInput = PlayerMovementInput.Left;
+                        p1.WalkLeft();
+                    }
+                    if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
+                    {
+                        playerOtherInput = PlayerOtherInput.Jump;
+                    }
+                    if (currentGPS.IsButtonDown(Buttons.RightTrigger))
+                    {
+                        playerOtherInput = PlayerOtherInput.Fire;
+                    }
+                    if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
+                    {
+                        playerOtherInput = PlayerOtherInput.SwitchWeapon;
+                    }
+                    if (currentGPS.IsButtonDown(Buttons.B))
+                    {
+                        playerOtherInput = PlayerOtherInput.Interact;
+                    }
+                    //p1.Walk(currentGPS);
+                    if (playerOtherInput == PlayerOtherInput.Jump)
+                    {
+                        p1.Jump();
+                    }
+                    if (playerOtherInput == PlayerOtherInput.Fire)
+                    {
 
-                }
-                if (playerOtherInput == PlayerOtherInput.SwitchWeapon)
-                {
+                    }
+                    if (playerOtherInput == PlayerOtherInput.SwitchWeapon)
+                    {
 
-                }
-                if (playerOtherInput == PlayerOtherInput.Interact)
-                {
+                    }
+                    if (playerOtherInput == PlayerOtherInput.Interact)
+                    {
 
+                    }
+                    p1.Gravity();
+                    p1.PosUpdate();
                 }
-                p1.Gravity();
-                p1.PosUpdate();
+                else
+                {
+                    if (kStateCurrent.IsKeyDown(Keys.W) && p1.OnGround)
+                    {
+                        p1.Jump();
+                    }
+                    if (kStateCurrent.IsKeyDown(Keys.A))
+                    {
+                        p1.WalkLeft();
+                    }
+                    /*
+                    if (kStateCurrent.IsKeyDown(Keys.S))
+                    {
+
+                    }
+                    */
+                    if (kStateCurrent.IsKeyDown(Keys.D))
+                    {
+                        p1.WalkRight();
+                    }
+                }
             }
             if (gameState == GameState.Pause)
             {

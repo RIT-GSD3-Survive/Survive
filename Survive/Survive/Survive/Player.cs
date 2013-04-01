@@ -65,18 +65,28 @@ namespace Survive
         }
 
         // methods
-        public void Walk(GamePadState pad)
+        /*
+        public void WalkGamePad(GamePadState pad)
         {
             if (pad.ThumbSticks.Left.X < 0)
             {
-                this.X -= 1;
+                this.X -= 2;
             }
             if (pad.ThumbSticks.Left.X > 0)
             {
-                this.X += 1;
+                this.X += 2;
             }
         }
-        public void Jump(GamePadState pad)
+        */
+        public void WalkLeft()
+        {
+            this.X -= 2;
+        }
+        public void WalkRight()
+        {
+            this.X += 2;
+        }
+        public void Jump()
         {
             if (onGround == true)
             {
