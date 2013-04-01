@@ -23,6 +23,7 @@ namespace Survive
         int hp;
         int maxHP;
         Weapon currentWeapon;
+        AmmoItem currentClip;
 
         public Player(string nm, int num, Rectangle location)
         {
@@ -87,6 +88,12 @@ namespace Survive
         {
             get { return currentWeapon; }
             set { currentWeapon = value; }
+        }
+
+        public AmmoItem CurrentClip
+        {
+            get { return currentClip; }
+            set { currentClip = value; }
         }
 
         // methods

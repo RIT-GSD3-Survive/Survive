@@ -415,7 +415,7 @@ namespace Survive {
                 new Rectangle(ammoX, ammoY, width, height), new Rectangle(0, 0, width, height), Color.White,
                 0, Vector2.Zero, rotate, 0);
 
-            int ammoLeft = (ammoLeftinCurrentClip * height / totalAmmoLeftinCurrentClip);
+            int ammoLeft = (player.CurrentClip.Amount * height / player.CurrentClip.AmountTotal);
 
             //full/partially full clip
             spriteBatch.Draw(GUIAmmoClipFull,
