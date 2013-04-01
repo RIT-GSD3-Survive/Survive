@@ -22,6 +22,8 @@ namespace Survive
         List<Weapon> weapons;
         int hp;
         int maxHP;
+        Weapon currentWeapon;
+        AmmoItem currentClip;
 
         public Player(string nm, int num, Rectangle location)
         {
@@ -63,13 +65,13 @@ namespace Survive
             }
         }
 
-        // methods
         public int MaxHP
         {
             get { return maxHP; }
             set { maxHP = value; }
         }
-
+        
+        // methods
         public void Gravity()
         {
             if(!onGround)
@@ -81,6 +83,18 @@ namespace Survive
         public void PosUpdate()
         {
             Y += (int)Math.Round(yVelocity);
+        }
+
+        public Weapon CurrentWeapon
+        {
+            get { return currentWeapon; }
+            set { currentWeapon = value; }
+        }
+
+        public AmmoItem CurrentClip
+        {
+            get { return currentClip; }
+            set { currentClip = value; }
         }
 
         /*
@@ -111,7 +125,6 @@ namespace Survive
                 //onGround = false;
             }
         }
-
         public void Fire()
         {
 
