@@ -22,6 +22,7 @@ namespace Survive
         List<Weapon> weapons;
         int hp;
         int maxHP;
+        Weapon currentWeapon;
 
         public Player(string nm, int num, Rectangle location)
         {
@@ -64,6 +65,30 @@ namespace Survive
             Y += (int)Math.Round(yVelocity);
         }
 
+        public int HP
+        {
+            get { return hp; }
+            set
+            {
+                if (hp > maxHP)
+                    hp = maxHP;
+                else
+                    hp = value;
+            }
+        }
+
+        public int MaxHP
+        {
+            get { return maxHP; }
+            set { maxHP = value; }
+        }
+
+        public Weapon CurrentWeapon
+        {
+            get { return currentWeapon; }
+            set { currentWeapon = value; }
+        }
+
         // methods
         /*
         public void WalkGamePad(GamePadState pad)
@@ -94,22 +119,5 @@ namespace Survive
             }
         }
 
-        public int HP
-        {
-            get { return hp; }
-            set
-            {
-                if (hp > maxHP)
-                    hp = maxHP;
-                else
-                    hp = value;
-            }
-        }
-
-        public int MaxHP
-        {
-            get { return maxHP; }
-            set { maxHP = value; }
-        }
     }
 }
