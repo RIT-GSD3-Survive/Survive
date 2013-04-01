@@ -51,6 +51,25 @@ namespace Survive
             set { onGround = value; }
         }
 
+        public int HP
+        {
+            get { return hp; }
+            set
+            {
+                if (hp > maxHP)
+                    hp = maxHP;
+                else
+                    hp = value;
+            }
+        }
+
+        // methods
+        public int MaxHP
+        {
+            get { return maxHP; }
+            set { maxHP = value; }
+        }
+
         public void Gravity()
         {
             if(!onGround)
@@ -64,7 +83,6 @@ namespace Survive
             Y += (int)Math.Round(yVelocity);
         }
 
-        // methods
         /*
         public void WalkGamePad(GamePadState pad)
         {
@@ -94,22 +112,9 @@ namespace Survive
             }
         }
 
-        public int HP
+        public void Fire()
         {
-            get { return hp; }
-            set
-            {
-                if (hp > maxHP)
-                    hp = maxHP;
-                else
-                    hp = value;
-            }
-        }
 
-        public int MaxHP
-        {
-            get { return maxHP; }
-            set { maxHP = value; }
         }
     }
 }

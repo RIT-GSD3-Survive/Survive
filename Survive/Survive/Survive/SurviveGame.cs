@@ -43,6 +43,9 @@ namespace Survive {
         //Keyboard State
         KeyboardState kStateCurrent;
         KeyboardState kStatePrevious;
+        //Mouse State
+        MouseState mStateCurrent;
+        MouseState mStatePrevious;
         //players
         Player p1;
         Player p2;
@@ -118,11 +121,14 @@ namespace Survive {
             // Allows the game to exit
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            // getting gamePad info
+            // getting gamePad, keyboard, and mouse info
             previousGPS = currentGPS;
             currentGPS = GamePad.GetState(0);
             kStatePrevious = kStateCurrent;
             kStateCurrent = Keyboard.GetState();
+            mStatePrevious = mStateCurrent;
+            mStateCurrent = Mouse.GetState();
+            //Converting 
             GamePadThumbSticks sticks = currentGPS.ThumbSticks;
             Vector2 left = sticks.Left;
             Vector2 right = sticks.Right;
@@ -195,12 +201,16 @@ namespace Survive {
                     /*
                     if (kStateCurrent.IsKeyDown(Keys.S))
                     {
-
+                        
                     }
                     */
                     if (kStateCurrent.IsKeyDown(Keys.D))
                     {
                         p1.WalkRight();
+                    }
+                    if (mStateCurrent.LeftButton == ButtonState.Pressed)
+                    {
+                        p1.Fire();
                     }
                 }
             }
