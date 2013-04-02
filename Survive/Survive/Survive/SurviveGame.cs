@@ -34,7 +34,7 @@ namespace Survive {
         GameState gameState;
         //player input
         enum PlayerMovementInput { Left, Right };
-        enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact };
+        enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact, Reload };
         PlayerMovementInput playerMovementInput;
         PlayerOtherInput playerOtherInput;
         //controller state
@@ -190,13 +190,15 @@ namespace Survive {
                 }
                 else
                 {
-                    if (kStateCurrent.IsKeyDown(Keys.W) && p1.OnGround)
+                    if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && p1.OnGround)
                     {
                         p1.Jump();
+                        playerOtherInput = PlayerOtherInput.Jump;
                     }
                     if (kStateCurrent.IsKeyDown(Keys.A))
                     {
                         p1.WalkLeft();
+                        playerMovementInput = PlayerMovementInput.Left;
                     }
                     /*
                     if (kStateCurrent.IsKeyDown(Keys.S))
@@ -207,10 +209,20 @@ namespace Survive {
                     if (kStateCurrent.IsKeyDown(Keys.D))
                     {
                         p1.WalkRight();
+                        playerMovementInput = PlayerMovementInput.Right;
                     }
                     if (mStateCurrent.LeftButton == ButtonState.Pressed)
                     {
                         p1.Fire();
+                        playerOtherInput = PlayerOtherInput.Fire;
+                    }
+                    if(kStateCurrent.IsKeyDown(Keys.E))
+                    {
+                        playerOtherInput = PlayerOtherInput.Interact;
+                    }
+                    if (kStateCurrent.IsKeyDown(Keys.R))
+                    {
+                        playerOtherInput = PlayerOtherInput.Reload;
                     }
                 }
             }
