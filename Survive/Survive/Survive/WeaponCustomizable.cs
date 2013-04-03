@@ -14,6 +14,40 @@ namespace Survive
         protected GunClip clip;
         protected GunScope scope;
         protected GunStock stock;
+
+        //several overloads since scope and stock are optional
+        public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck)
+        {
+            barrel = brrl;
+            body = bdy;
+            stock = stck;
+        }
+
+        public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck, GunClip clp)
+        {
+            barrel = brrl;
+            body = bdy;
+            stock = stck;
+            clip = clp;
+        }
+
+        public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck, GunScope scp)
+        {
+            barrel = brrl;
+            body = bdy;
+            stock = stck;
+            scope = scp;
+        }
+
+        public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck, GunScope scp, GunClip clp)
+        {
+            barrel = brrl;
+            body = bdy;
+            stock = stck;
+            scope = scp;
+            clip = clp;
+        }
+
         //Gun attributes
         protected int accuracy;
         protected int charSpeed;
