@@ -402,6 +402,14 @@ namespace Survive {
             if (player.Number == 2 || player.Number == 4)
                 ammoDir = 1;
 
+            int ammoClipsUserHasLeft = 0;
+
+            for (int i = 0; i < player.Items.Count; i++)
+            {
+                if (player.Items[i].GetType() == typeof(AmmoItem))
+                    ammoClipsUserHasLeft++;
+            }
+
             for (int i = 0; i < ammoClipsUserHasLeft; i++)
             {
                 spriteBatch.Draw(GUIAmmo, 
