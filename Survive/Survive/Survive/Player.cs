@@ -33,6 +33,7 @@ namespace Survive
             items = new List<Item>();
             weapons = new List<Weapon>();
             onGround = true;
+            maxHP = hp = 100;
         }
 
         //Properties
@@ -71,7 +72,24 @@ namespace Survive
             get { return maxHP; }
             set { maxHP = value; }
         }
-        
+
+        public Weapon CurrentWeapon
+        {
+            get { return currentWeapon; }
+            set { currentWeapon = value; }
+        }
+
+        public AmmoItem CurrentClip
+        {
+            get { return currentClip; }
+            set { currentClip = value; }
+        }
+
+        public List<Item> Items
+        {
+            get { return items; }
+        }
+
         // methods
         public void Gravity()
         {
@@ -84,18 +102,6 @@ namespace Survive
         public void PosUpdate()
         {
             Y += (int)Math.Round(yVelocity);
-        }
-
-        public Weapon CurrentWeapon
-        {
-            get { return currentWeapon; }
-            set { currentWeapon = value; }
-        }
-
-        public AmmoItem CurrentClip
-        {
-            get { return currentClip; }
-            set { currentClip = value; }
         }
 
         /*
