@@ -9,11 +9,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace Survive {
+namespace Survive
+{
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class SurviveGame : Microsoft.Xna.Framework.Game {
+    public class SurviveGame : Microsoft.Xna.Framework.Game
+    {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //images
@@ -57,7 +59,8 @@ namespace Survive {
         // Class containing all of the resources we're using
         Resources res;
 
-        public SurviveGame() {
+        public SurviveGame()
+        {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
@@ -72,7 +75,8 @@ namespace Survive {
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize() {
+        protected override void Initialize()
+        {
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
             hpBarWidth = 130;
@@ -83,7 +87,8 @@ namespace Survive {
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent() {
+        protected override void LoadContent()
+        {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -103,12 +108,13 @@ namespace Survive {
             GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
             GUIVerticalFadeBars = this.Content.Load<Texture2D>("GUIInGameVerticalFadeBars");
         }
-        
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void UnloadContent() {
+        protected override void UnloadContent()
+        {
             // TODO: Unload any non ContentManager content here
         }
 
@@ -117,9 +123,10 @@ namespace Survive {
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime) {
+        protected override void Update(GameTime gameTime)
+        {
             // Allows the game to exit
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             // getting gamePad, keyboard, and mouse info
             previousGPS = currentGPS;
@@ -135,7 +142,7 @@ namespace Survive {
             // TODO: Add your update logic here
             if (gameState == GameState.Menu)
             {
-                p1 = new Player("Name", 1, new Rectangle(200,200,playerImage.Width, playerImage.Height));
+                p1 = new Player("Name", 1, new Rectangle(200, 200, playerImage.Width, playerImage.Height));
                 gameState = GameState.InGame;
             }
             if (gameState == GameState.InGame)
@@ -216,7 +223,7 @@ namespace Survive {
                         p1.Fire();
                         playerOtherInput = PlayerOtherInput.Fire;
                     }
-                    if(kStateCurrent.IsKeyDown(Keys.E))
+                    if (kStateCurrent.IsKeyDown(Keys.E))
                     {
                         playerOtherInput = PlayerOtherInput.Interact;
                     }
@@ -232,13 +239,13 @@ namespace Survive {
             }
             if (gameState == GameState.MultiTinker)
             {
-                
+
             }
             if (gameState == GameState.SingleTinker)
             {
 
             }
-            if(gameState == GameState.GameOver)
+            if (gameState == GameState.GameOver)
             {
 
             }
@@ -249,7 +256,8 @@ namespace Survive {
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime) {
+        protected override void Draw(GameTime gameTime)
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
@@ -424,19 +432,23 @@ namespace Survive {
             if (player.Number == 2 || player.Number == 4)
                 ammoDir = 1;
 
-            int ammoClipsUserHasLeft = 0;
-
-            for (int i = 0; i < player.Items.Count; i++)
+            if (player.Items.Count > 0)
             {
-                if (player.Items[i].GetType() == typeof(AmmoItem))
-                    ammoClipsUserHasLeft++;
+                int ammoClipsUserHasLeft = 0;
+
+                for (int i = 0; i < player.Items.Count; i++)
+                {
+                    if (player.Items[i].GetType() == typeof(AmmoItem))
+                        ammoClipsUserHasLeft++;
+                }
+
+                for (int i = 0; i < ammoClipsUserHasLeft; i++)
+                {
+                    spriteBatch.Draw(GUIAmmo,
+                        new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
+                }
             }
 
-            for (int i = 0; i < ammoClipsUserHasLeft; i++)
-            {
-                spriteBatch.Draw(GUIAmmo, 
-                    new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
-            }
         }
 
         private void drawAmmo(Player player)
@@ -467,13 +479,16 @@ namespace Survive {
                 new Rectangle(ammoX, ammoY, width, height), new Rectangle(0, 0, width, height), Color.White,
                 0, Vector2.Zero, rotate, 0);
 
-            int ammoLeft = (player.CurrentClip.Amount * height / player.CurrentClip.AmountTotal);
+            if (player.CurrentClip != null)
+            {
+                int ammoLeft = (player.CurrentClip.Amount * height / player.CurrentClip.AmountTotal);
 
-            //full/partially full clip
-            spriteBatch.Draw(GUIAmmoClipFull,
-                new Vector2(ammoX, ammoY + (height - ammoLeft) * ammoDir),
-                new Rectangle(0, height - ammoLeft, width, ammoLeft), Color.White,
-                0, Vector2.Zero, 1, rotate, 0);
+                //full/partially full clip
+                spriteBatch.Draw(GUIAmmoClipFull,
+                    new Vector2(ammoX, ammoY + (height - ammoLeft) * ammoDir),
+                    new Rectangle(0, height - ammoLeft, width, ammoLeft), Color.White,
+                    0, Vector2.Zero, 1, rotate, 0);
+            }
         }
     }
 }
