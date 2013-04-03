@@ -27,6 +27,10 @@ namespace MapEditor {
         List<Button> buttons = new List<Button>();
 
         List<Area> areas = new List<Area>();
+        int scrollX = 16;
+        Area currArea = null;
+        bool editName = false;
+        KeyboardState? prevKState = null;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +45,7 @@ namespace MapEditor {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            GlobalVars.view = GraphicsDevice.Viewport;
 
             base.Initialize();
         }
@@ -64,22 +69,25 @@ namespace MapEditor {
             Area.mid = Content.Load<Texture2D>("areaMid");
 
             buttons.Add(new Button(Content.Load<Texture2D>("NewArea32"), false, 16, 16, delegate() { // New Area Function
-
+                Area alpha = new Area();
+                currArea = alpha;
+                areas.Add(alpha);
+                editName = true;
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("EditArea32"), false, 48, 16, delegate() { // New Area Function
-
+                editName = true;
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("DeleteArea32"), false, 80, 16, delegate() { // New Area Function
-
+                if(currArea != null) areas.Remove(currArea);
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("Save32"), false, 112, 16, delegate() { // Save Function
 
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("ScrollLeft"), true, 0, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Left
-
+                scrollX -= 2;
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("ScrollRight"), true, GraphicsDevice.Viewport.Width - 16, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Right
-
+                scrollX += 2;
             }));
 
         }
@@ -111,6 +119,23 @@ namespace MapEditor {
 
             IsMouseVisible = !left && !right;
 
+            if(left) {
+                foreach(Button alpha in buttons) {
+                    alpha.CheckClicked(mState.X, mState.Y);
+                }
+                foreach(Area alpha in areas) {
+                    if(alpha.ButtonClicked(mState.X, mState.Y)) {
+                        currArea = alpha;
+                        editName = false;
+                        break;
+                    }
+                }
+            }
+
+            if(editName && currArea != null) {
+                ProcessEditName();
+            }
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -126,6 +151,20 @@ namespace MapEditor {
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            int x = scrollX;
+
+            foreach(Area alpha in areas) {
+                Color back = Color.White;
+                if(alpha == currArea) {
+                    if(editName) {
+                        back = Color.LightYellow;
+                    } else {
+                        back = Color.LightSkyBlue;
+                    }
+                }
+                x += alpha.DrawButton(spriteBatch, courier, x, back);
+            }
+
             foreach(Button alpha in buttons) {
                 alpha.Draw(spriteBatch);
             }
@@ -139,6 +178,150 @@ namespace MapEditor {
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void ProcessEditName() {
+            KeyboardState kState = Keyboard.GetState();
+
+            Keys[] keys = kState.GetPressedKeys();
+            List<Keys> pressed = new List<Keys>();
+
+            if(prevKState == null) {
+                pressed.AddRange(keys);
+            } else {
+                foreach(Keys key in keys) {
+                    if(((KeyboardState)prevKState).IsKeyUp(key)) {
+                        pressed.Add(key);
+                    }
+                }
+            }
+
+            Boolean shift = kState.IsKeyDown(Keys.LeftShift) || kState.IsKeyDown(Keys.RightShift);
+
+            foreach(Keys key in pressed) {
+                switch(key) {
+                    case Keys.A:
+                        currArea.Name += (shift) ? "A" : "a";
+                        break;
+                    case Keys.B:
+                        currArea.Name += (shift) ? "B" : "b";
+                        break;
+                    case Keys.C:
+                        currArea.Name += (shift) ? "C" : "c";
+                        break;
+                    case Keys.D:
+                        currArea.Name += (shift) ? "D" : "d";
+                        break;
+                    case Keys.E:
+                        currArea.Name += (shift) ? "E" : "e";
+                        break;
+                    case Keys.F:
+                        currArea.Name += (shift) ? "F" : "f";
+                        break;
+                    case Keys.G:
+                        currArea.Name += (shift) ? "G" : "g";
+                        break;
+                    case Keys.H:
+                        currArea.Name += (shift) ? "H" : "h";
+                        break;
+                    case Keys.I:
+                        currArea.Name += (shift) ? "I" : "i";
+                        break;
+                    case Keys.J:
+                        currArea.Name += (shift) ? "J" : "j";
+                        break;
+                    case Keys.K:
+                        currArea.Name += (shift) ? "K" : "k";
+                        break;
+                    case Keys.L:
+                        currArea.Name += (shift) ? "L" : "l";
+                        break;
+                    case Keys.M:
+                        currArea.Name += (shift) ? "M" : "m";
+                        break;
+                    case Keys.N:
+                        currArea.Name += (shift) ? "N" : "n";
+                        break;
+                    case Keys.O:
+                        currArea.Name += (shift) ? "O" : "o";
+                        break;
+                    case Keys.P:
+                        currArea.Name += (shift) ? "P" : "p";
+                        break;
+                    case Keys.Q:
+                        currArea.Name += (shift) ? "Q" : "q";
+                        break;
+                    case Keys.R:
+                        currArea.Name += (shift) ? "R" : "r";
+                        break;
+                    case Keys.S:
+                        currArea.Name += (shift) ? "S" : "s";
+                        break;
+                    case Keys.T:
+                        currArea.Name += (shift) ? "T" : "t";
+                        break;
+                    case Keys.U:
+                        currArea.Name += (shift) ? "U" : "u";
+                        break;
+                    case Keys.V:
+                        currArea.Name += (shift) ? "V" : "v";
+                        break;
+                    case Keys.W:
+                        currArea.Name += (shift) ? "W" : "w";
+                        break;
+                    case Keys.X:
+                        currArea.Name += (shift) ? "X" : "x";
+                        break;
+                    case Keys.Y:
+                        currArea.Name += (shift) ? "Y" : "y";
+                        break;
+                    case Keys.Z:
+                        currArea.Name += (shift) ? "Z" : "z";
+                        break;
+                    case Keys.D0:
+                        currArea.Name += 0;
+                        break;
+                    case Keys.D1:
+                        currArea.Name += 1;
+                        break;
+                    case Keys.D2:
+                        currArea.Name += 2;
+                        break;
+                    case Keys.D3:
+                        currArea.Name += 3;
+                        break;
+                    case Keys.D4:
+                        currArea.Name += 4;
+                        break;
+                    case Keys.D5:
+                        currArea.Name += 5;
+                        break;
+                    case Keys.D6:
+                        currArea.Name += 6;
+                        break;
+                    case Keys.D7:
+                        currArea.Name += 7;
+                        break;
+                    case Keys.D8:
+                        currArea.Name += 8;
+                        break;
+                    case Keys.D9:
+                        currArea.Name += 9;
+                        break;
+                    case Keys.Space:
+                        currArea.Name += " ";
+                        break;
+                    case Keys.Back:
+                        currArea.Name = (currArea.Name.Equals(""))?"":currArea.Name.Substring(0, currArea.Name.Length - 1);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            prevKState = kState;
+
+            editName = kState.IsKeyUp(Keys.Enter);
         }
     }
 }
