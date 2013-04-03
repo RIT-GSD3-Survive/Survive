@@ -135,7 +135,7 @@ namespace Survive {
             // TODO: Add your update logic here
             if (gameState == GameState.Menu)
             {
-                p1 = new Player("Name", 1, new Rectangle(200,200,playerImage.Width, playerImage.Height));
+                p1 = new Player("Name", 1, new Rectangle(200,343,playerImage.Width, playerImage.Height));
                 gameState = GameState.InGame;
             }
             if (gameState == GameState.InGame)
@@ -155,35 +155,27 @@ namespace Survive {
                     if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
                     {
                         playerOtherInput = PlayerOtherInput.Jump;
+                        p1.Jump();
                     }
                     if (currentGPS.IsButtonDown(Buttons.RightTrigger))
                     {
                         playerOtherInput = PlayerOtherInput.Fire;
+                        p1.Fire();
                     }
                     if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
                     {
                         playerOtherInput = PlayerOtherInput.SwitchWeapon;
+                        //p1.SwitchWeapon();
                     }
                     if (currentGPS.IsButtonDown(Buttons.B))
                     {
                         playerOtherInput = PlayerOtherInput.Interact;
+                        //p1.Interact();
                     }
-                    //p1.Walk(currentGPS);
-                    if (playerOtherInput == PlayerOtherInput.Jump)
+                    if (currentGPS.IsButtonDown(Buttons.X))
                     {
-                        p1.Jump();
-                    }
-                    if (playerOtherInput == PlayerOtherInput.Fire)
-                    {
-
-                    }
-                    if (playerOtherInput == PlayerOtherInput.SwitchWeapon)
-                    {
-
-                    }
-                    if (playerOtherInput == PlayerOtherInput.Interact)
-                    {
-
+                        playerOtherInput = PlayerOtherInput.Reload;
+                        //p1.Reload();
                     }
                     p1.Gravity();
                     p1.PosUpdate();
@@ -224,6 +216,8 @@ namespace Survive {
                     {
                         playerOtherInput = PlayerOtherInput.Reload;
                     }
+                    p1.Gravity();
+                    p1.PosUpdate();
                 }
             }
             if (gameState == GameState.Pause)
@@ -259,7 +253,7 @@ namespace Survive {
             {
                 if (menuButtonState == MenuButtonState.None)
                 {
-
+                    
                 }
                 if (menuButtonState == MenuButtonState.Single)
                 {
@@ -290,7 +284,7 @@ namespace Survive {
                 }
                 if (playerMovementInput == PlayerMovementInput.Right)
                 {
-                    spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(17.5f, 38.5f), SpriteEffects.FlipHorizontally, 0.0f);
+                    spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0,0), SpriteEffects.FlipHorizontally, 0.0f);
                     if (playerOtherInput == PlayerOtherInput.Jump)
                     {
 
@@ -401,12 +395,13 @@ namespace Survive {
             int ammoDir = -1;
             if (player.Number == 2 || player.Number == 4)
                 ammoDir = 1;
-
+            /*
             for (int i = 0; i < ammoClipsUserHasLeft; i++)
             {
                 spriteBatch.Draw(GUIAmmo, 
                     new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
             }
+            */
         }
 
         private void drawAmmo(Player player)

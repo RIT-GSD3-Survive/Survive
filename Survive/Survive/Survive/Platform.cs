@@ -9,6 +9,11 @@ namespace Survive
 {
     class Platform : Ground
     {
-
+        //Constructor
+        public Platform(Rectangle loc)
+            : base(loc)
+        {
+            
+        }
     }
 }

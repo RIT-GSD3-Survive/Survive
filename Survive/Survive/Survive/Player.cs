@@ -32,6 +32,7 @@ namespace Survive
             number = num;
             items = new List<Item>();
             weapons = new List<Weapon>();
+            onGround = true;
         }
 
         //Properties
@@ -76,7 +77,7 @@ namespace Survive
         {
             if(!onGround)
             {
-                yVelocity += 1.6;
+                yVelocity += .4;
             }
         }
 
@@ -110,6 +111,7 @@ namespace Survive
             }
         }
         */
+
         public void WalkLeft()
         {
             this.X -= 2;
@@ -122,7 +124,8 @@ namespace Survive
         {
             if (onGround == true)
             {
-                //onGround = false;
+                onGround = false;
+                yVelocity = -8;
             }
         }
         public void Fire()

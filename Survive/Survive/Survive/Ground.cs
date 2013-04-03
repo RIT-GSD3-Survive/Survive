@@ -9,9 +9,10 @@ namespace Survive
 {
     class Ground : Terrain
     {
-        public Ground()
+        public Ground(Rectangle loc)
         {
             collidable = true;
+            location = loc;
         }
     }
 }
