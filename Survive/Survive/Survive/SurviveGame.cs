@@ -100,7 +100,7 @@ namespace Survive {
             GUIhpBARredside = this.Content.Load<Texture2D>("GUIhpBARredside");
             GUIhpBARgreyside = this.Content.Load<Texture2D>("GUIhpBARgreyside");
 
-            GUIMain = this.Content.Load<Texture2D>("GUIInGame4player");
+            GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
             GUIVerticalFadeBars = this.Content.Load<Texture2D>("GUIInGameVerticalFadeBars");
         }
         
@@ -304,11 +304,33 @@ namespace Survive {
                 //************************GUI************************
                 spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
 
-                //draw more GUI stuff here
-                //get number of users then loop through and draw GUI elements
-                /*drawAmmo(p1);
+                //get players then loop through and draw GUI elements
+                drawAmmo(p1);
                 drawAmmoClips(p1);
-                drawHPBar(p1);*/
+                drawHPBar(p1);
+                GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
+
+                if (p4 != null)
+                {
+                    drawAmmo(p4);
+                    drawAmmoClips(p4);
+                    drawHPBar(p4);
+                    GUIMain = this.Content.Load<Texture2D>("GUIInGame4player");
+                }
+                if (p3 != null)
+                {
+                    drawAmmo(p3);
+                    drawAmmoClips(p3);
+                    drawHPBar(p3);
+                    GUIMain = this.Content.Load<Texture2D>("GUIInGame3player");
+                }
+                if (p2 != null)
+                {
+                    drawAmmo(p2);
+                    drawAmmoClips(p2);
+                    drawHPBar(p2);
+                    GUIMain = this.Content.Load<Texture2D>("GUIInGame2player");
+                }
 
                 spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
             }//end gameState.InGame

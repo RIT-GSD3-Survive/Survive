@@ -32,6 +32,7 @@ namespace Survive
             number = num;
             items = new List<Item>();
             weapons = new List<Weapon>();
+            maxHP = hp = 100;
         }
 
         //Properties
