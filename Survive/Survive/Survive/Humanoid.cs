@@ -85,11 +85,14 @@ namespace Survive
             }
             if (obj is Platform)
             {
-                if (this.Location.Intersects(obj.Location))
+                if (onGround == false)
                 {
-                    this.Y = obj.Y - this.Location.Height;
-                    onGround = true;
-                    yVelocity = 0;
+                    if (this.Location.Intersects(obj.Location))
+                    {
+                        this.Y = obj.Y - this.Location.Height;
+                        onGround = true;
+                        yVelocity = 0;
+                    }
                 }
             }
         }
