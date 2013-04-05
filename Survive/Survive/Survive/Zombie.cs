@@ -12,6 +12,12 @@ namespace Survive
         //Attributes
         int attackPower;
 
+        public Zombie(Rectangle loc)
+            :base(loc)
+        {
+
+        }
+
         //Properties
         public int AttackPower
         {
