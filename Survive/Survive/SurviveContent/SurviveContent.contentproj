@@ -50,11 +50,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Person.png">
-      <Name>Person</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Tiles.png">
       <Name>Tiles</Name>
       <Importer>TextureImporter</Importer>
@@ -119,6 +114,18 @@
     </Compile>
     <Compile Include="GUIInGameVerticalFadeBars.png">
       <Name>GUIInGameVerticalFadeBars</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Person.png">
+      <Name>Person</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Zombie.png">
+      <Name>Zombie</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
