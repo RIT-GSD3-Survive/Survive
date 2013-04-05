@@ -108,7 +108,7 @@ namespace Survive
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            res = new Resources(this.Content);
+            Resources.LoadRes(Content);
             playerImage = this.Content.Load<Texture2D>("Person");
             zombieImage = this.Content.Load<Texture2D>("Zombie");
 
@@ -162,7 +162,6 @@ namespace Survive
             {
                 case GameState.Menu:
                     p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
-                    gameLocation = GameLocation.Level1;
                     gameState = GameState.InGame;
                     break;
 
@@ -250,14 +249,6 @@ namespace Survive
                     {
                         p1.CheckCollisions(p);
                     }
-
-                    for (int i = 0; i < zombieList.Count; i++)
-                    {
-                        //always at least one zombie
-                        if (zombieList.Count == 0)
-                            zombieList.Add(new Zombie(new Rectangle(0, 343, zombieImage.Width, zombieImage.Height)));
-                    }
-
                     break; //end case inGame
 
                 case GameState.Pause:
@@ -285,7 +276,7 @@ namespace Survive
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.DrawString(res.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
+            spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
             switch (gameState)
             {
                 case GameState.Menu:
@@ -321,11 +312,6 @@ namespace Survive
 
                             break;
                     }
-
-                    if (gameLocation != GameLocation.Safehouse)
-                        for (int i = 0; i < zombieList.Count; i++)
-                            spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
-
                     switch (playerMovementInput)
                     {
                         case PlayerMovementInput.Left:

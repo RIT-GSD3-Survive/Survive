@@ -7,14 +7,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive {
     class Resources {
-        SpriteFont courier;
+        private static SpriteFont courier;
 
-        public SpriteFont Courier {
+        private static Texture2D tiles;
+
+        public static SpriteFont Courier {
             get { return courier; }
         }
 
-        public Resources(ContentManager cm) {
+        public static Texture2D Tiles {
+            get { return tiles; }
+        }
+
+        public static void LoadRes(ContentManager cm) {
             courier = cm.Load<SpriteFont>("Courier");
+            tiles = cm.Load<Texture2D>("Tiles");
         }
     }
 }
