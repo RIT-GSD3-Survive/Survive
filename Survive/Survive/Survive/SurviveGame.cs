@@ -64,8 +64,8 @@ namespace Survive
         public static int tileSize;
         List<Platform> platformTilesList;
 
-        // Class containing all of the resources we're using
-        Resources res;
+        // Map.
+        Map map;
 
         public SurviveGame()
         {
@@ -109,6 +109,7 @@ namespace Survive
 
             // TODO: use this.Content to load your game content here
             Resources.LoadRes(Content);
+            map = new Map();
             playerImage = this.Content.Load<Texture2D>("Person");
             zombieImage = this.Content.Load<Texture2D>("Zombie");
 
