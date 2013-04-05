@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Survive
 {
+    //global enum
+    enum ZombieActions { Patrol, Chase }
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -259,7 +262,57 @@ namespace Survive
 
                     for (int i = 0; i < zombieList.Count; i++)
                     {
-                        //zombie actions
+                        //run zombie actions
+                        Zombie zombie = zombieList[i];
+
+                        if (zombie.ZombieAction == ZombieActions.Chase)
+                        {
+                            //get closest player
+                            int distanceClosestPlayer = (int)Math.Sqrt(Math.Pow((p1.X - zombie.X), 2) + Math.Pow((p1.Y - zombie.Y), 2));
+                            Player closestPlayer = p1;
+                            if (p4 != null)
+                            {
+                                int dist = (int)Math.Sqrt(Math.Pow((p4.X - zombie.X), 2) + Math.Pow((p4.Y - zombie.Y), 2));
+                                if (dist < distanceClosestPlayer)
+                                {
+                                    distanceClosestPlayer = dist;
+                                    closestPlayer = p4;
+                                }
+                            }
+                            if (p3 != null)
+                            {
+                                int dist = (int)Math.Sqrt(Math.Pow((p3.X - zombie.X), 2) + Math.Pow((p3.Y - zombie.Y), 2));
+                                if (dist < distanceClosestPlayer)
+                                {
+                                    distanceClosestPlayer = dist;
+                                    closestPlayer = p3;
+                                }
+                            }
+                            if (p2 != null)
+                            {
+                                int dist = (int)Math.Sqrt(Math.Pow((p2.X - zombie.X), 2) + Math.Pow((p2.Y - zombie.Y), 2));
+                                if (dist < distanceClosestPlayer)
+                                {
+                                    distanceClosestPlayer = dist;
+                                    closestPlayer = p2;
+                                }
+                            }
+
+                            //chase after closest player
+                            if (zombie.X > closestPlayer.X)
+                                zombie.WalkLeft();
+                            else if (zombie.X < closestPlayer.X)
+                                zombie.WalkRight();
+
+                        }
+                        if (zombie.ZombieAction == ZombieActions.Patrol)
+                        {
+                            //move back and forth until player is detected
+                            //zombie.DetectPlayers();
+                            zombie.ZombieAction = ZombieActions.Chase;
+                        }
+                        else zombie.ZombieAction = ZombieActions.Patrol;
+                        
                     }
                     break; //end case inGame
 
