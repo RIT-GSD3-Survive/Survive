@@ -75,7 +75,7 @@ namespace Survive
             }
         }
 
-        public void Colliosion(GameObject obj)
+        public void CheckColliosions(GameObject obj)
         {
             if (obj is Zombie)
             {

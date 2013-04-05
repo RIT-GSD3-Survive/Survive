@@ -33,8 +33,10 @@ namespace Survive
         //game/menu state
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
+        enum GameLocation { Safehouse, Level1, Level2 };
         MenuButtonState menuButtonState;
         GameState gameState;
+        GameLocation gameLocation;
         //player input
         enum PlayerMovementInput { Left, Right };
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact, Reload };
@@ -231,6 +233,7 @@ namespace Survive
                         p1.Gravity();
                         p1.PosUpdate();
                     }
+                    //p1.CheckCollisions(Ground Objects);
                     break;
 
                 case GameState.Pause:
@@ -278,6 +281,21 @@ namespace Survive
                     break;
 
                 case GameState.InGame:
+                    drawGround();
+                    switch (gameLocation)
+                    {
+                        case GameLocation.Safehouse:
+
+                            break;
+
+                        case GameLocation.Level1:
+
+                            break;
+
+                        case GameLocation.Level2:
+
+                            break;
+                    }
                     switch (playerMovementInput)
                     {
                         case PlayerMovementInput.Left:
