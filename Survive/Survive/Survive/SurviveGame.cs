@@ -20,6 +20,7 @@ namespace Survive
         SpriteBatch spriteBatch;
         //images
         Texture2D playerImage;
+        Texture2D zombieImage;
         Texture2D GUIAmmo;
         Texture2D GUIAmmoClipEmpty;
         Texture2D GUIAmmoClipFull;
@@ -30,7 +31,7 @@ namespace Survive
         Texture2D GUIMain;
         Texture2D GUIVerticalFadeBars;
         Texture2D tileSheet;
-        //game/menu state
+        //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
         enum GameLocation { Safehouse, Level1, Level2 };
@@ -56,6 +57,8 @@ namespace Survive
         Player p2;
         Player p3;
         Player p4;
+        //zombies
+        List<Zombie> zombieList;
         //gui variables
         int hpBarWidth;
         public static int tileSize;
@@ -85,9 +88,12 @@ namespace Survive
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
             gameState = GameState.Menu;
+
             hpBarWidth = 130;
             tileSize = 32;
+
             platformTilesList = new List<Platform>();
+            zombieList = new List<Zombie>();
 
             base.Initialize();
         }
@@ -104,6 +110,7 @@ namespace Survive
             // TODO: use this.Content to load your game content here
             res = new Resources(this.Content);
             playerImage = this.Content.Load<Texture2D>("Person");
+            zombieImage = this.Content.Load<Texture2D>("Zombie");
 
             GUIAmmo = this.Content.Load<Texture2D>("GUIAmmo");
             GUIAmmoClipEmpty = this.Content.Load<Texture2D>("GUIAmmoClipEmpty");
