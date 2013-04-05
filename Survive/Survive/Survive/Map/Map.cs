@@ -26,17 +26,21 @@ namespace Survive {
                         areas.Add(new Area(alpha));
                     }
                 }
-            }
-            foreach(Area alpha in areas) {
-                if(alpha.Name == "default") {
-                    currArea = alpha;
-                    break;
+                foreach(Area alpha in areas) {
+                    if(alpha.Name == "default") {
+                        currArea = alpha;
+                        break;
+                    }
                 }
             }
         }
 
         public void DrawArea(SpriteBatch sb) {
             currArea.DrawArea(sb);
+        }
+
+        public List<Platform> GetTiles() {
+            return (currArea != null)?currArea.GetTiles():null;
         }
     }
 }

@@ -95,6 +95,7 @@ namespace Survive
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
 
+            map = new Map();
             initializeGround();
 
             base.Initialize();
@@ -111,7 +112,6 @@ namespace Survive
 
             // TODO: use this.Content to load your game content here
             Resources.LoadRes(Content);
-            map = new Map();
             playerImage = this.Content.Load<Texture2D>("Person");
             zombieImage = this.Content.Load<Texture2D>("Zombie");
 
@@ -575,6 +575,12 @@ namespace Survive
                             new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
                             new Vector2(4, 0)));
                 }
+
+            // Load in the map.
+            List<Platform> area = map.GetTiles();
+            if(area != null) {
+                platformTilesList.AddRange(area);
+            }
         }
 
         private void drawGround()

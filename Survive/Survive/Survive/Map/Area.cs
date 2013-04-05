@@ -35,5 +35,20 @@ namespace Survive {
                 sb.Draw(Resources.Tiles, new Vector2((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4), new Rectangle(32, 0, 32, 32), Color.White);
             }
         }
+
+        public List<Platform> GetTiles() {
+            List<Platform> rtn = new List<Platform>();
+            foreach(Point alpha in map) {
+                int sheetX = 1;
+                if(!map.Contains(new Point(alpha.X - 1, alpha.Y))) {
+                    sheetX = 3;
+                } else if(!map.Contains(new Point(alpha.X + 1, alpha.Y))) {
+                    sheetX = 2;
+                }
+                rtn.Add(new Platform(new Rectangle((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4, 32, 32), new Vector2(sheetX, 0)));
+            }
+
+            return rtn;
+        }
     }
 }
