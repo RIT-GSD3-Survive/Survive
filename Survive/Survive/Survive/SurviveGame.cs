@@ -206,7 +206,7 @@ namespace Survive
                         }
                         p1.Gravity();
                         p1.PosUpdate();
-                    }
+                    }//end gamePad is connected
                     else
                     {
                         if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && p1.OnGround)
@@ -245,17 +245,20 @@ namespace Survive
                         }
                         p1.Gravity();
                         p1.PosUpdate();
-                    }
+                    }//end gamePad is not connected 
+
                     foreach (Platform p in platformTilesList)
                     {
                         p1.CheckCollisions(p);
                     }
 
+                    //always at least one zombie
+                    if (zombieList.Count == 0)
+                        zombieList.Add(new Zombie(new Rectangle(0, 343, zombieImage.Width, zombieImage.Height)));
+
                     for (int i = 0; i < zombieList.Count; i++)
                     {
-                        //always at least one zombie
-                        if (zombieList.Count == 0)
-                            zombieList.Add(new Zombie(new Rectangle(0, 343, zombieImage.Width, zombieImage.Height)));
+                        //zombie actions
                     }
 
                     break; //end case inGame
@@ -322,6 +325,7 @@ namespace Survive
                             break;
                     }
 
+                    //draw Zombie
                     if (gameLocation != GameLocation.Safehouse)
                         for (int i = 0; i < zombieList.Count; i++)
                             spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
