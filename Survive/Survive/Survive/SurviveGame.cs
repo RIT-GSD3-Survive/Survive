@@ -29,6 +29,7 @@ namespace Survive
         Texture2D GUIhpBARredside;
         Texture2D GUIMain;
         Texture2D GUIVerticalFadeBars;
+        Texture2D tileSheet;
         //game/menu state
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
@@ -108,6 +109,8 @@ namespace Survive
 
             GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
             GUIVerticalFadeBars = this.Content.Load<Texture2D>("GUIInGameVerticalFadeBars");
+
+            tileSheet = this.Content.Load<Texture2D>("Tiles");
         }
 
         /// <summary>
@@ -446,9 +449,7 @@ namespace Survive
             int ammoDir = -1;
             if (player.Number == 2 || player.Number == 4)
                 ammoDir = 1;
-            /*
-            for (int i = 0; i < ammoClipsUserHasLeft; i++)
-
+            
             if (player.Items.Count > 0)
             {
                 int ammoClipsUserHasLeft = 0;
@@ -465,7 +466,7 @@ namespace Survive
                         new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
                 }
             }
-            */
+            
         }
 
         private void drawAmmo(Player player)
@@ -505,6 +506,22 @@ namespace Survive
                     new Vector2(ammoX, ammoY + (height - ammoLeft) * ammoDir),
                     new Rectangle(0, height - ammoLeft, width, ammoLeft), Color.White,
                     0, Vector2.Zero, 1, rotate, 0);
+            }
+        }
+
+        private void drawGround()
+        {
+            //edit this to use ground objects instead of just drawing them
+            int height=GraphicsDevice.Viewport.Height;
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < (GraphicsDevice.Viewport.Width / 32); i++)
+                {
+                    if (j == 2) 
+                        spriteBatch.Draw(tileSheet, new Vector2(i * 32, height - (j * 32) - 16), new Rectangle(0, 0, 32, 32), Color.White);
+                    else 
+                        spriteBatch.Draw(tileSheet, new Vector2(i * 32, height - (j * 32) - 16), new Rectangle(4 * 32, 0, 32, 32), Color.White);
+                }
             }
         }
     }

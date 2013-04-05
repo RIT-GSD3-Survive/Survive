@@ -13,7 +13,7 @@ namespace Survive
         public Platform(Rectangle loc)
             : base(loc)
         {
-            
+
         }
     }
 }

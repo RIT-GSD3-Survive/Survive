@@ -74,6 +74,5 @@ namespace Survive
                 yVelocity = -8;
             }
         }
-
     }
 }

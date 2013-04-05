@@ -22,7 +22,7 @@ namespace Survive
         AmmoItem currentClip;
 
         public Player(string nm, int num, Rectangle loc)
-            :base(loc)
+            : base(loc)
         {
             name = nm;
             number = num;
