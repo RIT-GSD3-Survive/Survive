@@ -79,6 +79,7 @@ namespace Survive
         {
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
+            gameState = GameState.Menu;
             hpBarWidth = 130;
             base.Initialize();
         }
@@ -140,108 +141,106 @@ namespace Survive
             Vector2 left = sticks.Left;
             Vector2 right = sticks.Right;
             // TODO: Add your update logic here
-            if (gameState == GameState.Menu)
+            switch (gameState)
             {
-                p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
-                gameState = GameState.InGame;
-            }
-            if (gameState == GameState.InGame)
-            {
-                if (currentGPS.IsConnected)
-                {
-                    if (left.X > 0)
+                case GameState.Menu:
+                    p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                    gameState = GameState.InGame;
+                    break;
+
+                case GameState.InGame:
+                    if (currentGPS.IsConnected)
                     {
-                        playerMovementInput = PlayerMovementInput.Right;
-                        p1.WalkRight();
+                        if (left.X > 0)
+                        {
+                            playerMovementInput = PlayerMovementInput.Right;
+                            p1.WalkRight();
+                        }
+                        if (left.X < 0)
+                        {
+                            playerMovementInput = PlayerMovementInput.Left;
+                            p1.WalkLeft();
+                        }
+                        if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
+                        {
+                            playerOtherInput = PlayerOtherInput.Jump;
+                            p1.Jump();
+                        }
+                        if (currentGPS.IsButtonDown(Buttons.RightTrigger))
+                        {
+                            playerOtherInput = PlayerOtherInput.Fire;
+                            p1.Fire();
+                        }
+                        if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
+                        {
+                            playerOtherInput = PlayerOtherInput.SwitchWeapon;
+                            //p1.SwitchWeapon();
+                        }
+                        if (currentGPS.IsButtonDown(Buttons.B))
+                        {
+                            playerOtherInput = PlayerOtherInput.Interact;
+                            //p1.Interact();
+                        }
+                        if (currentGPS.IsButtonDown(Buttons.X))
+                        {
+                            playerOtherInput = PlayerOtherInput.Reload;
+                            //p1.Reload();
+                        }
+                        p1.Gravity();
+                        p1.PosUpdate();
                     }
-                    if (left.X < 0)
+                    else
                     {
-                        playerMovementInput = PlayerMovementInput.Left;
-                        p1.WalkLeft();
-                    }
-                    if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
-                    {
-                        playerOtherInput = PlayerOtherInput.Jump;
-                        p1.Jump();
-                    }
-                    if (currentGPS.IsButtonDown(Buttons.RightTrigger))
-                    {
-                        playerOtherInput = PlayerOtherInput.Fire;
-                        p1.Fire();
-                    }
-                    if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
-                    {
-                        playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                        //p1.SwitchWeapon();
-                    }
-                    if (currentGPS.IsButtonDown(Buttons.B))
-                    {
-                        playerOtherInput = PlayerOtherInput.Interact;
-                        //p1.Interact();
-                    }
-                    if (currentGPS.IsButtonDown(Buttons.X))
-                    {
-                        playerOtherInput = PlayerOtherInput.Reload;
-                        //p1.Reload();
-                    }
-                    p1.Gravity();
-                    p1.PosUpdate();
-                }
-                else
-                {
-                    if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && p1.OnGround)
-                    {
-                        p1.Jump();
-                        playerOtherInput = PlayerOtherInput.Jump;
-                    }
-                    if (kStateCurrent.IsKeyDown(Keys.A))
-                    {
-                        p1.WalkLeft();
-                        playerMovementInput = PlayerMovementInput.Left;
-                    }
-                    /*
-                    if (kStateCurrent.IsKeyDown(Keys.S))
-                    {
+                        if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && p1.OnGround)
+                        {
+                            p1.Jump();
+                            playerOtherInput = PlayerOtherInput.Jump;
+                        }
+                        if (kStateCurrent.IsKeyDown(Keys.A))
+                        {
+                            p1.WalkLeft();
+                            playerMovementInput = PlayerMovementInput.Left;
+                        }
+                        /*
+                        if (kStateCurrent.IsKeyDown(Keys.S))
+                        {
                         
+                        }
+                        */
+                        if (kStateCurrent.IsKeyDown(Keys.D))
+                        {
+                            p1.WalkRight();
+                            playerMovementInput = PlayerMovementInput.Right;
+                        }
+                        if (mStateCurrent.LeftButton == ButtonState.Pressed)
+                        {
+                            p1.Fire();
+                            playerOtherInput = PlayerOtherInput.Fire;
+                        }
+                        if (kStateCurrent.IsKeyDown(Keys.E))
+                        {
+                            playerOtherInput = PlayerOtherInput.Interact;
+                        }
+                        if (kStateCurrent.IsKeyDown(Keys.R))
+                        {
+                            playerOtherInput = PlayerOtherInput.Reload;
+                        }
+                        p1.Gravity();
+                        p1.PosUpdate();
                     }
-                    */
-                    if (kStateCurrent.IsKeyDown(Keys.D))
-                    {
-                        p1.WalkRight();
-                        playerMovementInput = PlayerMovementInput.Right;
-                    }
-                    if (mStateCurrent.LeftButton == ButtonState.Pressed)
-                    {
-                        p1.Fire();
-                        playerOtherInput = PlayerOtherInput.Fire;
-                    }
-                    if (kStateCurrent.IsKeyDown(Keys.E))
-                    {
-                        playerOtherInput = PlayerOtherInput.Interact;
-                    }
-                    if (kStateCurrent.IsKeyDown(Keys.R))
-                    {
-                        playerOtherInput = PlayerOtherInput.Reload;
-                    }
-                    p1.Gravity();
-                    p1.PosUpdate();
-                }
-            }
-            if (gameState == GameState.Pause)
-            {
+                    break;
 
-            }
-            if (gameState == GameState.MultiTinker)
-            {
+                case GameState.Pause:
+                    break;
 
-            }
-            if (gameState == GameState.SingleTinker)
-            {
+                case GameState.SingleTinker:
+                    break;
 
-            }
-            if (gameState == GameState.GameOver)
-            {
+                case GameState.MultiTinker:
+                    break;
 
+                case GameState.GameOver:
+                    break;
             }
             base.Update(gameTime);
         }
@@ -256,101 +255,125 @@ namespace Survive
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
-            if (gameState == GameState.Menu)
+            switch (gameState)
             {
-                if (menuButtonState == MenuButtonState.None)
-                {
-                    
-                }
-                if (menuButtonState == MenuButtonState.Single)
-                {
-
-                }
-                if (menuButtonState == MenuButtonState.Multi)
-                {
-
-                }
-                if (menuButtonState == MenuButtonState.Quit)
-                {
-
-                }
-            }
-            if (gameState == GameState.InGame)
-            {
-                if (playerMovementInput == PlayerMovementInput.Left)
-                {
-                    spriteBatch.Draw(playerImage, p1.Location, Color.White);
-                    if (playerOtherInput == PlayerOtherInput.Jump)
+                case GameState.Menu:
+                    switch (menuButtonState)
                     {
+                        case MenuButtonState.None:
+                            break;
 
+                        case MenuButtonState.Single:
+                            break;
+
+                        case MenuButtonState.Multi:
+                            break;
+
+                        case MenuButtonState.Quit:
+                            break;
                     }
-                    if (playerOtherInput == PlayerOtherInput.Fire)
+                    break;
+
+                case GameState.InGame:
+                    switch (playerMovementInput)
                     {
+                        case PlayerMovementInput.Left:
+                            spriteBatch.Draw(playerImage, p1.Location, Color.White);
+                            switch (playerOtherInput)
+                            {
+                                case PlayerOtherInput.Jump:
 
+                                    break;
+
+                                case PlayerOtherInput.Fire:
+
+                                    break;
+
+                                case PlayerOtherInput.Interact:
+
+                                    break;
+
+                                case PlayerOtherInput.Reload:
+
+                                    break;
+
+                                case PlayerOtherInput.SwitchWeapon:
+
+                                    break;
+                            }
+                            break;
+
+                        case PlayerMovementInput.Right:
+                            spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
+                            switch (playerOtherInput)
+                            {
+                                case PlayerOtherInput.Jump:
+
+                                    break;
+
+                                case PlayerOtherInput.Fire:
+
+                                    break;
+
+                                case PlayerOtherInput.Interact:
+
+                                    break;
+
+                                case PlayerOtherInput.Reload:
+
+                                    break;
+
+                                case PlayerOtherInput.SwitchWeapon:
+
+                                    break;
+                            }
+                            break;
                     }
-                }
-                if (playerMovementInput == PlayerMovementInput.Right)
-                {
-                    spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0,0), SpriteEffects.FlipHorizontally, 0.0f);
-                    if (playerOtherInput == PlayerOtherInput.Jump)
+                    //************************GUI************************
+                    spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
+
+                    //get players then loop through and draw GUI elements
+                    drawAmmo(p1);
+                    drawAmmoClips(p1);
+                    drawHPBar(p1);
+                    GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
+
+                    if (p4 != null)
                     {
-
+                        drawAmmo(p4);
+                        drawAmmoClips(p4);
+                        drawHPBar(p4);
+                        GUIMain = this.Content.Load<Texture2D>("GUIInGame4player");
                     }
-                    if (playerOtherInput == PlayerOtherInput.Fire)
+                    if (p3 != null)
                     {
-
+                        drawAmmo(p3);
+                        drawAmmoClips(p3);
+                        drawHPBar(p3);
+                        GUIMain = this.Content.Load<Texture2D>("GUIInGame3player");
                     }
-                }
+                    if (p2 != null)
+                    {
+                        drawAmmo(p2);
+                        drawAmmoClips(p2);
+                        drawHPBar(p2);
+                        GUIMain = this.Content.Load<Texture2D>("GUIInGame2player");
+                    }
 
-                //************************GUI************************
-                spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
+                    spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
+                    break;
 
-                //get players then loop through and draw GUI elements
-                drawAmmo(p1);
-                drawAmmoClips(p1);
-                drawHPBar(p1);
-                GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
+                case GameState.Pause:
+                    break;
 
-                if (p4 != null)
-                {
-                    drawAmmo(p4);
-                    drawAmmoClips(p4);
-                    drawHPBar(p4);
-                    GUIMain = this.Content.Load<Texture2D>("GUIInGame4player");
-                }
-                if (p3 != null)
-                {
-                    drawAmmo(p3);
-                    drawAmmoClips(p3);
-                    drawHPBar(p3);
-                    GUIMain = this.Content.Load<Texture2D>("GUIInGame3player");
-                }
-                if (p2 != null)
-                {
-                    drawAmmo(p2);
-                    drawAmmoClips(p2);
-                    drawHPBar(p2);
-                    GUIMain = this.Content.Load<Texture2D>("GUIInGame2player");
-                }
+                case GameState.SingleTinker:
+                    break;
 
-                spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
-            }//end gameState.InGame
-            if (gameState == GameState.Pause)
-            {
+                case GameState.MultiTinker:
+                    break;
 
-            }
-            if (gameState == GameState.MultiTinker)
-            {
-
-            }
-            if (gameState == GameState.SingleTinker)
-            {
-
-            }
-            if (gameState == GameState.GameOver)
-            {
-
+                case GameState.GameOver:
+                    break;
             }
 
             spriteBatch.End();
@@ -358,14 +381,13 @@ namespace Survive
             base.Draw(gameTime);
         }
 
-        /*
         /// <summary>
         /// Prevents a key from being processed mutliple times if held
         /// </summary>
         /// <returns></returns>
         public Boolean SingleKeyPress(Keys k)
         {
-            if (kState.IsKeyDown(k) && kStatePrevious.IsKeyUp(k))
+            if (kStateCurrent.IsKeyDown(k) && kStatePrevious.IsKeyUp(k))
             {
                 return true;
             }
@@ -374,7 +396,6 @@ namespace Survive
                 return false;
             }
         }
-        */
 
         public Boolean SingleKeyPress(Buttons b)
         {
