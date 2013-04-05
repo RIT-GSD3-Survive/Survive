@@ -13,7 +13,7 @@ namespace Survive
         int attackPower;
 
         public Zombie(Rectangle loc)
-            :base(loc)
+            : base(loc)
         {
 
         }

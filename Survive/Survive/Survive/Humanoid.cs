@@ -74,6 +74,7 @@ namespace Survive
                 yVelocity = -8;
             }
         }
+
         public void Colliosion(GameObject obj)
         {
             if (obj is Zombie)
@@ -86,6 +87,5 @@ namespace Survive
                 onGround = true;
             }
         }
-
     }
 }
