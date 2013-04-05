@@ -58,6 +58,8 @@ namespace Survive
         Player p4;
         //gui variables
         int hpBarWidth;
+        public static int tileSize;
+        List<Platform> platformTilesList;
 
         // Class containing all of the resources we're using
         Resources res;
@@ -84,6 +86,9 @@ namespace Survive
             menuButtonState = MenuButtonState.None;
             gameState = GameState.Menu;
             hpBarWidth = 130;
+            tileSize = 32;
+            platformTilesList = new List<Platform>();
+
             base.Initialize();
         }
 
@@ -234,7 +239,7 @@ namespace Survive
                         p1.PosUpdate();
                     }
                     //p1.CheckCollisions(Ground Objects);
-                    break;
+                    break; //end case inGame
 
                 case GameState.Pause:
                     break;
@@ -278,7 +283,7 @@ namespace Survive
                         case MenuButtonState.Quit:
                             break;
                     }
-                    break;
+                    break; //end case Menu
 
                 case GameState.InGame:
                     drawGround();
@@ -322,7 +327,7 @@ namespace Survive
 
                                     break;
                             }
-                            break;
+                            break; //end left movement case
 
                         case PlayerMovementInput.Right:
                             spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
@@ -348,8 +353,9 @@ namespace Survive
 
                                     break;
                             }
-                            break;
-                    }
+                            break; //end right movement case
+                    }//end switch player movement
+
                     //************************GUI************************
                     spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
 
@@ -382,7 +388,7 @@ namespace Survive
                     }
 
                     spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
-                    break;
+                    break; //end case inGame
 
                 case GameState.Pause:
                     break;
@@ -395,7 +401,7 @@ namespace Survive
 
                 case GameState.GameOver:
                     break;
-            }
+            }//end switch GameStates
 
             spriteBatch.End();
 
@@ -467,7 +473,7 @@ namespace Survive
             int ammoDir = -1;
             if (player.Number == 2 || player.Number == 4)
                 ammoDir = 1;
-            
+
             if (player.Items.Count > 0)
             {
                 int ammoClipsUserHasLeft = 0;
@@ -484,7 +490,7 @@ namespace Survive
                         new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
                 }
             }
-            
+
         }
 
         private void drawAmmo(Player player)
@@ -529,18 +535,22 @@ namespace Survive
 
         private void drawGround()
         {
-            //edit this to use ground objects instead of just drawing them
-            int height=GraphicsDevice.Viewport.Height;
+            int height = GraphicsDevice.Viewport.Height;
             for (int j = 0; j < 3; j++)
-            {
-                for (int i = 0; i < (GraphicsDevice.Viewport.Width / 32); i++)
+                for (int i = 0; i < (GraphicsDevice.Viewport.Width / tileSize); i++)
                 {
-                    if (j == 2) 
-                        spriteBatch.Draw(tileSheet, new Vector2(i * 32, height - (j * 32) - 16), new Rectangle(0, 0, 32, 32), Color.White);
-                    else 
-                        spriteBatch.Draw(tileSheet, new Vector2(i * 32, height - (j * 32) - 16), new Rectangle(4 * 32, 0, 32, 32), Color.White);
+                    if (j == 2)
+                        platformTilesList.Add(new Platform(
+                            new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize/2), tileSize, tileSize),
+                            new Vector2(0, 0)));
+                    else
+                        platformTilesList.Add(new Platform(
+                            new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
+                            new Vector2(4, 0)));
                 }
-            }
+
+            for (int i = 0; i < platformTilesList.Count; i++)
+                spriteBatch.Draw(tileSheet, platformTilesList[i].Location, platformTilesList[i].SourceRectangle, Color.White);
         }
     }
 }

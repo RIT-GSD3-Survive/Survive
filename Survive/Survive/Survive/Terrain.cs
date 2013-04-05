@@ -12,6 +12,11 @@ namespace Survive
         //Attributes
         protected Boolean collidable;
 
+        public Terrain(Rectangle loc)
+        {
+            location = loc;
+        }
+
         //Properties
         public Boolean Collidable
         {

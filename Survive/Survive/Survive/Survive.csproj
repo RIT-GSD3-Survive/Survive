@@ -112,7 +112,6 @@
   <ItemGroup>
     <Compile Include="AmmoItem.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="Ground.cs" />
     <Compile Include="GunBarrel.cs" />
     <Compile Include="GunBits.cs" />
     <Compile Include="GunBody.cs" />
