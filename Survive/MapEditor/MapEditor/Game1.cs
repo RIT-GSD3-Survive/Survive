@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using fNbt;
+using System.IO;
+
 namespace MapEditor {
     /// <summary>
     /// This is the main type for your game
@@ -35,6 +38,10 @@ namespace MapEditor {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            //sets screen size
+            graphics.PreferredBackBufferHeight = 500;
+            graphics.PreferredBackBufferWidth = 800;
         }
 
         /// <summary>
@@ -45,7 +52,10 @@ namespace MapEditor {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+
             GlobalVars.view = GraphicsDevice.Viewport;
+
+            Load();
 
             base.Initialize();
         }
@@ -68,26 +78,29 @@ namespace MapEditor {
             Area.cap = Content.Load<Texture2D>("areaCap");
             Area.mid = Content.Load<Texture2D>("areaMid");
 
+            Area.tiles = Content.Load<Texture2D>("Tiles");
+
             buttons.Add(new Button(Content.Load<Texture2D>("NewArea32"), false, 16, 16, delegate() { // New Area Function
                 Area alpha = new Area();
                 currArea = alpha;
                 areas.Add(alpha);
                 editName = true;
             }));
-            buttons.Add(new Button(Content.Load<Texture2D>("EditArea32"), false, 48, 16, delegate() { // New Area Function
+            buttons.Add(new Button(Content.Load<Texture2D>("EditArea32"), false, 48, 16, delegate() { // Edit Area Name Function
                 editName = true;
             }));
-            buttons.Add(new Button(Content.Load<Texture2D>("DeleteArea32"), false, 80, 16, delegate() { // New Area Function
-                if(currArea != null) areas.Remove(currArea);
+            buttons.Add(new Button(Content.Load<Texture2D>("DeleteArea32"), false, 80, 16, delegate() { // Delete Area Function
+                if(currArea != null) {
+                    areas.Remove(currArea);
+                    currArea = null;
+                }
             }));
-            buttons.Add(new Button(Content.Load<Texture2D>("Save32"), false, 112, 16, delegate() { // Save Function
-
-            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("Save32"), false, 112, 16, Save));
             buttons.Add(new Button(Content.Load<Texture2D>("ScrollLeft"), true, 0, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Left
-                scrollX -= 2;
+                scrollX -= 5;
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("ScrollRight"), true, GraphicsDevice.Viewport.Width - 16, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Right
-                scrollX += 2;
+                scrollX += 5;
             }));
 
         }
@@ -117,18 +130,36 @@ namespace MapEditor {
             left = (mState.LeftButton == ButtonState.Pressed);
             right = (mState.RightButton == ButtonState.Pressed);
 
-            IsMouseVisible = !left && !right;
-
             if(left) {
                 foreach(Button alpha in buttons) {
-                    alpha.CheckClicked(mState.X, mState.Y);
+                    if(alpha.CheckClicked(mState.X, mState.Y)) {
+                        left = false;
+                        break;
+                    }
                 }
+            }
+            if(left) {
                 foreach(Area alpha in areas) {
                     if(alpha.ButtonClicked(mState.X, mState.Y)) {
                         currArea = alpha;
                         editName = false;
+                        left = false;
                         break;
                     }
+                }
+            }
+
+            IsMouseVisible = !left && !right;
+
+            if(currArea != null && !IsMouseVisible) {
+                int x = mState.X - (mState.X % 32) + 32;
+                x /= 32;
+                int y = mState.Y - (mState.Y % 32) - 60;
+                y /= 32;
+                if(left) {
+                    currArea.AddTile(x, y);
+                } else if(right) {
+                    currArea.RemoveTile(x, y);
                 }
             }
 
@@ -152,6 +183,10 @@ namespace MapEditor {
             spriteBatch.Begin();
 
             int x = scrollX;
+
+            if(currArea != null) {
+                currArea.DrawArea(spriteBatch);
+            }
 
             foreach(Area alpha in areas) {
                 Color back = Color.White;
@@ -322,6 +357,35 @@ namespace MapEditor {
             prevKState = kState;
 
             editName = kState.IsKeyUp(Keys.Enter);
+        }
+
+        public void Save() {
+            NbtCompound root = new NbtCompound("base");
+            root.Add(new NbtString("fileType", "map"));
+
+            NbtList aList = new NbtList("areas", NbtTagType.Compound);
+            foreach(Area alpha in areas) {
+                aList.Add(alpha.Save());
+            }
+            root.Add(aList);
+
+            NbtFile saveFile = new NbtFile(root);
+            saveFile.BigEndian = true;
+            saveFile.SaveToFile("mapfile.nbt", NbtCompression.None);
+        }
+
+        public void Load() {
+            if(File.Exists("mapfile.nbt")) {
+                NbtFile saveFile = new NbtFile("mapfile.nbt");
+
+                NbtCompound root = saveFile.RootTag;
+                if(root.Get<NbtString>("fileType").StringValue.Equals("map")) {
+                    NbtList aList = root.Get<NbtList>("areas");
+                    foreach(NbtCompound alpha in aList) {
+                        areas.Add(new Area(alpha));
+                    }
+                }
+            }
         }
     }
 }

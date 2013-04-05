@@ -26,14 +26,16 @@ namespace MapEditor {
 
         public Click Clicked;
 
-        public void CheckClicked(int x, int y) {
+        public bool CheckClicked(int x, int y) {
             if(rect.Contains(new Point(x, y)) && this.Clicked != null) {
                 if(hold || !last) {
                     this.Clicked();
                     last = true;
                 }
+                return true;
             } else {
                 last = false;
+                return false;
             }
         }
 
