@@ -545,7 +545,7 @@ namespace Survive
                 {
                     if (j == 2)
                         platformTilesList.Add(new Platform(
-                            new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize/2), tileSize, tileSize),
+                            new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
                             new Vector2(0, 0)));
                     else
                         platformTilesList.Add(new Platform(

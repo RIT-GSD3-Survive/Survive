@@ -78,7 +78,7 @@ namespace Survive
         {
             if (obj is Zombie)
             {
-               
+
             }
             if (obj is Platform)
             {

@@ -9,6 +9,10 @@ namespace Survive {
     class Resources {
         SpriteFont courier;
 
+        public SpriteFont Courier {
+            get { return courier; }
+        }
+
         public Resources(ContentManager cm) {
             courier = cm.Load<SpriteFont>("Courier");
         }
