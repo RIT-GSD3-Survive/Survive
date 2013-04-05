@@ -269,7 +269,7 @@ namespace Survive
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            //spriteBatch.DrawString(res.
+            spriteBatch.DrawString(res.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
             switch (gameState)
             {
                 case GameState.Menu:

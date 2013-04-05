@@ -78,13 +78,19 @@ namespace Survive
         {
             if (obj is Zombie)
             {
-
+                if (this.Location.Intersects(obj.Location))
+                {
+                    
+                }
             }
             if (obj is Platform)
             {
-                this.Y += obj.Y;
-                onGround = true;
-                yVelocity = 0;
+                if (this.Location.Intersects(obj.Location))
+                {
+                    this.Y = obj.Y - this.Location.Height;
+                    onGround = true;
+                    yVelocity = 0;
+                }
             }
         }
     }
