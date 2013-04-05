@@ -50,7 +50,6 @@ namespace Survive
 
         //Gun attributes
         protected int accuracy;
-        protected int charSpeed;
         protected int weight;
         protected int attackPower;
         protected int reloadSpeed;

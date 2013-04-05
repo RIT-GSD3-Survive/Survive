@@ -12,7 +12,6 @@ namespace Survive
         //Attributes
         protected string name;
         protected int accuracy;
-        //protected int charSpeed; //Steven: I dont believe we need this variable, our speed is based on weight
         protected int weight;
         protected int attackPower;
         protected int reloadSpeed;
