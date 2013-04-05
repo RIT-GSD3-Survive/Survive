@@ -74,6 +74,18 @@ namespace Survive
                 yVelocity = -8;
             }
         }
+        public void Colliosion(GameObject obj)
+        {
+            if (obj is Zombie)
+            {
+               
+            }
+            if (obj is Ground)
+            {
+                this.Y += obj.Y;
+                onGround = true;
+            }
+        }
 
     }
 }

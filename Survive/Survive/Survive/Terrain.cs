@@ -7,23 +7,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Terrain
+    class Terrain:GameObject
     {
         //Attributes
         protected Boolean collidable;
-        protected Rectangle location;
 
         //Properties
         public Boolean Collidable
         {
             get { return collidable; }
             set { collidable = value; }
-        }
-
-        public Rectangle Location
-        {
-            get { return location; }
-            set { location = value; }
         }
     }
 }
