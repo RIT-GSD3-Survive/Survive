@@ -88,12 +88,14 @@ namespace Survive
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
             gameState = GameState.Menu;
-
+            gameLocation = GameLocation.Level1;
             hpBarWidth = 130;
             tileSize = 32;
 
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
+
+            initializeGround();
 
             base.Initialize();
         }
@@ -206,7 +208,7 @@ namespace Survive
                         }
                         p1.Gravity();
                         p1.PosUpdate();
-                    }
+                    }//end gamePad is connected
                     else
                     {
                         if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && p1.OnGround)
@@ -245,10 +247,19 @@ namespace Survive
                         }
                         p1.Gravity();
                         p1.PosUpdate();
-                    }
+                    }//end gamePad is not connected 
+
                     foreach (Platform p in platformTilesList)
                     {
                         p1.CheckCollisions(p);
+                    }
+                    //always at least one zombie
+                    if (zombieList.Count == 0)
+                        zombieList.Add(new Zombie(new Rectangle(0, 343, zombieImage.Width, zombieImage.Height)));
+
+                    for (int i = 0; i < zombieList.Count; i++)
+                    {
+                        //zombie actions
                     }
                     break; //end case inGame
 
@@ -313,6 +324,10 @@ namespace Survive
 
                             break;
                     }
+                    //draw Zombie
+                    if (gameLocation != GameLocation.Safehouse)
+                        for (int i = 0; i < zombieList.Count; i++)
+                            spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
                     switch (playerMovementInput)
                     {
                         case PlayerMovementInput.Left:
@@ -545,7 +560,7 @@ namespace Survive
             }
         }
 
-        private void drawGround()
+        private void initializeGround()
         {
             int height = GraphicsDevice.Viewport.Height;
             for (int j = 0; j < 3; j++)
@@ -560,7 +575,10 @@ namespace Survive
                             new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
                             new Vector2(4, 0)));
                 }
+        }
 
+        private void drawGround()
+        {
             for (int i = 0; i < platformTilesList.Count; i++)
                 spriteBatch.Draw(tileSheet, platformTilesList[i].Location, platformTilesList[i].SourceRectangle, Color.White);
         }
