@@ -238,7 +238,10 @@ namespace Survive
                         p1.Gravity();
                         p1.PosUpdate();
                     }
-                    //p1.CheckCollisions(Ground Objects);
+                    foreach (Platform p in platformTilesList)
+                    {
+                        p1.CheckCollisions(p);
+                    }
                     break; //end case inGame
 
                 case GameState.Pause:
@@ -266,6 +269,7 @@ namespace Survive
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            //spriteBatch.DrawString(res.
             switch (gameState)
             {
                 case GameState.Menu:
