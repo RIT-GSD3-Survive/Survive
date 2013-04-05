@@ -88,7 +88,7 @@ namespace Survive
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
             gameState = GameState.Menu;
-
+            gameLocation = GameLocation.Level1;
             hpBarWidth = 130;
             tileSize = 32;
 
