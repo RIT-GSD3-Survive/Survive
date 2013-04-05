@@ -95,6 +95,8 @@ namespace Survive
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
 
+            initializeGround();
+
             base.Initialize();
         }
 
@@ -562,7 +564,7 @@ namespace Survive
             }
         }
 
-        private void drawGround()
+        private void initializeGround()
         {
             int height = GraphicsDevice.Viewport.Height;
             for (int j = 0; j < 3; j++)
@@ -577,7 +579,10 @@ namespace Survive
                             new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
                             new Vector2(4, 0)));
                 }
+        }
 
+        private void drawGround()
+        {
             for (int i = 0; i < platformTilesList.Count; i++)
                 spriteBatch.Draw(tileSheet, platformTilesList[i].Location, platformTilesList[i].SourceRectangle, Color.White);
         }
