@@ -16,24 +16,18 @@ namespace Survive
         //Attributes
         string name;
         int number;
-        double yVelocity = 0.0;
-        Boolean onGround; //Prevents jumping while in air
         List<Item> items;
         List<Weapon> weapons;
-        int hp;
-        int maxHP;
         Weapon currentWeapon;
         AmmoItem currentClip;
 
-        public Player(string nm, int num, Rectangle location)
+        public Player(string nm, int num, Rectangle loc)
+            :base(loc)
         {
-            this.location = location;
             name = nm;
             number = num;
             items = new List<Item>();
             weapons = new List<Weapon>();
-            onGround = true;
-            maxHP = hp = 100;
         }
 
         //Properties
@@ -47,30 +41,6 @@ namespace Survive
         {
             get { return number; }
             set { number = value; }
-        }
-
-        public Boolean OnGround
-        {
-            get { return onGround; }
-            set { onGround = value; }
-        }
-
-        public int HP
-        {
-            get { return hp; }
-            set
-            {
-                if (hp > maxHP)
-                    hp = maxHP;
-                else
-                    hp = value;
-            }
-        }
-
-        public int MaxHP
-        {
-            get { return maxHP; }
-            set { maxHP = value; }
         }
 
         public Weapon CurrentWeapon
@@ -91,49 +61,6 @@ namespace Survive
         }
 
         // methods
-        public void Gravity()
-        {
-            if(!onGround)
-            {
-                yVelocity += .4;
-            }
-        }
-
-        public void PosUpdate()
-        {
-            Y += (int)Math.Round(yVelocity);
-        }
-
-        /*
-        public void WalkGamePad(GamePadState pad)
-        {
-            if (pad.ThumbSticks.Left.X < 0)
-            {
-                this.X -= 2;
-            }
-            if (pad.ThumbSticks.Left.X > 0)
-            {
-                this.X += 2;
-            }
-        }
-        */
-
-        public void WalkLeft()
-        {
-            this.X -= 2;
-        }
-        public void WalkRight()
-        {
-            this.X += 2;
-        }
-        public void Jump()
-        {
-            if (onGround == true)
-            {
-                onGround = false;
-                yVelocity = -8;
-            }
-        }
         public void Fire()
         {
 
