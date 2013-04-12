@@ -101,7 +101,7 @@ namespace Survive
             {
                 if (this.Location.Intersects(obj.Location) && invulnerable == false)
                 {
-                    hp -= 20;
+                    HP -= 20;
                     invulnerable = true;
                 }
             }
