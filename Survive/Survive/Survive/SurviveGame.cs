@@ -183,7 +183,6 @@ namespace Survive
             {
                 case GameState.Menu:
                     p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
-                    //activeItems.Add(new AmmoItem(50, "Clip1", new Rectangle(343, 390, ammoImage.Width, ammoImage.Height)));
                     gameState = GameState.InGame;
                     break;
 
@@ -333,6 +332,12 @@ namespace Survive
 
                     } //end loop through zombies' actions
 
+                    //check if player can pickup item
+                    foreach (Item item in activeItems)
+                    {
+                        p1.PickUpItemCheck(item);
+                    }
+
                     break; //end case inGame
 
                 case GameState.Pause:
@@ -460,8 +465,11 @@ namespace Survive
                     }//end switch player movement
 
                     //draw in items
-                    foreach (Item item in activeItems)
+                    int count = activeItems.Count;
+                    for (int i = 0; i < count;i++)
                     {
+                        Item item = activeItems[i];
+
                         if (item.Active == true)
                         {
                             Texture2D draw = ammoImage;

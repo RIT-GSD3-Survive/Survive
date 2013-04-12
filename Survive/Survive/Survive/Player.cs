@@ -66,10 +66,14 @@ namespace Survive
 
         }
 
-        public void PickUpItem(Item item)
+        public void PickUpItemCheck(Item item)
         {
-            items.Add(item);
-            item.Active = false;
+            //make sure player is colliding with item
+            if (this.location.Intersects(item.Location))
+            {
+                items.Add(item);
+                item.Active = false;
+            }
         }
     }
 }
