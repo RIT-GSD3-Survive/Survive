@@ -14,12 +14,12 @@ namespace Survive
     class Player : Humanoid
     {
         //Attributes
-        string name;
-        int number;
-        List<Item> items;
-        List<Weapon> weapons;
-        Weapon currentWeapon;
-        AmmoItem currentClip;
+        protected string name;
+        protected int number;
+        protected List<Item> items;
+        protected List<Weapon> weapons;
+        protected Weapon currentWeapon;
+        protected AmmoItem currentClip;
 
         public Player(string nm, int num, Rectangle loc)
             : base(loc)
