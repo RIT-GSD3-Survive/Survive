@@ -184,7 +184,7 @@ namespace Survive
                             playerMovementInput = PlayerMovementInput.Left;
                             p1.WalkLeft();
                         }
-                        if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && p1.OnGround)
+                        if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && !(p1.Jumping))
                         {
                             playerOtherInput = PlayerOtherInput.Jump;
                             p1.Jump();
@@ -209,12 +209,10 @@ namespace Survive
                             playerOtherInput = PlayerOtherInput.Reload;
                             //p1.Reload();
                         }
-                        p1.Gravity();
-                        p1.PosUpdate();
                     }//end gamePad is connected
                     else
                     {
-                        if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && p1.OnGround)
+                        if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && !(p1.Jumping))
                         {
                             p1.Jump();
                             playerOtherInput = PlayerOtherInput.Jump;
@@ -248,10 +246,10 @@ namespace Survive
                         {
                             playerOtherInput = PlayerOtherInput.Reload;
                         }
-                        p1.Gravity();
-                        p1.PosUpdate();
                     }//end gamePad is not connected 
-
+                    p1.Gravity();
+                    p1.PosUpdate();
+                    p1.InvulnerabilityTimer();
                     foreach (Platform p in platformTilesList)
                     {
                         p1.CheckCollisions(p);
@@ -312,7 +310,10 @@ namespace Survive
                             zombie.ZombieAction = ZombieActions.Chase;
                         }
                         else zombie.ZombieAction = ZombieActions.Patrol;
-                        
+                        foreach (Zombie z in zombieList)
+                        {
+                            p1.CheckCollisions(z);
+                        }
                     }
                     break; //end case inGame
 
@@ -341,7 +342,11 @@ namespace Survive
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
+            //Debug Info Draw
             spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
+            spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
+
             switch (gameState)
             {
                 case GameState.Menu:
