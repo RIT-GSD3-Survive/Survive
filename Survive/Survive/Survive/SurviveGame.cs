@@ -34,6 +34,8 @@ namespace Survive
         Texture2D GUIMain;
         Texture2D GUIVerticalFadeBars;
         Texture2D tileSheet;
+        Texture2D ammoImage;
+        Texture2D medkitImage;
         //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
@@ -66,6 +68,8 @@ namespace Survive
         int hpBarWidth;
         public static int tileSize;
         List<Platform> platformTilesList;
+        //items
+        List<Item> activeItems;
 
         // Map.
         Map map;
@@ -97,6 +101,7 @@ namespace Survive
 
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
+            activeItems = new List<Item>();
 
             map = new Map();
             initializeGround();
@@ -117,6 +122,8 @@ namespace Survive
             Resources.LoadRes(Content);
             playerImage = this.Content.Load<Texture2D>("Person");
             zombieImage = this.Content.Load<Texture2D>("Zombie");
+            ammoImage = this.Content.Load<Texture2D>("Ammo");
+            medkitImage = this.Content.Load<Texture2D>("Medkit");
 
             GUIAmmo = this.Content.Load<Texture2D>("GUIAmmo");
             GUIAmmoClipEmpty = this.Content.Load<Texture2D>("GUIAmmoClipEmpty");
@@ -254,6 +261,7 @@ namespace Survive
                     {
                         p1.CheckCollisions(p);
                     }
+
                     //always at least one zombie
                     if (zombieList.Count == 0)
                         zombieList.Add(new Zombie(new Rectangle(0, 343, zombieImage.Width, zombieImage.Height)));
@@ -314,7 +322,7 @@ namespace Survive
                         {
                             p1.CheckCollisions(z);
                         }
-                    }
+                    } //end loop through zombies' actions
                     break; //end case inGame
 
                 case GameState.Pause:
@@ -440,6 +448,16 @@ namespace Survive
                             }
                             break; //end right movement case
                     }//end switch player movement
+
+                    //draw in items
+                    foreach (Item item in activeItems)
+                    {
+                        Texture2D draw = ammoImage;
+                        if (item.GetType() == typeof(HealingItem))
+                            draw = medkitImage;
+
+                        spriteBatch.Draw(draw, item.Location, Color.White);
+                    }
 
                     //************************GUI************************
                     spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);

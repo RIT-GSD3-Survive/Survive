@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
@@ -11,8 +13,9 @@ namespace Survive
         protected int amountTotal;
         protected string name;
 
-        public AmmoItem(int amt, string nm)
+        public AmmoItem(int amt, string nm, Rectangle loc)
         {
+            location = loc;
             amountTotal = amt;
             amount = amt;
             name = nm;
