@@ -7,6 +7,7 @@ namespace Survive
 {
     class WeaponCustomizable : Weapon
     {
+        //Attributes
         protected string name;
         //Gun parts
         protected GunBarrel barrel;
@@ -14,6 +15,12 @@ namespace Survive
         protected GunClip clip;
         protected GunScope scope;
         protected GunStock stock;
+        //Gun attributes
+        protected int accuracy;
+        protected int weight;
+        protected int attackPower;
+        protected int reloadSpeed;
+        protected int clipCapacity;
 
         //several overloads since scope and stock are optional
         public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck)
@@ -21,6 +28,12 @@ namespace Survive
             barrel = brrl;
             body = bdy;
             stock = stck;
+
+            accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy;
+            weight += barrel.Weight + body.Weight + stock.Weight;
+            attackPower += barrel.AttackPower + body.AttackPower;
+            reloadSpeed += body.ReloadSpeed;
+            clipCapacity += body.ClipCapacity;
         }
 
         public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck, GunClip clp)
@@ -29,6 +42,12 @@ namespace Survive
             body = bdy;
             stock = stck;
             clip = clp;
+
+            accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy;
+            weight += barrel.Weight + body.Weight + stock.Weight;
+            attackPower += barrel.AttackPower + body.AttackPower;
+            reloadSpeed += body.ReloadSpeed + clip.ReloadSpeed;
+            clipCapacity += body.ClipCapacity + clip.ClipCapacity;
         }
 
         public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck, GunScope scp)
@@ -37,6 +56,12 @@ namespace Survive
             body = bdy;
             stock = stck;
             scope = scp;
+
+            accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy + scope.Accuracy;
+            weight += barrel.Weight + body.Weight + stock.Weight;
+            attackPower += barrel.AttackPower + body.AttackPower;
+            reloadSpeed += body.ReloadSpeed;
+            clipCapacity += body.ClipCapacity;
         }
 
         public WeaponCustomizable(GunBody bdy, GunBarrel brrl, GunStock stck, GunScope scp, GunClip clp)
@@ -46,14 +71,13 @@ namespace Survive
             stock = stck;
             scope = scp;
             clip = clp;
-        }
 
-        //Gun attributes
-        protected int accuracy;
-        protected int weight;
-        protected int attackPower;
-        protected int reloadSpeed;
-        protected int clipCapacity;
+            accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy + scope.Accuracy;
+            weight += barrel.Weight + body.Weight + stock.Weight;
+            attackPower += barrel.AttackPower + body.AttackPower;
+            reloadSpeed += body.ReloadSpeed + clip.ReloadSpeed;
+            clipCapacity += body.ClipCapacity + clip.ClipCapacity;
+        }
 
         //Properties
         public string Name
