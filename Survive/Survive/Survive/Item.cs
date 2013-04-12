@@ -7,6 +7,17 @@ namespace Survive
 {
     class Item : GameObject
     {
+        protected Boolean active;
 
+        public Item()
+        {
+            active = true;
+        }
+
+        public Boolean Active
+        {
+            get { return active; }
+            set { active = value; }
+        }
     }
 }

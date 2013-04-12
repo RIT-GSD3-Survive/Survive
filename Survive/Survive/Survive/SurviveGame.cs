@@ -32,6 +32,9 @@ namespace Survive
         Texture2D GUIhpBARred;
         Texture2D GUIhpBARredside;
         Texture2D GUIMain;
+        Texture2D GUIp2;
+        Texture2D GUIp3;
+        Texture2D GUIp4;
         Texture2D GUIVerticalFadeBars;
         Texture2D tileSheet;
         Texture2D ammoImage;
@@ -135,6 +138,9 @@ namespace Survive
             GUIhpBARgreyside = this.Content.Load<Texture2D>("GUIhpBARgreyside");
 
             GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
+            GUIp2 = this.Content.Load<Texture2D>("GUIInGame2player");
+            GUIp3 = this.Content.Load<Texture2D>("GUIInGame3player");
+            GUIp4 = this.Content.Load<Texture2D>("GUIInGame4player");
             GUIVerticalFadeBars = this.Content.Load<Texture2D>("GUIInGameVerticalFadeBars");
 
             tileSheet = this.Content.Load<Texture2D>("Tiles");
@@ -175,6 +181,7 @@ namespace Survive
             {
                 case GameState.Menu:
                     p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                    //activeItems.Add(new AmmoItem(50, "Clip1", new Rectangle(343, 390, ammoImage.Width, ammoImage.Height)));
                     gameState = GameState.InGame;
                     break;
 
@@ -318,11 +325,12 @@ namespace Survive
                             zombie.ZombieAction = ZombieActions.Chase;
                         }
                         else zombie.ZombieAction = ZombieActions.Patrol;
+
                         foreach (Zombie z in zombieList)
-                        {
                             p1.CheckCollisions(z);
-                        }
+
                     } //end loop through zombies' actions
+
                     break; //end case inGame
 
                 case GameState.Pause:
@@ -452,11 +460,18 @@ namespace Survive
                     //draw in items
                     foreach (Item item in activeItems)
                     {
-                        Texture2D draw = ammoImage;
-                        if (item.GetType() == typeof(HealingItem))
-                            draw = medkitImage;
+                        if (item.Active == true)
+                        {
+                            Texture2D draw = ammoImage;
+                            if (item.GetType() == typeof(HealingItem))
+                                draw = medkitImage;
 
-                        spriteBatch.Draw(draw, item.Location, Color.White);
+                            spriteBatch.Draw(draw, item.Location, Color.White);
+                        }
+                        else //item has been picked up
+                        {
+                            activeItems.Remove(item);
+                        }
                     }
 
                     //************************GUI************************
@@ -466,28 +481,27 @@ namespace Survive
                     drawAmmo(p1);
                     drawAmmoClips(p1);
                     drawHPBar(p1);
-                    GUIMain = this.Content.Load<Texture2D>("GUIInGame1player");
 
-                    if (p4 != null)
-                    {
-                        drawAmmo(p4);
-                        drawAmmoClips(p4);
-                        drawHPBar(p4);
-                        GUIMain = this.Content.Load<Texture2D>("GUIInGame4player");
-                    }
-                    if (p3 != null)
-                    {
-                        drawAmmo(p3);
-                        drawAmmoClips(p3);
-                        drawHPBar(p3);
-                        GUIMain = this.Content.Load<Texture2D>("GUIInGame3player");
-                    }
                     if (p2 != null)
                     {
+                        spriteBatch.Draw(GUIp2, new Rectangle(619, 5, GUIp2.Width, GUIp2.Height), Color.White);
                         drawAmmo(p2);
                         drawAmmoClips(p2);
                         drawHPBar(p2);
-                        GUIMain = this.Content.Load<Texture2D>("GUIInGame2player");
+                    }
+                    if (p3 != null)
+                    {
+                        spriteBatch.Draw(GUIp3, new Rectangle(5, 425, GUIp3.Width, GUIp3.Height), Color.White);
+                        drawAmmo(p3);
+                        drawAmmoClips(p3);
+                        drawHPBar(p3);
+                    }
+                    if (p4 != null)
+                    {
+                        spriteBatch.Draw(GUIp4, new Rectangle(620, 425, GUIp4.Width, GUIp4.Height), Color.White);
+                        drawAmmo(p4);
+                        drawAmmoClips(p4);
+                        drawHPBar(p4);
                     }
 
                     spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
@@ -603,7 +617,7 @@ namespace Survive
                 ammoX = 632;
             int ammoY = 5;
             if (player.Number == 3 || player.Number == 4)
-                ammoY = 443;
+                ammoY = 441;
 
             int width = GUIAmmoClipEmpty.Width;
             int height = GUIAmmoClipEmpty.Height;

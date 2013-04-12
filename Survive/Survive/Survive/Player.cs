@@ -65,5 +65,11 @@ namespace Survive
         {
 
         }
+
+        public void PickUpItem(Item item)
+        {
+            items.Add(item);
+            item.Active = false;
+        }
     }
 }

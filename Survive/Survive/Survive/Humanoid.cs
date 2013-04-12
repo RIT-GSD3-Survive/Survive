@@ -53,8 +53,10 @@ namespace Survive
             get { return hp; }
             set
             {
-                if (hp > maxHP)
+                if (value > maxHP)
                     hp = maxHP;
+                else if (value < 0)
+                    hp = 0;
                 else
                     hp = value;
             }
