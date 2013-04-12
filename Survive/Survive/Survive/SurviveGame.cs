@@ -109,6 +109,8 @@ namespace Survive
             map = new Map();
             initializeGround();
 
+            IsMouseVisible = true;
+
             base.Initialize();
         }
 

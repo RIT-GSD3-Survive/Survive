@@ -111,18 +111,27 @@ namespace Survive
                 {
                     if (this.Location.Intersects(obj.Location))
                     {
-                        if (this.Y > obj.Y)
+                        
+                        if(this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X + this.Location.Width > obj.X + obj.Location.Width)
                         {
-                            this.Y = obj.Y - this.Location.Height;
-                            falling = true;
-                            jumping = false;
-                            yVelocity = 0;
+                            this.X += 2;
                         }
-                        if (this.Y < obj.Y)
+                        else if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X < obj.X)
+                        {
+                            this.X -= 2;
+                        }
+                        else if (this.Y < obj.Y + obj.Location.Height && this.Y > obj.Y)
                         {
                             this.Y = obj.Y + obj.Location.Height;
                             falling = true;
                             jumping = true;
+                            yVelocity = 0;
+                        }
+                        else if (this.Y + this.Location.Height > obj.Y && this.Y + this.Location.Height < obj.Y + obj.Location.Height)
+                        {
+                            this.Y = obj.Y - this.Location.Height;
+                            falling = true;
+                            jumping = false;
                             yVelocity = 0;
                         }
                     }
