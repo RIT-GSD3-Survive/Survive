@@ -70,6 +70,8 @@ namespace Survive
         //gui variables
         int hpBarWidth;
         public static int tileSize;
+        public static int viewportHeight;
+        public static int viewportWidth;
         List<Platform> platformTilesList;
         //items
         List<Item> activeItems;
@@ -101,6 +103,8 @@ namespace Survive
             gameLocation = GameLocation.Level1;
             hpBarWidth = 130;
             tileSize = 32;
+            viewportHeight = GraphicsDevice.Viewport.Height;
+            viewportWidth = GraphicsDevice.Viewport.Width;
 
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
@@ -324,6 +328,13 @@ namespace Survive
                             //move back and forth until player is detected
                             if (zombie.DetectPlayers(p1))
                                 zombie.ZombieAction = ZombieActions.Chase;
+                            else
+                            {
+                                if (zombie.Direction > 0) zombie.WalkRight();
+                                else zombie.WalkLeft();
+
+                                zombie.changeDirection();
+                            }
                         }
                         else zombie.ZombieAction = ZombieActions.Patrol;
 
@@ -662,17 +673,16 @@ namespace Survive
 
         private void initializeGround()
         {
-            int height = GraphicsDevice.Viewport.Height;
             for (int j = 0; j < 3; j++)
                 for (int i = 0; i < (GraphicsDevice.Viewport.Width / tileSize); i++)
                 {
                     if (j == 2)
                         platformTilesList.Add(new Platform(
-                            new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
+                            new Rectangle(i * tileSize, viewportHeight - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
                             new Vector2(0, 0)));
                     else
                         platformTilesList.Add(new Platform(
-                            new Rectangle(i * tileSize, height - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
+                            new Rectangle(i * tileSize, viewportHeight - (j * tileSize) - (tileSize / 2), tileSize, tileSize),
                             new Vector2(4, 0)));
                 }
 
