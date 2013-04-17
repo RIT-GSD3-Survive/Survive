@@ -28,6 +28,7 @@ namespace Survive
             number = num;
             items = new List<Item>();
             weapons = new List<Weapon>();
+            moveSpeed = 2;
         }
 
         //Properties

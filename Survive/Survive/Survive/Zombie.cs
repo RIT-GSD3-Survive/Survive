@@ -20,6 +20,7 @@ namespace Survive
             rgen = new Random();
             attackPower = rgen.Next(5) + 5; //attack power between 5-10
             zombieAction = ZombieActions.Patrol;
+            moveSpeed = 1;
         }
 
         //Properties
@@ -41,12 +42,19 @@ namespace Survive
             player.HP -= attackPower;
         }
 
-        public void DetectPlayers()
+        public Boolean DetectPlayers(Player player)
         {
             if (zombieAction != ZombieActions.Chase)
             {
+                int rangeMultiplier = 2;
+                Rectangle detectRange = new Rectangle(
+                    location.X, location.Y,
+                    location.Width * rangeMultiplier, location.Height * rangeMultiplier);
 
+                if (detectRange.Intersects(player.Location))
+                    return true;
             }
+            return false;
         }
     }
 }

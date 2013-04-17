@@ -10,7 +10,7 @@ namespace Survive
     class Humanoid : GameObject
     {
         //attributes
-        protected int moveSpeed;
+        protected double moveSpeed;
         protected int hp;
         protected int maxHP;
         protected double yVelocity = 0.0;
@@ -82,9 +82,9 @@ namespace Survive
             Y += (int)Math.Round(yVelocity);
         }
 
-        public void WalkLeft() { this.X -= 2; }
+        public void WalkLeft() { this.X -= (int)moveSpeed; }
 
-        public void WalkRight() { this.X += 2; }
+        public void WalkRight() { this.X += (int)moveSpeed; }
 
         public void Jump()
         {

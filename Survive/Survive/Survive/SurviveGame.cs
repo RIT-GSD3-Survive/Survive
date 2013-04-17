@@ -319,11 +319,11 @@ namespace Survive
                                 zombie.WalkRight();
 
                         }
-                        if (zombie.ZombieAction == ZombieActions.Patrol)
+                        else if (zombie.ZombieAction == ZombieActions.Patrol)
                         {
                             //move back and forth until player is detected
-                            //zombie.DetectPlayers();
-                            zombie.ZombieAction = ZombieActions.Chase;
+                            if (zombie.DetectPlayers(p1))
+                                zombie.ZombieAction = ZombieActions.Chase;
                         }
                         else zombie.ZombieAction = ZombieActions.Patrol;
 
