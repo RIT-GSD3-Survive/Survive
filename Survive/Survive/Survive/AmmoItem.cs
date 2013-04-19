@@ -10,34 +10,18 @@ namespace Survive
     class AmmoItem : Item
     {
         protected int amount;
-        protected int amountTotal;
-        protected string name;
 
-        public AmmoItem(int amt, string nm, Rectangle loc)
+        public AmmoItem(int amt, Rectangle loc)
         {
             location = loc;
-            amountTotal = amt;
             amount = amt;
-            name = nm;
         }
 
         //properties
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
         public int Amount
         {
             get { return amount; }
             set { amount = value; }
-        }
-
-        public int AmountTotal
-        {
-            get { return amountTotal; }
-            set { amountTotal = value; }
         }
     }
 }

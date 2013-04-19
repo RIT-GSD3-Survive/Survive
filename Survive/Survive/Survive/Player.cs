@@ -19,7 +19,7 @@ namespace Survive
         protected List<Item> items;
         protected List<Weapon> weapons;
         protected Weapon currentWeapon;
-        protected AmmoItem currentClip;
+        protected GunClip currentClip;
 
         public Player(string nm, int num, Rectangle loc)
             : base(loc)
@@ -50,7 +50,7 @@ namespace Survive
             set { currentWeapon = value; }
         }
 
-        public AmmoItem CurrentClip
+        public GunClip CurrentClip
         {
             get { return currentClip; }
             set { currentClip = value; }

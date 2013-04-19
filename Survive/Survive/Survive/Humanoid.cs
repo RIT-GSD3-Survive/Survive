@@ -95,8 +95,16 @@ namespace Survive
                 yVelocity = -8;
             }
         }
-        public void CheckCollisions(GameObject obj)
+        public void CheckCollisions(GameObject obj, GameObject objCheckingCollision)
         {
+            if (obj is Bullet)
+            {
+                if (objCheckingCollision is Zombie)
+                {
+                    Zombie z = (Zombie)objCheckingCollision;
+                    z.HP -= 20;
+                }
+            }
             if (obj is Zombie)
             {
                 if (this.Location.Intersects(obj.Location) && invulnerable == false)
