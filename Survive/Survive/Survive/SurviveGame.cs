@@ -193,8 +193,110 @@ namespace Survive
             switch (gameState)
             {
                 case GameState.Menu:
-                    p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
-                    gameState = GameState.InGame;
+                    if (currentGPS.IsConnected)
+                    {
+                        currentGPS = GamePad.GetState(0);
+                        if (SingleKeyPress(Buttons.LeftThumbstickUp))
+                        {
+                            if (menuButtonState == MenuButtonState.None)
+                            {
+                                menuButtonState = MenuButtonState.Quit;
+                            }
+                            else if (menuButtonState == MenuButtonState.Single)
+                            {
+                                menuButtonState = MenuButtonState.Quit;
+                            }
+                            else if (menuButtonState == MenuButtonState.Multi)
+                            {
+                                menuButtonState = MenuButtonState.Single;
+                            }
+                            else if (menuButtonState == MenuButtonState.Quit)
+                            {
+                                menuButtonState = MenuButtonState.Multi;
+                            }
+                        }
+                        if (SingleKeyPress(Buttons.LeftThumbstickDown))
+                        {
+                            if (menuButtonState == MenuButtonState.None)
+                            {
+                                menuButtonState = MenuButtonState.Single;
+                            }
+                            else if (menuButtonState == MenuButtonState.Single)
+                            {
+                                menuButtonState = MenuButtonState.Multi;
+                            }
+                            else if (menuButtonState == MenuButtonState.Multi)
+                            {
+                                menuButtonState = MenuButtonState.Quit;
+                            }
+                            else if (menuButtonState == MenuButtonState.Quit)
+                            {
+                                menuButtonState = MenuButtonState.Single;
+                            }
+                        }
+                        if (currentGPS.IsButtonDown(Buttons.A))
+                        {
+                            if (menuButtonState == MenuButtonState.Single)
+                            {
+                                p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                                gameState = GameState.InGame;
+                            }
+                            if (menuButtonState == MenuButtonState.Multi)
+                            {
+                                p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                                gameState = GameState.InGame;
+                            }
+                            if (menuButtonState == MenuButtonState.Quit)
+                            {
+                                this.Exit();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mStateCurrent = Mouse.GetState();
+                        if (mStateCurrent.X > 280 && mStateCurrent.X < 500)
+                        {
+                            if (mStateCurrent.Y > 165 && mStateCurrent.Y < 210)
+                            {
+                                menuButtonState = MenuButtonState.Single;
+                            }
+                            else if (mStateCurrent.Y > 265 && mStateCurrent.Y < 310)
+                            {
+                                menuButtonState = MenuButtonState.Multi;
+                            }
+                            else if (mStateCurrent.Y > 365 && mStateCurrent.Y < 410)
+                            {
+                                menuButtonState = MenuButtonState.Quit;
+                            }
+                            else
+                            {
+                                menuButtonState = MenuButtonState.None;
+                            }
+                        }
+                        else
+                        {
+                            menuButtonState = MenuButtonState.None;
+                        }
+
+                    }
+                    if (mStateCurrent.LeftButton == ButtonState.Pressed)
+                    {
+                        if (menuButtonState == MenuButtonState.Single)
+                        {
+                            p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                            gameState = GameState.InGame;
+                        }
+                        if (menuButtonState == MenuButtonState.Multi)
+                        {
+                            p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                            gameState = GameState.InGame;
+                        }
+                        if (menuButtonState == MenuButtonState.Quit)
+                        {
+                            this.Exit();
+                        }
+                    }
                     break;
 
                 case GameState.InGame:
@@ -417,30 +519,45 @@ namespace Survive
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            //Debug Info Draw
-            spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
-            spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
-            spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
             switch (gameState)
             {
                 case GameState.Menu:
                     switch (menuButtonState)
                     {
                         case MenuButtonState.None:
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
+                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
+                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
                             break;
 
                         case MenuButtonState.Single:
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Gold);
+                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
+                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
                             break;
 
                         case MenuButtonState.Multi:
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
+                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Gold);
+                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
                             break;
 
                         case MenuButtonState.Quit:
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
+                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
+                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Gold);
                             break;
                     }
                     break; //end case Menu
 
                 case GameState.InGame:
+                    spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
+                    spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
+                    spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
                     drawGround();
                     switch (gameLocation)
                     {

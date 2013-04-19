@@ -16,7 +16,7 @@ namespace Survive
             :base(loc)
         {
             collidable = true;
-            this.tileSize=SurviveGame.tileSize;
+            this.tileSize = SurviveGame.tileSize;
             sourceRect = new Rectangle((int)tileSheetLoc.X * tileSize, (int)tileSheetLoc.Y * tileSize, tileSize, tileSize);
         }
 
