@@ -39,6 +39,7 @@ namespace Survive
         Texture2D tileSheet;
         Texture2D ammoImage;
         Texture2D medkitImage;
+        Texture2D bulletImage;
         //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
@@ -76,6 +77,7 @@ namespace Survive
         List<Platform> platformTilesList;
         //items
         List<Item> activeItems;
+        List<Bullet> bulletList;
 
         // Map.
         Map map;
@@ -110,6 +112,7 @@ namespace Survive
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
             activeItems = new List<Item>();
+            bulletList = new List<Bullet>();
 
             map = new Map();
             initializeGround();
@@ -134,6 +137,9 @@ namespace Survive
             zombieImage = this.Content.Load<Texture2D>("Zombie");
             ammoImage = this.Content.Load<Texture2D>("Ammo");
             medkitImage = this.Content.Load<Texture2D>("Medkit");
+            bulletImage = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            bulletImage.SetData<Color>(new Color[1] { Color.White }); //sets bullets to white
+
 
             GUIAmmo = this.Content.Load<Texture2D>("GUIAmmo");
             GUIAmmoClipEmpty = this.Content.Load<Texture2D>("GUIAmmoClipEmpty");
@@ -355,7 +361,20 @@ namespace Survive
                     {
                         p1.PickUpItemCheck(item);
                     }
-                    
+                    //move bullets
+                    //counts backwards so deleting bullets won't mess with the loop
+                    for (int i = bulletList.Count-1; i >= 0; i--)
+                    {
+                        Bullet bullet = bulletList[i];
+                        if (bullet.Active == true)
+                        {
+                            bullet.Move();
+                            if (bullet.X < 0 || bullet.X > viewportWidth || bullet.Y < 0 || bullet.Y > viewportHeight)
+                                bulletList.RemoveAt(i);
+                        }
+                        else bulletList.RemoveAt(i);
+                    }
+
                     break; //end case inGame
 
                 case GameState.Pause:
@@ -513,6 +532,10 @@ namespace Survive
                             activeItems.Remove(item);
                         }
                     }
+
+                    //draw bullets
+                    foreach (Bullet bullet in bulletList)
+                        spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
 
                     //************************GUI************************
                     spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
