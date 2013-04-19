@@ -65,6 +65,7 @@ namespace Survive
         Player p2;
         Player p3;
         Player p4;
+        List<Player> playerList;
         //zombies
         List<Zombie> zombieList;
         //gui variables
@@ -348,7 +349,7 @@ namespace Survive
                     {
                         p1.PickUpItemCheck(item);
                     }
-
+                    
                     break; //end case inGame
 
                 case GameState.Pause:
