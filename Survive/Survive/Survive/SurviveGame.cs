@@ -66,6 +66,7 @@ namespace Survive
         Player p2;
         Player p3;
         Player p4;
+        List<Player> playerList;
         //zombies
         List<Zombie> zombieList;
         //gui variables
@@ -324,9 +325,15 @@ namespace Survive
 
                             //chase after closest player
                             if (zombie.X > closestPlayer.X)
+                            {
                                 zombie.WalkLeft();
+                                zombie.Direction = -1;
+                            }
                             else if (zombie.X < closestPlayer.X)
+                            {
                                 zombie.WalkRight();
+                                zombie.Direction = 1;
+                            }
 
                         }
                         else if (zombie.ZombieAction == ZombieActions.Patrol)
@@ -353,6 +360,19 @@ namespace Survive
                     foreach (Item item in activeItems)
                     {
                         p1.PickUpItemCheck(item);
+                    }
+                    //move bullets
+                    //counts backwards so deleting bullets won't mess with the loop
+                    for (int i = bulletList.Count-1; i >= 0; i--)
+                    {
+                        Bullet bullet = bulletList[i];
+                        if (bullet.Active == true)
+                        {
+                            bullet.Move();
+                            if (bullet.X < 0 || bullet.X > viewportWidth || bullet.Y < 0 || bullet.Y > viewportHeight)
+                                bulletList.RemoveAt(i);
+                        }
+                        else bulletList.RemoveAt(i);
                     }
 
                     //move bullets
@@ -400,7 +420,7 @@ namespace Survive
             //Debug Info Draw
             spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
             spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
-
+            spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
             switch (gameState)
             {
                 case GameState.Menu:
@@ -439,7 +459,19 @@ namespace Survive
                     //draw Zombie
                     if (gameLocation != GameLocation.Safehouse)
                         for (int i = 0; i < zombieList.Count; i++)
-                            spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
+                        {
+                            if (zombieList[i].Direction == -1)
+                            {
+                                spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
+                                continue;
+                            }
+                            if (zombieList[i].Direction == 1)
+                            {
+                                spriteBatch.Draw(zombieImage, zombieList[i].Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
+                                continue;
+                                //spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
+                            }
+                        }
                     switch (playerMovementInput)
                     {
                         case PlayerMovementInput.Left:

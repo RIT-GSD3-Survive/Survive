@@ -139,6 +139,14 @@ namespace Survive
                     }
                 }
             }
+            if (X > 760)
+            {
+                X = 760;
+            }
+            if (X < 0)
+            {
+                X = 0;
+            }
         }
 
         public void InvulnerabilityTimer()
