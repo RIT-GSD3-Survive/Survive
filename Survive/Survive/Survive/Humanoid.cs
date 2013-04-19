@@ -107,8 +107,8 @@ namespace Survive
             }
             if (obj is Platform)
             {
-                if (falling == true)
-                {
+                //if (falling == true)
+                //{
                     if (this.Location.Intersects(obj.Location))
                     {
                         
@@ -136,7 +136,7 @@ namespace Survive
                             jumping = false;
                             yVelocity = 0;
                         }
-                    }
+                    //}
                 }
             }
             if (X > 760)
