@@ -611,297 +611,11 @@ namespace Survive
                     break; //end case Menu
 
                 case GameState.InGame:
-                    spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
-                    spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
-                    //spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
-                    drawGround();
-                    switch (gameLocation)
-                    {
-                        case GameLocation.Safehouse:
-
-                            break;
-
-                        case GameLocation.Level1:
-
-                            break;
-
-                        case GameLocation.Level2:
-
-                            break;
-                    }
-                    //draw Zombie
-                    if (gameLocation != GameLocation.Safehouse)
-                        for (int i = 0; i < zombieList.Count; i++)
-                        {
-                            if (zombieList[i].Direction == -1)
-                            {
-                                spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
-                                continue;
-                            }
-                            if (zombieList[i].Direction == 1)
-                            {
-                                spriteBatch.Draw(zombieImage, zombieList[i].Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                                continue;
-                                //spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                            }
-                        }
-                    switch (playerMovementInput)
-                    {
-                        case PlayerMovementInput.Left:
-                            spriteBatch.Draw(playerImage, p1.Location, Color.White);
-                            switch (playerOtherInput)
-                            {
-                                case PlayerOtherInput.Jump:
-
-                                    break;
-
-                                case PlayerOtherInput.Fire:
-
-                                    break;
-
-                                case PlayerOtherInput.Interact:
-
-                                    break;
-
-                                case PlayerOtherInput.Reload:
-
-                                    break;
-
-                                case PlayerOtherInput.SwitchWeapon:
-
-                                    break;
-                            }
-                            break; //end left movement case
-
-                        case PlayerMovementInput.Right:
-                            spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                            switch (playerOtherInput)
-                            {
-                                case PlayerOtherInput.Jump:
-
-                                    break;
-
-                                case PlayerOtherInput.Fire:
-
-                                    break;
-
-                                case PlayerOtherInput.Interact:
-
-                                    break;
-
-                                case PlayerOtherInput.Reload:
-
-                                    break;
-
-                                case PlayerOtherInput.SwitchWeapon:
-
-                                    break;
-                            }
-                            break; //end right movement case
-                    }//end switch player movement
-
-                    //draw in items
-                    int count = activeItems.Count;
-                    for (int i = 0; i < count;i++)
-                    {
-                        Item item = activeItems[i];
-
-                        if (item.Active == true)
-                        {
-                            Texture2D draw = ammoImage;
-                            if (item.GetType() == typeof(HealingItem))
-                                draw = medkitImage;
-
-                            spriteBatch.Draw(draw, item.Location, Color.White);
-                        }
-                        else //item has been picked up
-                        {
-                            activeItems.Remove(item);
-                        }
-                    }
-
-                    //draw bullets
-                    foreach (Bullet bullet in bulletList)
-                        spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
-
-                    //************************GUI************************
-                    spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
-
-                    //get players then loop through and draw GUI elements
-                    drawAmmo(p1);
-                    drawAmmoClips(p1);
-                    drawHPBar(p1);
-
-                    if (p2 != null)
-                    {
-                        spriteBatch.Draw(GUIp2, new Rectangle(619, 5, GUIp2.Width, GUIp2.Height), Color.White);
-                        drawAmmo(p2);
-                        drawAmmoClips(p2);
-                        drawHPBar(p2);
-                    }
-                    if (p3 != null)
-                    {
-                        spriteBatch.Draw(GUIp3, new Rectangle(5, 425, GUIp3.Width, GUIp3.Height), Color.White);
-                        drawAmmo(p3);
-                        drawAmmoClips(p3);
-                        drawHPBar(p3);
-                    }
-                    if (p4 != null)
-                    {
-                        spriteBatch.Draw(GUIp4, new Rectangle(620, 425, GUIp4.Width, GUIp4.Height), Color.White);
-                        drawAmmo(p4);
-                        drawAmmoClips(p4);
-                        drawHPBar(p4);
-                    }
-
-                    spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
+                    DrawGameScreen();
                     break; //end case inGame
 
                 case GameState.Pause:
-                    spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
-                    spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
-                    //spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
-                    drawGround();
-                    switch (gameLocation)
-                    {
-                        case GameLocation.Safehouse:
-
-                            break;
-
-                        case GameLocation.Level1:
-
-                            break;
-
-                        case GameLocation.Level2:
-
-                            break;
-                    }
-                    //draw Zombie
-                    if (gameLocation != GameLocation.Safehouse)
-                        for (int i = 0; i < zombieList.Count; i++)
-                        {
-                            if (zombieList[i].Direction == -1)
-                            {
-                                spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
-                                continue;
-                            }
-                            if (zombieList[i].Direction == 1)
-                            {
-                                spriteBatch.Draw(zombieImage, zombieList[i].Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                                continue;
-                                //spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                            }
-                        }
-                    switch (playerMovementInput)
-                    {
-                        case PlayerMovementInput.Left:
-                            spriteBatch.Draw(playerImage, p1.Location, Color.White);
-                            switch (playerOtherInput)
-                            {
-                                case PlayerOtherInput.Jump:
-
-                                    break;
-
-                                case PlayerOtherInput.Fire:
-
-                                    break;
-
-                                case PlayerOtherInput.Interact:
-
-                                    break;
-
-                                case PlayerOtherInput.Reload:
-
-                                    break;
-
-                                case PlayerOtherInput.SwitchWeapon:
-
-                                    break;
-                            }
-                            break; //end left movement case
-
-                        case PlayerMovementInput.Right:
-                            spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                            switch (playerOtherInput)
-                            {
-                                case PlayerOtherInput.Jump:
-
-                                    break;
-
-                                case PlayerOtherInput.Fire:
-
-                                    break;
-
-                                case PlayerOtherInput.Interact:
-
-                                    break;
-
-                                case PlayerOtherInput.Reload:
-
-                                    break;
-
-                                case PlayerOtherInput.SwitchWeapon:
-
-                                    break;
-                            }
-                            break; //end right movement case
-                    }//end switch player movement
-
-                    //draw in items
-                    count = activeItems.Count;
-                    for (int i = 0; i < count;i++)
-                    {
-                        Item item = activeItems[i];
-
-                        if (item.Active == true)
-                        {
-                            Texture2D draw = ammoImage;
-                            if (item.GetType() == typeof(HealingItem))
-                                draw = medkitImage;
-
-                            spriteBatch.Draw(draw, item.Location, Color.White);
-                        }
-                        else //item has been picked up
-                        {
-                            activeItems.Remove(item);
-                        }
-                    }
-
-                    //draw bullets
-                    foreach (Bullet bullet in bulletList)
-                        spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
-
-                    //************************GUI************************
-                    spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
-
-                    //get players then loop through and draw GUI elements
-                    drawAmmo(p1);
-                    drawAmmoClips(p1);
-                    drawHPBar(p1);
-
-                    if (p2 != null)
-                    {
-                        spriteBatch.Draw(GUIp2, new Rectangle(619, 5, GUIp2.Width, GUIp2.Height), Color.White);
-                        drawAmmo(p2);
-                        drawAmmoClips(p2);
-                        drawHPBar(p2);
-                    }
-                    if (p3 != null)
-                    {
-                        spriteBatch.Draw(GUIp3, new Rectangle(5, 425, GUIp3.Width, GUIp3.Height), Color.White);
-                        drawAmmo(p3);
-                        drawAmmoClips(p3);
-                        drawHPBar(p3);
-                    }
-                    if (p4 != null)
-                    {
-                        spriteBatch.Draw(GUIp4, new Rectangle(620, 425, GUIp4.Width, GUIp4.Height), Color.White);
-                        drawAmmo(p4);
-                        drawAmmoClips(p4);
-                        drawHPBar(p4);
-                    }
-
-                    spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
+                    DrawGameScreen();
                     spriteBatch.DrawString(Resources.Courier, "PAUSED", new Vector2(320, 225), Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Hit Enter to Continue", new Vector2(240, 265), Color.Black);
                     break;
@@ -1075,6 +789,154 @@ namespace Survive
         {
             for (int i = 0; i < platformTilesList.Count; i++)
                 spriteBatch.Draw(tileSheet, platformTilesList[i].Location, platformTilesList[i].SourceRectangle, Color.White);
+        }
+
+        private void DrawGameScreen()
+        {
+            spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
+            spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
+            //spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
+            drawGround();
+            switch (gameLocation)
+            {
+                case GameLocation.Safehouse:
+
+                    break;
+
+                case GameLocation.Level1:
+
+                    break;
+
+                case GameLocation.Level2:
+
+                    break;
+            }
+            //draw Zombie
+            if (gameLocation != GameLocation.Safehouse)
+                for (int i = 0; i < zombieList.Count; i++)
+                {
+                    if (zombieList[i].Direction == -1)
+                    {
+                        spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
+                        continue;
+                    }
+                    if (zombieList[i].Direction == 1)
+                    {
+                        spriteBatch.Draw(zombieImage, zombieList[i].Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
+                        continue;
+                        //spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
+                    }
+                }
+            switch (playerMovementInput)
+            {
+                case PlayerMovementInput.Left:
+                    spriteBatch.Draw(playerImage, p1.Location, Color.White);
+                    switch (playerOtherInput)
+                    {
+                        case PlayerOtherInput.Jump:
+
+                            break;
+
+                        case PlayerOtherInput.Fire:
+
+                            break;
+
+                        case PlayerOtherInput.Interact:
+
+                            break;
+
+                        case PlayerOtherInput.Reload:
+
+                            break;
+
+                        case PlayerOtherInput.SwitchWeapon:
+
+                            break;
+                    }
+                    break; //end left movement case
+
+                case PlayerMovementInput.Right:
+                    spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
+                    switch (playerOtherInput)
+                    {
+                        case PlayerOtherInput.Jump:
+
+                            break;
+
+                        case PlayerOtherInput.Fire:
+
+                            break;
+
+                        case PlayerOtherInput.Interact:
+
+                            break;
+
+                        case PlayerOtherInput.Reload:
+
+                            break;
+
+                        case PlayerOtherInput.SwitchWeapon:
+
+                            break;
+                    }
+                    break; //end right movement case
+            }//end switch player movement
+
+            //draw in items
+            int count = activeItems.Count;
+            for (int i = 0; i < count; i++)
+            {
+                Item item = activeItems[i];
+
+                if (item.Active == true)
+                {
+                    Texture2D draw = ammoImage;
+                    if (item.GetType() == typeof(HealingItem))
+                        draw = medkitImage;
+
+                    spriteBatch.Draw(draw, item.Location, Color.White);
+                }
+                else //item has been picked up
+                {
+                    activeItems.Remove(item);
+                }
+            }
+
+            //draw bullets
+            foreach (Bullet bullet in bulletList)
+                spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
+
+            //************************GUI************************
+            spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
+
+            //get players then loop through and draw GUI elements
+            drawAmmo(p1);
+            drawAmmoClips(p1);
+            drawHPBar(p1);
+
+            if (p2 != null)
+            {
+                spriteBatch.Draw(GUIp2, new Rectangle(619, 5, GUIp2.Width, GUIp2.Height), Color.White);
+                drawAmmo(p2);
+                drawAmmoClips(p2);
+                drawHPBar(p2);
+            }
+            if (p3 != null)
+            {
+                spriteBatch.Draw(GUIp3, new Rectangle(5, 425, GUIp3.Width, GUIp3.Height), Color.White);
+                drawAmmo(p3);
+                drawAmmoClips(p3);
+                drawHPBar(p3);
+            }
+            if (p4 != null)
+            {
+                spriteBatch.Draw(GUIp4, new Rectangle(620, 425, GUIp4.Width, GUIp4.Height), Color.White);
+                drawAmmo(p4);
+                drawAmmoClips(p4);
+                drawHPBar(p4);
+            }
+
+            spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
         }
     }
 }
