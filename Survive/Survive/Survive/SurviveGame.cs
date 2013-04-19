@@ -118,7 +118,7 @@ namespace Survive
             zombieList = new List<Zombie>();
             activeItems = new List<Item>();
             bulletList = new List<Bullet>();
-
+            playerList = new List<Player>();
             map = new Map();
             initializeGround();
             rgen = new Random();
@@ -203,7 +203,8 @@ namespace Survive
                 case GameState.Menu:
                     if (currentGPS.IsConnected)
                     {
-                        currentGPS = GamePad.GetState(0);
+                        //currentGPS = GamePad.GetState(0);
+                        
                         if (SingleKeyPress(Buttons.LeftThumbstickUp))
                         {
                             if (menuButtonState == MenuButtonState.None)
@@ -251,7 +252,26 @@ namespace Survive
                             }
                             if (menuButtonState == MenuButtonState.Multi)
                             {
+<<<<<<< HEAD
                                 p1 = new Player("Name", 1, new Rectangle(200, 345, playerImage.Width, playerImage.Height));
+=======
+                                if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                                {
+                                    playerList.Add(new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height)));
+                                }
+                                if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                                {
+                                    playerList.Add(new Player("Name", 2, new Rectangle(220, 343, playerImage.Width, playerImage.Height)));
+                                }
+                                if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                                {
+                                    playerList.Add(new Player("Name", 3, new Rectangle(240, 343, playerImage.Width, playerImage.Height)));
+                                }
+                                if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                                {
+                                    playerList.Add(new Player("Name", 4, new Rectangle(260, 343, playerImage.Width, playerImage.Height)));
+                                }
+>>>>>>> 283848dfdb51af06c32dd74c22a256d3bcc68b0f
                                 gameState = GameState.InGame;
                             }
                             if (menuButtonState == MenuButtonState.Quit)
