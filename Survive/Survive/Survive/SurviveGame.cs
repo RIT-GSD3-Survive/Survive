@@ -483,7 +483,7 @@ namespace Survive
                     }
                     //move bullets
                     //counts backwards so deleting bullets won't mess with the loop
-                    for (int i = bulletList.Count-1; i >= 0; i--)
+                    for (int i = bulletList.Count - 1; i >= 0; i--)
                     {
                         Bullet bullet = bulletList[i];
                         if (bullet.Active == true)
@@ -497,7 +497,7 @@ namespace Survive
 
                     //move bullets
                     //counts backwards so deleting bullets won't mess with the loop
-                    for (int i = bulletList.Count-1; i >= 0; i--)
+                    for (int i = bulletList.Count - 1; i >= 0; i--)
                     {
                         Bullet bullet = bulletList[i];
                         if (bullet.Active == true)
@@ -581,28 +581,28 @@ namespace Survive
                     switch (menuButtonState)
                     {
                         case MenuButtonState.None:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
                             spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
                             spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
                             spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
                             break;
 
                         case MenuButtonState.Single:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
                             spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Gold);
                             spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
                             spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
                             break;
 
                         case MenuButtonState.Multi:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
                             spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
                             spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Gold);
                             spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
                             break;
 
                         case MenuButtonState.Quit:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2 (323, 75), Color.Crimson);
+                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
                             spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
                             spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
                             spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Gold);
@@ -612,7 +612,7 @@ namespace Survive
 
                 case GameState.InGame:
                     DrawGameScreen();
-                    break; //end case inGame
+                    break;
 
                 case GameState.Pause:
                     DrawGameScreen();
@@ -780,7 +780,8 @@ namespace Survive
 
             // Load in the map.
             List<Platform> area = map.GetTiles();
-            if(area != null) {
+            if (area != null)
+            {
                 platformTilesList.AddRange(area);
             }
         }
@@ -800,15 +801,10 @@ namespace Survive
             switch (gameLocation)
             {
                 case GameLocation.Safehouse:
-
                     break;
-
                 case GameLocation.Level1:
-
                     break;
-
                 case GameLocation.Level2:
-
                     break;
             }
             //draw Zombie
@@ -834,23 +830,14 @@ namespace Survive
                     switch (playerOtherInput)
                     {
                         case PlayerOtherInput.Jump:
-
                             break;
-
                         case PlayerOtherInput.Fire:
-
                             break;
-
                         case PlayerOtherInput.Interact:
-
                             break;
-
                         case PlayerOtherInput.Reload:
-
                             break;
-
                         case PlayerOtherInput.SwitchWeapon:
-
                             break;
                     }
                     break; //end left movement case
@@ -860,23 +847,14 @@ namespace Survive
                     switch (playerOtherInput)
                     {
                         case PlayerOtherInput.Jump:
-
                             break;
-
                         case PlayerOtherInput.Fire:
-
                             break;
-
                         case PlayerOtherInput.Interact:
-
                             break;
-
                         case PlayerOtherInput.Reload:
-
                             break;
-
                         case PlayerOtherInput.SwitchWeapon:
-
                             break;
                     }
                     break; //end right movement case
