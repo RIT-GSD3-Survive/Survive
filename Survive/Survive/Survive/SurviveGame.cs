@@ -84,6 +84,9 @@ namespace Survive
         // Map.
         Map map;
 
+        //Random generator
+        Random rgen;
+
         public SurviveGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -118,6 +121,7 @@ namespace Survive
             playerList = new List<Player>();
             map = new Map();
             initializeGround();
+            rgen = new Random();
 
             IsMouseVisible = true;
 
@@ -243,7 +247,7 @@ namespace Survive
                         {
                             if (menuButtonState == MenuButtonState.Single)
                             {
-                                p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                                p1 = new Player("Name", 1, new Rectangle(200, 345, playerImage.Width, playerImage.Height));
                                 gameState = GameState.InGame;
                             }
                             if (menuButtonState == MenuButtonState.Multi)
@@ -304,12 +308,12 @@ namespace Survive
                     {
                         if (menuButtonState == MenuButtonState.Single)
                         {
-                            p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                            p1 = new Player("Name", 1, new Rectangle(200, 345, playerImage.Width, playerImage.Height));
                             gameState = GameState.InGame;
                         }
                         if (menuButtonState == MenuButtonState.Multi)
                         {
-                            p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                            p1 = new Player("Name", 1, new Rectangle(200, 345, playerImage.Width, playerImage.Height));
                             gameState = GameState.InGame;
                         }
                         if (menuButtonState == MenuButtonState.Quit)
@@ -408,7 +412,7 @@ namespace Survive
                     p1.InvulnerabilityTimer();
                     foreach (Platform p in platformTilesList)
                     {
-                        p1.CheckCollisions(p);
+                        p1.CheckCollisions(p, p1);
                     }
 
                     //always at least one zombie
@@ -483,14 +487,22 @@ namespace Survive
 
                         foreach (Zombie z in zombieList)
                         {
-                            p1.CheckCollisions(z);
+                            p1.CheckCollisions(z, p1);
                             foreach (Platform p in platformTilesList)
                             {
-                                z.CheckCollisions(p);
+                                z.CheckCollisions(p, z);
                             }
                         }
                         if (zombie.HP <= 0)
                         {
+                            if (rgen.Next(10) == 0)
+                            {
+                                activeItems.Add(new AmmoItem(rgen.Next(50, 100), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height))); 
+                            }
+                            else if (rgen.Next(10) == 0)
+                            {
+                                activeItems.Add(new HealingItem(rgen.Next(25, 50), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
+                            }
                             zombieList.Remove(zombieList[i]);
                         }
 
@@ -637,7 +649,14 @@ namespace Survive
                 case GameState.Pause:
                     DrawGameScreen();
                     spriteBatch.DrawString(Resources.Courier, "PAUSED", new Vector2(320, 225), Color.Black);
-                    spriteBatch.DrawString(Resources.Courier, "Hit Enter to Continue", new Vector2(240, 265), Color.Black);
+                    if (currentGPS.IsConnected)
+                    {
+                        spriteBatch.DrawString(Resources.Courier, "Hit A to Continue", new Vector2(245, 265), Color.Black);
+                    }
+                    else
+                    {
+                        spriteBatch.DrawString(Resources.Courier, "Hit Enter to Continue", new Vector2(240, 265), Color.Black);
+                    }
                     break;
 
                 case GameState.SingleTinker:
@@ -773,7 +792,7 @@ namespace Survive
 
             if (player.CurrentClip != null)
             {
-                int ammoLeft = (player.CurrentClip.Amount * height / player.CurrentClip.AmountTotal);
+                int ammoLeft = (player.CurrentClip.Current * height / player.CurrentClip.Capacity);
 
                 //full/partially full clip
                 spriteBatch.Draw(GUIAmmoClipFull,
