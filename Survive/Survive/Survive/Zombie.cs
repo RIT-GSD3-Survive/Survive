@@ -75,7 +75,7 @@ namespace Survive
 
             //randomly change direction
             if (rgen.Next(350) == 1)
-                direction += -1;
+                direction *= -1;
         }
     }
 }
