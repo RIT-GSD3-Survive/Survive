@@ -40,6 +40,8 @@ namespace Survive
         Texture2D ammoImage;
         Texture2D medkitImage;
         Texture2D bulletImage;
+        Texture2D gunSheet;
+        Texture2D humanoidSheet;
         //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
@@ -157,6 +159,8 @@ namespace Survive
             GUIVerticalFadeBars = this.Content.Load<Texture2D>("GUIInGameVerticalFadeBars");
 
             tileSheet = this.Content.Load<Texture2D>("Tiles");
+            gunSheet = this.Content.Load<Texture2D>("Guns");
+            humanoidSheet = this.Content.Load<Texture2D>("PersonSheet");
         }
 
         /// <summary>
