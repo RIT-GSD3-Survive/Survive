@@ -252,12 +252,7 @@ namespace Survive
                             }
                             if (menuButtonState == MenuButtonState.Multi)
                             {
-<<<<<<< HEAD
-<<<<<<< HEAD
                                 p1 = new Player("Name", 1, new Rectangle(200, 345, playerImage.Width, playerImage.Height));
-=======
-=======
->>>>>>> 283848dfdb51af06c32dd74c22a256d3bcc68b0f
                                 if (GamePad.GetState(PlayerIndex.One).IsConnected)
                                 {
                                     playerList.Add(new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height)));
@@ -274,10 +269,6 @@ namespace Survive
                                 {
                                     playerList.Add(new Player("Name", 4, new Rectangle(260, 343, playerImage.Width, playerImage.Height)));
                                 }
-<<<<<<< HEAD
->>>>>>> 283848dfdb51af06c32dd74c22a256d3bcc68b0f
-=======
->>>>>>> 283848dfdb51af06c32dd74c22a256d3bcc68b0f
                                 gameState = GameState.InGame;
                             }
                             if (menuButtonState == MenuButtonState.Quit)
