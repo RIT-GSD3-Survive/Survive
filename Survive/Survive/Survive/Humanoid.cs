@@ -120,6 +120,7 @@ namespace Survive
                         {
                             this.X -= 2;
                         }
+                        /*
                         else if (this.Y < obj.Y + obj.Location.Height && this.Y > obj.Y)
                         {
                             this.Y = obj.Y + obj.Location.Height;
@@ -127,6 +128,7 @@ namespace Survive
                             jumping = true;
                             yVelocity = 0;
                         }
+                        */
                         else if (this.Y + this.Location.Height > obj.Y && this.Y + this.Location.Height < obj.Y + obj.Location.Height)
                         {
                             this.Y = obj.Y - this.Location.Height;
