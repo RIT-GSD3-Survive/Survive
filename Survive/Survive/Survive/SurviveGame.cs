@@ -473,6 +473,10 @@ namespace Survive
                                 z.CheckCollisions(p);
                             }
                         }
+                        if (zombie.HP <= 0)
+                        {
+                            zombieList.Remove(zombieList[i]);
+                        }
 
                     } //end loop through zombies' actions
 
