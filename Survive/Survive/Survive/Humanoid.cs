@@ -97,53 +97,52 @@ namespace Survive
         }
         public void CheckCollisions(GameObject obj, GameObject objCheckingCollision)
         {
-            if (obj is Bullet)
+            //Bullet hits zombie
+            if (obj is Bullet && objCheckingCollision is Zombie)
             {
-                if (objCheckingCollision is Zombie)
-                {
-                    Zombie z = (Zombie)objCheckingCollision;
-                    z.HP -= 20;
-                }
+                ((Zombie)objCheckingCollision).HP -= ((Bullet)obj).Damage;
             }
-            if (obj is Zombie)
+            //zombie hits player
+            else if (obj is Zombie && objCheckingCollision is Player)
             {
                 if (this.Location.Intersects(obj.Location) && invulnerable == false)
                 {
-                    HP -= 20;
+                    HP -= ((Zombie)obj).AttackPower;
                     invulnerable = true;
                 }
             }
-            if (obj is Platform)
+            //humanoid hits platform
+            else if (obj is Platform)
             {
                 //if (falling == true)
                 //{
-                    if (this.Location.Intersects(obj.Location))
+                if (this.Location.Intersects(obj.Location))
+                {
+
+                    if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X + this.Location.Width > obj.X + obj.Location.Width)
                     {
-                        
-                        if(this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X + this.Location.Width > obj.X + obj.Location.Width)
-                        {
-                            this.X += 2;
-                        }
-                        else if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X < obj.X)
-                        {
-                            this.X -= 2;
-                        }
-                        /*
-                        else if (this.Y < obj.Y + obj.Location.Height && this.Y > obj.Y)
-                        {
-                            this.Y = obj.Y + obj.Location.Height;
-                            falling = true;
-                            jumping = true;
-                            yVelocity = 0;
-                        }
-                        */
-                        else if (this.Y + this.Location.Height > obj.Y && this.Y + this.Location.Height < obj.Y + obj.Location.Height)
-                        {
-                            this.Y = obj.Y - this.Location.Height;
-                            falling = true;
-                            jumping = false;
-                            yVelocity = 0;
-                        }
+                        this.X += 2;
+                    }
+                    else if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X < obj.X)
+                    {
+                        this.X -= 2;
+                    }
+                    /*
+                    else if (this.Y < obj.Y + obj.Location.Height && this.Y > obj.Y)
+                    {
+                        this.Y = obj.Y + obj.Location.Height;
+                        falling = true;
+                        jumping = true;
+                        yVelocity = 0;
+                    }
+                    */
+                    else if (this.Y + this.Location.Height > obj.Y && this.Y + this.Location.Height < obj.Y + obj.Location.Height)
+                    {
+                        this.Y = obj.Y - this.Location.Height;
+                        falling = true;
+                        jumping = false;
+                        yVelocity = 0;
+                    }
                     //}
                 }
             }
