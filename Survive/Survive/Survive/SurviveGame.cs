@@ -871,11 +871,12 @@ namespace Survive
             //draw Zombie
             if (gameLocation != GameLocation.Safehouse)
                 foreach (Zombie z in zombieList)
-                {
-                    String dir = "left";
-                    if (z.Direction == 1) dir = "right";
                     DrawHumanoid(z);
-                }
+
+            //draw bullets
+            foreach (Bullet bullet in bulletList)
+                spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
+
             foreach(Player p in playerList) {
                 DrawHumanoid(p);
                 switch(playerOtherInput) {
@@ -912,11 +913,6 @@ namespace Survive
                     activeItems.Remove(item);
                 }
             }
-
-            //draw bullets
-            foreach (Bullet bullet in bulletList)
-                spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
-
             //************************GUI************************
             spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
 

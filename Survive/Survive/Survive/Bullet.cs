@@ -20,7 +20,7 @@ namespace Survive
         {
             direction = dir;
             active = true;
-            location = new Rectangle(x, y, 3, 2);
+            location = new Rectangle(x, y, 2, 1);
             damage = dam;
         }
 
