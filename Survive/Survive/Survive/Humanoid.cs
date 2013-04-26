@@ -91,9 +91,9 @@ namespace Survive
             Y += (int)Math.Round(yVelocity);
         }
 
-        public void WalkLeft() { this.X -= (int)moveSpeed; }
+        public void WalkLeft() { this.X -= (int)moveSpeed; faceRight = false; }
 
-        public void WalkRight() { this.X += (int)moveSpeed; }
+        public void WalkRight() { this.X += (int)moveSpeed; faceRight = true; }
 
         public void Jump()
         {
