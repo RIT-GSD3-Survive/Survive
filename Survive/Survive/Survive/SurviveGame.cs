@@ -801,11 +801,11 @@ namespace Survive
             int width = GUIAmmoClipEmpty.Width;
             int height = GUIAmmoClipEmpty.Height;
             SpriteEffects rotate = SpriteEffects.None;
-            if (player.Number == 2)
+            if (player.PIndex == PlayerIndex.Two)
                 rotate = SpriteEffects.FlipHorizontally;
-            else if (player.Number == 3)
+            else if (player.PIndex == PlayerIndex.Three)
                 rotate = SpriteEffects.FlipVertically;
-            else if (player.Number == 4)
+            else if (player.PIndex == PlayerIndex.Four)
                 rotate = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
 
             int ammoDir = 1;
