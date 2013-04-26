@@ -91,9 +91,9 @@ namespace Survive
             Y += (int)Math.Round(yVelocity);
         }
 
-        public void WalkLeft() { this.X -= (int)moveSpeed; }
+        public void WalkLeft() { this.X -= (int)moveSpeed; faceRight = false; }
 
-        public void WalkRight() { this.X += (int)moveSpeed; }
+        public void WalkRight() { this.X += (int)moveSpeed; faceRight = true; }
 
         public void Jump()
         {
@@ -159,9 +159,9 @@ namespace Survive
                     //}
                 }
             }
-            if (X > 760)
+            if (X > (800-this.Location.Width))
             {
-                X = 760;
+                X = (800 - this.Location.Width);
             }
             if (X < 0)
             {

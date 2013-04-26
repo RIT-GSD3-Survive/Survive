@@ -46,7 +46,7 @@ namespace Survive
             items = new List<Item>();
             weapons = new List<Weapon>();
             moveSpeed = 2;
-            weapons.Add(new WeaponStock("Beginner's Pistol",5,5,5,5,5));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
             currentWeapon = weapons[weaponIndex];
             controls = new Control();
         }
@@ -97,7 +97,7 @@ namespace Survive
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
-            Bullet b = new Bullet(0, X+10, Y+10, currentWeapon.AttackPower+rgen.Next(5));
+            Bullet b = new Bullet(0, X, Y+32, currentWeapon.AttackPower+rgen.Next(5));
             return b;
         }
 
