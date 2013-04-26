@@ -92,13 +92,6 @@ namespace Survive
         }
 
         // methods
-        public void Fire()
-        {
-            get { return controls; }
-            set { controls = value; }
-        }
-
-        // methods
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
