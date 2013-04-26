@@ -49,9 +49,7 @@ namespace Survive
         GameState gameState;
         GameLocation gameLocation;
         //player input
-        enum PlayerMovementInput { Left, Right };
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact, Reload };
-        PlayerMovementInput playerMovementInput;
         PlayerOtherInput playerOtherInput;
         /// <summary>
         /// A dummy player for menus
@@ -73,6 +71,7 @@ namespace Survive
         //items
         List<Item> activeItems;
         List<Bullet> bulletList;
+        Dictionary<String, Rectangle> gunImagesList;
 
         // Map.
         Map map;
@@ -114,6 +113,12 @@ namespace Survive
             activeItems = new List<Item>();
             bulletList = new List<Bullet>();
             playerList = new List<Player>();
+
+            gunImagesList = new Dictionary<string, Rectangle>();
+            gunImagesList.Add("Pistol", new Rectangle(0, 0, 11, 8));
+            gunImagesList.Add("SMG", new Rectangle(13, 0, 23, 13));
+            gunImagesList.Add("AR", new Rectangle(36, 0, 40, 12));
+
             map = new Map();
             initializeGround();
             rgen = new Random();
@@ -246,6 +251,7 @@ namespace Survive
                         }
                         if(menuPlayer.Controls.CurrentGPS.IsButtonDown(Buttons.A))
                         {
+                            playerList.Clear(); // Empty the player list.
                             if (menuButtonState == MenuButtonState.Single)
                             {
                                 playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
@@ -295,6 +301,7 @@ namespace Survive
                     }
                     if(menuPlayer.Controls.CurrentMS.LeftButton == ButtonState.Pressed)
                     {
+                        playerList.Clear(); // Empty the player list.
                         if (menuButtonState == MenuButtonState.Single)
                         {
                             playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
@@ -327,12 +334,10 @@ namespace Survive
                     {
                         if (p.Controls.MoveRight())
                         {
-                            playerMovementInput = PlayerMovementInput.Right;
                             p.WalkRight();
                         }
                         if (p.Controls.MoveLeft())
                         {
-                            playerMovementInput = PlayerMovementInput.Left;
                             p.WalkLeft();
                         }
                         if (p.Controls.IsJump())
@@ -592,7 +597,7 @@ namespace Survive
 
                 case GameState.Pause:
                     foreach(Player p in playerList) {
-                        if(p.Controls.CurrentGPS.IsButtonDown(Buttons.A) || p.Controls.CurrentKS.IsKeyDown(Keys.Enter)) {
+                        if(SingleKeyPress(p, Buttons.A) || SingleKeyPress(p, Keys.Enter)) {
                             gameState = GameState.Menu;
                             break;
                         }
@@ -606,11 +611,11 @@ namespace Survive
                     break;
 
                 case GameState.GameOver:
-                    foreach(Player p in playerList) {
-                        if(p.Controls.CurrentGPS.IsButtonDown(Buttons.A) || p.Controls.CurrentKS.IsKeyDown(Keys.Enter)) {
-                            gameState = GameState.Menu;
-                            break;
-                        }
+                    menuPlayer.Controls.Refresh();
+                    if(SingleKeyPress(Buttons.A) || SingleKeyPress(Keys.Enter)) {
+                        gameState = GameState.Menu;
+                        menuButtonState = MenuButtonState.None;
+                        break;
                     }
                     break;
             }
@@ -704,24 +709,26 @@ namespace Survive
         /// <returns></returns>
         public Boolean SingleKeyPress(Keys k)
         {
-            if (playerList[0].Controls.CurrentKS.IsKeyDown(k) && playerList[0].Controls.PreviousKS.IsKeyDown(k))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return SingleKeyPress(menuPlayer, k);
         }
 
         public Boolean SingleKeyPress(Buttons b)
         {
-            if (playerList[0].Controls.CurrentGPS.IsButtonDown(b) && playerList[0].Controls.PreviousGPS.IsButtonUp(b))
-            {
+            return SingleKeyPress(menuPlayer, b);
+        }
+
+        private Boolean SingleKeyPress(Player p, Keys k) {
+            if(p.Controls.CurrentKS.IsKeyDown(k) && p.Controls.PreviousKS.IsKeyDown(k)) {
                 return true;
+            } else {
+                return false;
             }
-            else
-            {
+        }
+
+        private Boolean SingleKeyPress(Player p, Buttons b) {
+            if(p.Controls.CurrentGPS.IsButtonDown(b) && p.Controls.PreviousGPS.IsButtonUp(b)) {
+                return true;
+            } else {
                 return false;
             }
         }
@@ -729,11 +736,11 @@ namespace Survive
         private void drawHPBar(Player player)
         {
             int barX = 6;
-            if (player.Number == 2 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 barX = 662;
 
             int barY = 63;
-            if (player.Number == 3 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 barY = 428;
 
             //calculates bar size
@@ -753,15 +760,15 @@ namespace Survive
         private void drawAmmoClips(Player player)
         {
             int ammoX = 89;
-            if (player.Number == 2 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 ammoX = 696;
 
             int ammoY = 50;
-            if (player.Number == 3 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 ammoY = 443;
 
             int ammoDir = -1;
-            if (player.Number == 2 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 ammoDir = 1;
 
             if (player.Items.Count > 0)
@@ -785,24 +792,24 @@ namespace Survive
         private void drawAmmo(Player player)
         {
             int ammoX = 106;
-            if (player.Number == 2 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 ammoX = 632;
             int ammoY = 5;
-            if (player.Number == 3 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 ammoY = 441;
 
             int width = GUIAmmoClipEmpty.Width;
             int height = GUIAmmoClipEmpty.Height;
             SpriteEffects rotate = SpriteEffects.None;
-            if (player.Number == 2)
+            if (player.PIndex == PlayerIndex.Two)
                 rotate = SpriteEffects.FlipHorizontally;
-            else if (player.Number == 3)
+            else if (player.PIndex == PlayerIndex.Three)
                 rotate = SpriteEffects.FlipVertically;
-            else if (player.Number == 4)
+            else if (player.PIndex == PlayerIndex.Four)
                 rotate = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
 
             int ammoDir = 1;
-            if (player.Number == 3 || player.Number == 4)
+            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 ammoDir = 0;
 
             //empty clip
@@ -915,15 +922,15 @@ namespace Survive
 
             //get players then loop through and draw GUI elements
             foreach(Player p in playerList) {
-                if(p.Number != 1) {
-                    switch(p.Number) {
-                        case 2:
+                if(p.PIndex != PlayerIndex.One) {
+                    switch(p.PIndex) {
+                        case PlayerIndex.Two:
                             spriteBatch.Draw(GUIp2, new Rectangle(619, 5, GUIp2.Width, GUIp2.Height), Color.White);
                             break;
-                        case 3:
+                        case PlayerIndex.Three:
                             spriteBatch.Draw(GUIp3, new Rectangle(5, 425, GUIp3.Width, GUIp3.Height), Color.White);
                             break;
-                        case 4:
+                        case PlayerIndex.Four:
                             spriteBatch.Draw(GUIp4, new Rectangle(620, 425, GUIp4.Width, GUIp4.Height), Color.White);
                             break;
                     }
@@ -944,30 +951,37 @@ namespace Survive
             {
                 flip = SpriteEffects.None;
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 11, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -5, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw body
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, 19, 32), new Rectangle(24, 0, 19, 32),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 3, obj.Y + 20, 19, 32), new Rectangle(24, 0, 19, 32),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw head
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
+                if (obj is Player)
+                {
+                    //get gun image rectangle
+                    Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
+                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X - 9, obj.Y + 31, rect.Width, rect.Height), rect,
+                        Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                }
 
                 //draw top leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 9, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw top arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -3, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
             }
             else
             {
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 11, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 6, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
@@ -979,6 +993,13 @@ namespace Survive
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22), 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
+                if (obj is Player)
+                {
+                    //get gun image rectangle
+                    Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
+                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X+22, obj.Y+31, rect.Width, rect.Height), rect,
+                        Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                }
 
                 //draw top leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
