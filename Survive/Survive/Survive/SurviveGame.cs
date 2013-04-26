@@ -206,7 +206,7 @@ namespace Survive
             switch (gameState)
             {
                 case GameState.Menu:
-                    if (currentGPS.IsConnected)
+                    if (playerList[0].Controls.CurrentGPS.IsConnected)
                     {
                         //currentGPS = GamePad.GetState(0);
 
@@ -248,7 +248,7 @@ namespace Survive
                                 menuButtonState = MenuButtonState.Single;
                             }
                         }
-                        if (currentGPS.IsButtonDown(Buttons.A))
+                        if (playerList[0].Controls.CurrentGPS.IsButtonDown(Buttons.A))
                         {
                             if (menuButtonState == MenuButtonState.Single)
                             {
@@ -283,18 +283,17 @@ namespace Survive
                     }
                     else
                     {
-                        mStateCurrent = Mouse.GetState();
-                        if (mStateCurrent.X > 280 && mStateCurrent.X < 500)
+                        if (playerList[0].Controls.CurrentMS.X > 280 && playerList[0].Controls.CurrentMS.X < 500)
                         {
-                            if (mStateCurrent.Y > 165 && mStateCurrent.Y < 210)
+                            if (playerList[0].Controls.CurrentMS.Y > 165 && playerList[0].Controls.CurrentMS.Y < 210)
                             {
                                 menuButtonState = MenuButtonState.Single;
                             }
-                            else if (mStateCurrent.Y > 265 && mStateCurrent.Y < 310)
+                            else if (playerList[0].Controls.CurrentMS.Y > 265 && playerList[0].Controls.CurrentMS.Y < 310)
                             {
                                 menuButtonState = MenuButtonState.Multi;
                             }
-                            else if (mStateCurrent.Y > 365 && mStateCurrent.Y < 410)
+                            else if (playerList[0].Controls.CurrentMS.Y > 365 && playerList[0].Controls.CurrentMS.Y < 410)
                             {
                                 menuButtonState = MenuButtonState.Quit;
                             }
@@ -308,7 +307,7 @@ namespace Survive
                             menuButtonState = MenuButtonState.None;
                         }
                     }
-                    if (mStateCurrent.LeftButton == ButtonState.Pressed)
+                    if (playerList[0].Controls.CurrentMS.LeftButton == ButtonState.Pressed)
                     {
                         if (menuButtonState == MenuButtonState.Single)
                         {
