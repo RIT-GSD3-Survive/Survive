@@ -85,7 +85,7 @@ namespace Survive
         Map map;
 
         //Random generator
-        Random rgen;
+        public static Random rgen;
 
         public SurviveGame()
         {
@@ -422,7 +422,7 @@ namespace Survive
                         if (currentGPS.IsButtonDown(Buttons.RightTrigger))
                         {
                             playerOtherInput = PlayerOtherInput.Fire;
-                            p1.Fire();
+                            bulletList.Add(p1.Fire());
                         }
                         if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
                         {
@@ -467,7 +467,7 @@ namespace Survive
                         }
                         if (mStateCurrent.LeftButton == ButtonState.Pressed)
                         {
-                            p1.Fire();
+                            bulletList.Add(p1.Fire());
                             playerOtherInput = PlayerOtherInput.Fire;
                         }
                         if (kStateCurrent.IsKeyDown(Keys.E))
@@ -594,6 +594,9 @@ namespace Survive
                         if (bullet.Active == true)
                         {
                             bullet.Move();
+                            foreach (Zombie z in zombieList)
+                                z.CheckCollisions(bullet, z);
+
                             if (bullet.X < 0 || bullet.X > viewportWidth || bullet.Y < 0 || bullet.Y > viewportHeight)
                                 bulletList.RemoveAt(i);
                         }
@@ -908,6 +911,10 @@ namespace Survive
         {
             spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
             spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
+            if (zombieList.Count != 0)
+            {
+                spriteBatch.DrawString(Resources.Courier, "Zombie HP: " + zombieList[0].HP, new Vector2(200, 100), Color.Black);
+            }
             //spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
             drawGround();
             switch (gameLocation)
@@ -973,8 +980,8 @@ namespace Survive
             }//end switch player movement
 
             //draw in items
-            int count = activeItems.Count;
-            for (int i = 0; i < count; i++)
+            int count = activeItems.Count-1;
+            for (int i = count; i >= 0; i--)
             {
                 Item item = activeItems[i];
 

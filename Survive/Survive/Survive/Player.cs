@@ -32,6 +32,11 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             controls = new Control(num);
+<<<<<<< HEAD
+=======
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
+            currentWeapon = weapons[0];
+>>>>>>> c28712d0348b0ca78a2801f47dd12116e7dd117a
         }
 
         public Player(string nm, int num, Rectangle loc)
@@ -42,6 +47,11 @@ namespace Survive
             items = new List<Item>();
             weapons = new List<Weapon>();
             moveSpeed = 2;
+<<<<<<< HEAD
+=======
+            weapons.Add(new WeaponStock("Beginner's Pistol",5,5,5,5,5));
+            currentWeapon = weapons[0];
+>>>>>>> c28712d0348b0ca78a2801f47dd12116e7dd117a
             controls = new Control();
         }
 
@@ -82,6 +92,7 @@ namespace Survive
         }
 
         public Control Controls
+<<<<<<< HEAD
         {
             get { return controls; }
             set { controls = value; }
@@ -89,8 +100,19 @@ namespace Survive
 
         // methods
         public void Fire()
+=======
+>>>>>>> c28712d0348b0ca78a2801f47dd12116e7dd117a
         {
+            get { return controls; }
+            set { controls = value; }
+        }
 
+        // methods
+        //returns a bullet to add to bulletList
+        public Bullet Fire()
+        {
+            Bullet b = new Bullet(0, X+10, Y+10, currentWeapon.AttackPower+rgen.Next(5));
+            return b;
         }
 
         public void PickUpItemCheck(Item item)

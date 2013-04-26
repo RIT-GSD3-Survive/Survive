@@ -100,7 +100,11 @@ namespace Survive
             //Bullet hits zombie
             if (obj is Bullet && objCheckingCollision is Zombie)
             {
-                ((Zombie)objCheckingCollision).HP -= ((Bullet)obj).Damage;
+                if (this.Location.Intersects(obj.Location))
+                {
+                    ((Zombie)objCheckingCollision).HP -= ((Bullet)obj).Damage;
+                    ((Bullet)obj).Active = false;
+                }
             }
             //zombie hits player
             else if (obj is Zombie && objCheckingCollision is Player)
