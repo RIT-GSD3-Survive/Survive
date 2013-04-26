@@ -472,7 +472,7 @@ namespace Survive
 
                     //always at least one zombie
                     if (zombieList.Count == 0)
-                        zombieList.Add(new Zombie(new Rectangle(0, 345, humanoidWidth, humanoidHeight)));
+                        zombieList.Add(new Zombie(new Rectangle(400, 345, humanoidWidth, humanoidHeight)));
 
                     for (int i = 0; i < zombieList.Count; i++)
                     {

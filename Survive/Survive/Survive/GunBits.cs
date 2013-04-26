@@ -12,6 +12,7 @@ namespace Survive
         protected int attackPower;
         protected int reloadSpeed;
         protected int clipCapacity;
+        protected int fireRate;
         protected string name;
 
         public string Name
