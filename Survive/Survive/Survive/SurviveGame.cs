@@ -951,7 +951,7 @@ namespace Survive
             {
                 flip = SpriteEffects.None;
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 11, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -5, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
@@ -963,18 +963,25 @@ namespace Survive
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
+                if (obj is Player)
+                {
+                    //get gun image rectangle
+                    Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
+                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X - 9, obj.Y + 31, rect.Width, rect.Height), rect,
+                        Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                }
 
                 //draw top leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 9, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw top arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -3, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
             }
             else
             {
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 11, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 6, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
@@ -986,9 +993,14 @@ namespace Survive
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22), 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
-                //get gun type
-                spriteBatch.Draw(gunSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22),
-                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                if (obj is Player)
+                {
+                    //get gun image rectangle
+                    Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
+                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X+22, obj.Y+31, rect.Width, rect.Height), rect,
+                        Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                }
+
                 //draw top leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
