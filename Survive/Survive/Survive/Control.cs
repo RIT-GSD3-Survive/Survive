@@ -18,6 +18,41 @@ namespace Survive {
         KeyboardState previousKS;
 
         //Properties
+        public GamePadState CurrentGPS
+        {
+            get { return currentGPS; }
+            set { currentGPS = value; }
+        }
+
+        public GamePadState PreviousGPS
+        {
+            get { return previousGPS; }
+            set { previousGPS = value; }
+        }
+
+        public MouseState CurrentMS
+        {
+            get { return currentMS; }
+            set { currentMS = value; }
+        }
+
+        public MouseState PreviousMS
+        {
+            get { return previousMS; }
+            set { previousMS = value; }
+        }
+
+        public KeyboardState CurrentKS
+        {
+            get { return currentKS; }
+            set { currentKS = value; }
+        }
+
+        public KeyboardState PreviousKS
+        {
+            get { return previousKS; }
+            set { previousKS = value; }
+        }
 
         /// <summary>
         /// Create the control scheme utilizing the keyboard.  This assumes single-player mode.
