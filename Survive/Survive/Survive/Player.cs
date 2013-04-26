@@ -16,10 +16,25 @@ namespace Survive
         //Attributes
         protected string name;
         protected int number;
+        protected PlayerIndex pi;
         protected List<Item> items;
         protected List<Weapon> weapons;
         protected Weapon currentWeapon;
         protected GunClip currentClip;
+        protected Control controls;
+
+        public Player(string nm, PlayerIndex num, Rectangle loc)
+            : base(loc)
+        {
+            name = nm;
+            pi = num;
+            items = new List<Item>();
+            weapons = new List<Weapon>();
+            moveSpeed = 2;
+            controls = new Control(num);
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
+            currentWeapon = weapons[0];
+        }
 
         public Player(string nm, int num, Rectangle loc)
             : base(loc)
@@ -29,9 +44,9 @@ namespace Survive
             items = new List<Item>();
             weapons = new List<Weapon>();
             moveSpeed = 2;
-
             weapons.Add(new WeaponStock("Beginner's Pistol",5,5,5,5,5));
             currentWeapon = weapons[0];
+            controls = new Control();
         }
 
         //Properties
@@ -45,6 +60,12 @@ namespace Survive
         {
             get { return number; }
             set { number = value; }
+        }
+        
+        public PlayerIndex PIndex
+        {
+            get { return pi; }
+            set { pi = value; }
         }
 
         public Weapon CurrentWeapon
@@ -62,6 +83,12 @@ namespace Survive
         public List<Item> Items
         {
             get { return items; }
+        }
+
+        public Control Controls
+        {
+            get { return controls; }
+            set { controls = value; }
         }
 
         // methods
