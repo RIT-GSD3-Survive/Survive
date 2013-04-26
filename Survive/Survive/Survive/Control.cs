@@ -114,14 +114,14 @@ namespace Survive {
         {
             return
                 (allowKeyboard && (currentMS.ScrollWheelValue < previousMS.ScrollWheelValue))
-                || currentGPS.IsButtonDown(Buttons.DPadLeft);
+                || currentGPS.IsButtonDown(Buttons.LeftShoulder);
         }
 
         public bool SwitchWeaponsNext()
         {
             return
                 (allowKeyboard && (currentMS.ScrollWheelValue > previousMS.ScrollWheelValue))
-                || currentGPS.IsButtonDown(Buttons.DPadRight);
+                || currentGPS.IsButtonDown(Buttons.RightShoulder);
         }
 
         public bool Interact()
