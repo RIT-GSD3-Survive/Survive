@@ -10,15 +10,18 @@ namespace Survive
     class Bullet: GameObject
     {
         //Attributes
-        int direction; // 0 for left, 1 for right
-        Boolean active; 
+        protected int direction; // 0 for left, 1 for right
+        protected Boolean active;
+        protected int damage; //gotten from fired weapon
+
 
         //Constructor
-        public Bullet(int dir, int x, int y)
+        public Bullet(int dir, int x, int y, int dam)
         {
             direction = dir;
             active = true;
             location = new Rectangle(x, y, 3, 2);
+            damage = dam;
         }
 
         //Properties
@@ -32,6 +35,11 @@ namespace Survive
         {
             get { return active; }
             set { active = value; }
+        }
+
+        public int Damage
+        {
+            get { return damage; }
         }
 
         //Methods

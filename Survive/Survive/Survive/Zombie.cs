@@ -45,11 +45,6 @@ namespace Survive
         }
 
         //methods
-        public void attack(Player player)
-        {
-            player.HP -= attackPower;
-        }
-
         public Boolean DetectPlayers(Player player)
         {
             if (zombieAction != ZombieActions.Chase)
