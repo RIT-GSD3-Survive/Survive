@@ -23,7 +23,6 @@ namespace Survive
         SpriteBatch spriteBatch;
         //images
         Texture2D playerImage;
-        Texture2D zombieImage;
         Texture2D GUIAmmo;
         Texture2D GUIAmmoClipEmpty;
         Texture2D GUIAmmoClipFull;
@@ -63,6 +62,9 @@ namespace Survive
         //Mouse State
         MouseState mStateCurrent;
         MouseState mStatePrevious;
+        //humanoid
+        int humanoidWidth;
+        int humanoidHeight;
         //players
         Player p1;
         Player p2;
@@ -113,6 +115,8 @@ namespace Survive
             tileSize = 32;
             viewportHeight = GraphicsDevice.Viewport.Height;
             viewportWidth = GraphicsDevice.Viewport.Width;
+            humanoidHeight = 75;
+            humanoidWidth = 23;
 
             platformTilesList = new List<Platform>();
             zombieList = new List<Zombie>();
@@ -140,7 +144,6 @@ namespace Survive
             // TODO: use this.Content to load your game content here
             Resources.LoadRes(Content);
             playerImage = this.Content.Load<Texture2D>("Person");
-            zombieImage = this.Content.Load<Texture2D>("Zombie");
             ammoImage = this.Content.Load<Texture2D>("Ammo");
             medkitImage = this.Content.Load<Texture2D>("Medkit");
             bulletImage = new Texture2D(graphics.GraphicsDevice, 1, 1);
@@ -210,7 +213,7 @@ namespace Survive
                     if (currentGPS.IsConnected)
                     {
                         //currentGPS = GamePad.GetState(0);
-                        
+
                         if (SingleKeyPress(Buttons.LeftThumbstickUp))
                         {
                             if (menuButtonState == MenuButtonState.None)
@@ -253,7 +256,7 @@ namespace Survive
                         {
                             if (menuButtonState == MenuButtonState.Single)
                             {
-                                p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                                p1 = new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight));
                                 playerList.Add(p1);
                                 gameState = GameState.InGame;
                             }
@@ -261,19 +264,19 @@ namespace Survive
                             {
                                 if (GamePad.GetState(PlayerIndex.One).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height)));
+                                    playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 if (GamePad.GetState(PlayerIndex.Two).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 2, new Rectangle(220, 343, playerImage.Width, playerImage.Height)));
+                                    playerList.Add(new Player("Name", 2, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 if (GamePad.GetState(PlayerIndex.Three).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 3, new Rectangle(240, 343, playerImage.Width, playerImage.Height)));
+                                    playerList.Add(new Player("Name", 3, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 if (GamePad.GetState(PlayerIndex.Four).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 4, new Rectangle(260, 343, playerImage.Width, playerImage.Height)));
+                                    playerList.Add(new Player("Name", 4, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 gameState = GameState.InGame;
                             }
@@ -314,7 +317,7 @@ namespace Survive
                     {
                         if (menuButtonState == MenuButtonState.Single)
                         {
-                            p1 = new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height));
+                            p1 = new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight));
                             playerList.Add(p1);
                             gameState = GameState.InGame;
                         }
@@ -322,19 +325,19 @@ namespace Survive
                         {
                             if (GamePad.GetState(PlayerIndex.One).IsConnected)
                             {
-                                playerList.Add(new Player("Name", 1, new Rectangle(200, 343, playerImage.Width, playerImage.Height)));
+                                playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                             }
                             if (GamePad.GetState(PlayerIndex.Two).IsConnected)
                             {
-                                playerList.Add(new Player("Name", 2, new Rectangle(220, 343, playerImage.Width, playerImage.Height)));
+                                playerList.Add(new Player("Name", 2, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
                             }
                             if (GamePad.GetState(PlayerIndex.Three).IsConnected)
                             {
-                                playerList.Add(new Player("Name", 3, new Rectangle(240, 343, playerImage.Width, playerImage.Height)));
+                                playerList.Add(new Player("Name", 3, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
                             }
                             if (GamePad.GetState(PlayerIndex.Four).IsConnected)
                             {
-                                playerList.Add(new Player("Name", 4, new Rectangle(260, 343, playerImage.Width, playerImage.Height)));
+                                playerList.Add(new Player("Name", 4, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                             }
                             gameState = GameState.InGame;
                         }
@@ -490,7 +493,7 @@ namespace Survive
 
                     //always at least one zombie
                     if (zombieList.Count == 0)
-                        zombieList.Add(new Zombie(new Rectangle(0, 343, zombieImage.Width, zombieImage.Height)));
+                        zombieList.Add(new Zombie(new Rectangle(0, 345, humanoidWidth, humanoidHeight)));
 
                     for (int i = 0; i < zombieList.Count; i++)
                     {
@@ -570,7 +573,7 @@ namespace Survive
                         {
                             if (rgen.Next(10) == 0)
                             {
-                                activeItems.Add(new AmmoItem(rgen.Next(50, 100), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height))); 
+                                activeItems.Add(new AmmoItem(rgen.Next(50, 100), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
                             }
                             else if (rgen.Next(10) == 0)
                             {
@@ -823,9 +826,9 @@ namespace Survive
             {
                 int ammoClipsUserHasLeft = 0;
 
-                for (int i = 0; i < player.Items.Count; i++)
+                foreach (Item item in player.Items)
                 {
-                    if (player.Items[i].GetType() == typeof(AmmoItem))
+                    if (item.GetType() == typeof(AmmoItem))
                         ammoClipsUserHasLeft++;
                 }
 
@@ -835,7 +838,6 @@ namespace Survive
                         new Rectangle(ammoX + (16 * i * ammoDir), ammoY, GUIAmmo.Width, GUIAmmo.Height), Color.White);
                 }
             }
-
         }
 
         private void drawAmmo(Player player)
@@ -896,9 +898,7 @@ namespace Survive
             // Load in the map.
             List<Platform> area = map.GetTiles();
             if (area != null)
-            {
                 platformTilesList.AddRange(area);
-            }
         }
 
         private void drawGround()
@@ -911,11 +911,7 @@ namespace Survive
         {
             spriteBatch.DrawString(Resources.Courier, "Player X: " + p1.X + " Y: " + p1.Y, new Vector2(200, 50), Color.Black);
             spriteBatch.DrawString(Resources.Courier, "Player 1 HP: " + p1.HP, new Vector2(200, 75), Color.Black);
-            if (zombieList.Count != 0)
-            {
-                spriteBatch.DrawString(Resources.Courier, "Zombie HP: " + zombieList[0].HP, new Vector2(200, 100), Color.Black);
-            }
-            //spriteBatch.DrawString(Resources.Courier, "Zombie Direction: " + zombieList[0].Direction, new Vector2(200, 150), Color.Black);
+
             drawGround();
             switch (gameLocation)
             {
@@ -928,19 +924,11 @@ namespace Survive
             }
             //draw Zombie
             if (gameLocation != GameLocation.Safehouse)
-                for (int i = 0; i < zombieList.Count; i++)
+                foreach (Zombie z in zombieList)
                 {
-                    if (zombieList[i].Direction == -1)
-                    {
-                        spriteBatch.Draw(zombieImage, zombieList[i].Location, Color.White);
-                        continue;
-                    }
-                    if (zombieList[i].Direction == 1)
-                    {
-                        spriteBatch.Draw(zombieImage, zombieList[i].Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                        continue;
-                        //spriteBatch.Draw(playerImage, p1.Location, null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0.0f);
-                    }
+                    String dir = "left";
+                    if (z.Direction == 1) dir = "right";
+                    DrawHumanoid(z, dir);
                 }
             switch (playerMovementInput)
             {
@@ -980,7 +968,7 @@ namespace Survive
             }//end switch player movement
 
             //draw in items
-            int count = activeItems.Count-1;
+            int count = activeItems.Count - 1;
             for (int i = count; i >= 0; i--)
             {
                 Item item = activeItems[i];
@@ -1041,19 +1029,52 @@ namespace Survive
             //flip parts
             SpriteEffects flip = SpriteEffects.FlipHorizontally;
             if (direction.ToLower() == "left")
+            {
                 flip = SpriteEffects.None;
+                //draw bottom arm
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 11, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw bottom leg
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw body
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, 19, 32), new Rectangle(24, 0, 19, 32),
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw head
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22),
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw gun (if player)
 
-            //draw bottom arm
-            //draw bottom leg
-            spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
-            //draw body
-            //draw head
-            spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22), Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
-            //draw gun (if player)
-            //draw top leg
-            spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
-            //draw top arm
-            spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw top leg
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw top arm
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+            }
+            else
+            {
+                //draw bottom arm
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 11, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw bottom leg
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw body
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, 19, 32), new Rectangle(24, 0, 19, 32), 
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw head
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22), 
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw gun (if player)
+
+                //draw top leg
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                //draw top arm
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
+                    Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+            }
         }
     }
 }
