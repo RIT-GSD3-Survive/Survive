@@ -15,6 +15,10 @@ namespace MapEditor {
 
         bool last = false;
 
+        public bool Last {
+            set { last = value; }
+        }
+
         public Button(Texture2D tex, bool holdButton, int x, int y, Click fn) {
             this.tex = tex;
             hold = holdButton;

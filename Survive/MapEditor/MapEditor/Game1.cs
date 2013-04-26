@@ -21,11 +21,12 @@ namespace MapEditor {
         SpriteBatch spriteBatch;
 
         Texture2D pencil, erase, reticle;
-        SpriteFont courier;
 
         Vector2 mouseLoc;
+        Boolean left = false, right = false;
 
-        Boolean left, right;
+        TerrainType currType = TerrainType.PLATFORM;
+        Portal toLink = null;
 
         List<Button> buttons = new List<Button>();
 
@@ -73,7 +74,8 @@ namespace MapEditor {
             erase = Content.Load<Texture2D>("Erase32");
             reticle = Content.Load<Texture2D>("Reticle8");
 
-            courier = Content.Load<SpriteFont>("Courier");
+            GlobalVars.courier = Content.Load<SpriteFont>("Courier");
+            GlobalVars.courierSmall = Content.Load<SpriteFont>("CourierSmall");
 
             Area.cap = Content.Load<Texture2D>("areaCap");
             Area.mid = Content.Load<Texture2D>("areaMid");
@@ -101,6 +103,16 @@ namespace MapEditor {
             }));
             buttons.Add(new Button(Content.Load<Texture2D>("ScrollRight"), true, GraphicsDevice.Viewport.Width - 16, GraphicsDevice.Viewport.Height - 32, delegate() { // Scroll Areas Right
                 scrollX += 5;
+            }));
+
+            buttons.Add(new Button(Content.Load<Texture2D>("Brick32"), false, GraphicsDevice.Viewport.Width - 102, 16, delegate() { // Draw Platform Button
+                currType = TerrainType.PLATFORM;
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("Portal32"), false, GraphicsDevice.Viewport.Width - 70, 16, delegate() { // Place Portal Button
+                currType = TerrainType.PORTAL;
+            }));
+            buttons.Add(new Button(Content.Load<Texture2D>("Decor32"), false, GraphicsDevice.Viewport.Width - 38, 16, delegate() { // Place Decor Button
+                currType = TerrainType.DECOR;
             }));
 
         }
@@ -134,8 +146,11 @@ namespace MapEditor {
                 foreach(Button alpha in buttons) {
                     if(alpha.CheckClicked(mState.X, mState.Y)) {
                         left = false;
-                        break;
                     }
+                }
+            } else {
+                foreach(Button alpha in buttons) {
+                    alpha.Last = false;
                 }
             }
             if(left) {
@@ -157,8 +172,39 @@ namespace MapEditor {
                 int y = mState.Y - (mState.Y % 32) - 60;
                 y /= 32;
                 if(left) {
-                    currArea.AddTile(x, y);
+                    if(currType == TerrainType.PORTAL) {
+                        if(currArea.GetPortal(x, y) == null) {
+                            if(toLink == null) {
+                                currArea.AddTile(x, y, currType);
+                                toLink = currArea.GetPortal(x, y);
+                            } else {
+                                currArea.AddTile(x, y, currType);
+                                toLink.MakeLink(currArea.GetPortal(x, y));
+                                toLink = null;
+                            }
+                        } else {
+                            if(currArea.GetPortal(x, y).Link == null) {
+                                if(toLink != null) {
+                                    toLink.MakeLink(currArea.GetPortal(x, y));
+                                    toLink = null;
+                                } else {
+                                    toLink = currArea.GetPortal(x, y);
+                                }
+                            }
+                        }
+                    } else {
+                        currArea.AddTile(x, y, currType);
+                    }
                 } else if(right) {
+                    if(currArea.GetPortal(x, y) != null) {
+                        if(toLink != null) {
+                            toLink = null;
+                        }
+                        Portal linkedPortal = currArea.GetPortal(x, y).Link;
+                        if(linkedPortal != null) {
+                            linkedPortal.MyArea.RemoveTile(linkedPortal.Location.X, linkedPortal.Location.Y);
+                        }
+                    }
                     currArea.RemoveTile(x, y);
                 }
             }
@@ -197,8 +243,16 @@ namespace MapEditor {
                         back = Color.LightSkyBlue;
                     }
                 }
-                x += alpha.DrawButton(spriteBatch, courier, x, back);
+                x += alpha.DrawButton(spriteBatch, GlobalVars.courier, x, back);
             }
+
+            int modeX = GraphicsDevice.Viewport.Width - 102;
+            if(currType == TerrainType.PORTAL) {
+                modeX += 32;
+            } else if(currType == TerrainType.DECOR) {
+                modeX += 64;
+            }
+            spriteBatch.Draw(pencil, new Vector2(modeX, 16), Color.White);
 
             foreach(Button alpha in buttons) {
                 alpha.Draw(spriteBatch);
@@ -383,6 +437,16 @@ namespace MapEditor {
                     NbtList aList = root.Get<NbtList>("areas");
                     foreach(NbtCompound alpha in aList) {
                         areas.Add(new Area(alpha));
+                    }
+                }
+
+                foreach(Portal alpha in Portal.portalsToProcess.Keys) {
+                    NbtCompound portDef = Portal.portalsToProcess[alpha];
+                    foreach(Area beta in areas) {
+                        if(portDef["linkTo"].StringValue.Equals(beta.Name)) {
+                            alpha.MakeLink(beta.GetPortal(portDef["linkX"].IntValue, portDef["linkY"].IntValue));
+                            break;
+                        }
                     }
                 }
             }

@@ -7,5 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MapEditor {
     static class GlobalVars {
         public static Viewport view;
+
+        public static SpriteFont courier, courierSmall;
     }
 }
