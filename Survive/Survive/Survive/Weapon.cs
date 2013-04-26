@@ -8,6 +8,7 @@ namespace Survive
     class Weapon : Item
     {
         //Attributes
+        protected string type;
         protected string name;
         protected int accuracy;
         protected int weight;
@@ -50,6 +51,16 @@ namespace Survive
         {
             get { return clipCapacity; }
             set { clipCapacity = value; }
+        }
+
+        public string Type
+        {
+            get
+            {
+                if (type == null) return "Pistol";
+                return type;
+            }
+            set { type = value; }
         }
     }
 }
