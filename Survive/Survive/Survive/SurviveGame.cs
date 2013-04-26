@@ -759,7 +759,7 @@ namespace Survive
         /// <returns></returns>
         public Boolean SingleKeyPress(Keys k)
         {
-            if (kStateCurrent.IsKeyDown(k) && kStatePrevious.IsKeyUp(k))
+            if (playerList[0].Controls.CurrentKS.IsKeyDown(k) && playerList[0].Controls.PreviousKS.IsKeyDown(k))
             {
                 return true;
             }
@@ -771,7 +771,7 @@ namespace Survive
 
         public Boolean SingleKeyPress(Buttons b)
         {
-            if (currentGPS.IsButtonDown(b) && previousGPS.IsButtonUp(b))
+            if (playerList[0].Controls.CurrentGPS.IsButtonDown(b) && playerList[0].Controls.PreviousGPS.IsButtonUp(b))
             {
                 return true;
             }
