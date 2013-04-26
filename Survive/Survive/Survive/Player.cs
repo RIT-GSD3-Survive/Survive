@@ -46,7 +46,7 @@ namespace Survive
             items = new List<Item>();
             weapons = new List<Weapon>();
             moveSpeed = 2;
-            weapons.Add(new WeaponStock("Beginner's Pistol",5,5,5,5,5));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
             currentWeapon = weapons[weaponIndex];
             controls = new Control();
         }
