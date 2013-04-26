@@ -184,7 +184,7 @@ namespace MapEditor {
                             }
                         } else {
                             if(currArea.GetPortal(x, y).Link == null) {
-                                if(toLink != null) {
+                                if(toLink != null && toLink != currArea.GetPortal(x, y)) {
                                     toLink.MakeLink(currArea.GetPortal(x, y));
                                     toLink = null;
                                 } else {
