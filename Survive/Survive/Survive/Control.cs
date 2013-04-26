@@ -10,6 +10,14 @@ namespace Survive {
 
         PlayerIndex pi;
         bool allowKeyboard = false;
+        GamePadState currentGPS;
+        GamePadState previousGPS;
+        MouseState currentMS;
+        MouseState previousMS;
+        KeyboardState currentKS;
+        KeyboardState previousKS;
+
+        //Properties
 
         /// <summary>
         /// Create the control scheme utilizing the keyboard.  This assumes single-player mode.
@@ -27,17 +35,79 @@ namespace Survive {
             pi = player;
         }
 
+        /// <summary>
+        /// Refreshes Controller states
+        /// </summary>
+        public void Refresh()
+        {
+            previousGPS = currentGPS;
+            previousKS = currentKS;
+            previousMS = currentMS;
+            currentGPS = GamePad.GetState(pi);
+            currentKS = Keyboard.GetState();
+            currentMS = Mouse.GetState();
+        }
+
         public bool IsJump() {
             return
-                (allowKeyboard && (Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W))) // Using Keyboard and Space or W is pressed
-                || GamePad.GetState(pi).Buttons.A == ButtonState.Pressed // Player pushing A
-                || GamePad.GetState(pi).ThumbSticks.Left.Y > 0.1f; // Player pushing up left stick
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.Space) || currentKS.IsKeyDown(Keys.W))) // Using Keyboard and Space or W is pressed
+                || currentGPS.IsButtonDown(Buttons.A) // Player pushing A
+                || currentGPS.ThumbSticks.Left.Y > 0.8f; // Player pushing up left stick
         }
 
         public bool IsFire() {
             return
-                (allowKeyboard && (Mouse.GetState().LeftButton == ButtonState.Pressed)) // Using keyboard, pressing left mouse
-                || GamePad.GetState(pi).Triggers.Right > 0.2; // Using gamepad, pressing right trigger
+                (allowKeyboard && (currentMS.LeftButton == ButtonState.Pressed)) // Using keyboard, pressing left mouse
+                || currentGPS.Triggers.Right > 0.2; // Using gamepad, pressing right trigger
+        }
+
+        public bool MoveLeft()
+        {
+            return
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.A)))
+                || currentGPS.ThumbSticks.Left.X < -0.1;
+        }
+
+        public bool MoveRight()
+        {
+            return
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.D)))
+                || currentGPS.ThumbSticks.Left.X > 0.1;
+        }
+
+        public bool SwitchWeaponsPrevious()
+        {
+            return
+                (allowKeyboard && (currentMS.ScrollWheelValue < previousMS.ScrollWheelValue))
+                || currentGPS.IsButtonDown(Buttons.DPadLeft);
+        }
+
+        public bool SwitchWeaponsNext()
+        {
+            return
+                (allowKeyboard && (currentMS.ScrollWheelValue > previousMS.ScrollWheelValue))
+                || currentGPS.IsButtonDown(Buttons.DPadRight);
+        }
+
+        public bool Interact()
+        {
+            return
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.E)))
+                || currentGPS.IsButtonDown(Buttons.B);
+        }
+
+        public bool Reload()
+        {
+            return
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.R)))
+                || currentGPS.IsButtonDown(Buttons.X);
+        }
+
+        public bool Pause()
+        {
+            return
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.P)))
+                || currentGPS.IsButtonDown(Buttons.Start);
         }
     }
 }
