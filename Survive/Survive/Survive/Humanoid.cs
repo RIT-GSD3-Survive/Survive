@@ -159,9 +159,9 @@ namespace Survive
                     //}
                 }
             }
-            if (X > 760)
+            if (X > (800-this.Location.Width))
             {
-                X = 760;
+                X = (800 - this.Location.Width);
             }
             if (X < 0)
             {

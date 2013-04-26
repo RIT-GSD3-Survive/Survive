@@ -874,10 +874,10 @@ namespace Survive
                 {
                     String dir = "left";
                     if (z.Direction == 1) dir = "right";
-                    DrawHumanoid(z, dir);
+                    DrawHumanoid(z);
                 }
             foreach(Player p in playerList) {
-                spriteBatch.Draw(playerImage, p.Location, null, Color.White, 0.0f, new Vector2(0, 0), (p.FacingRight) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.0f);
+                DrawHumanoid(p);
                 switch(playerOtherInput) {
                     case PlayerOtherInput.Jump:
                         break;
@@ -943,24 +943,29 @@ namespace Survive
             spriteBatch.Draw(GUIVerticalFadeBars, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
         }
 
-        private void DrawHumanoid(Humanoid obj, String direction)
+        private void DrawHumanoid(Humanoid obj)
         {
+            Rectangle arm = new Rectangle(0, 22, 24, 17);
+            Rectangle leg = new Rectangle(43, 0, 13, 27);
+            Rectangle body = new Rectangle(24, 0, 19, 32);
+            Rectangle head = new Rectangle(0, 0, 23, 22);
+
             //flip parts
             SpriteEffects flip = SpriteEffects.FlipHorizontally;
-            if (direction.ToLower() == "left")
+            if (obj.FacingRight == false)
             {
                 flip = SpriteEffects.None;
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -5, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -5, obj.Y + 23, arm.Width, arm.Height), arm,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 48, leg.Width, leg.Height), leg,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw body
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 3, obj.Y + 20, 19, 32), new Rectangle(24, 0, 19, 32),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 3, obj.Y + 20, body.Width, body.Height), body,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw head
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, head.Width, head.Height), head,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
                 if (obj is Player)
@@ -972,25 +977,25 @@ namespace Survive
                 }
 
                 //draw top leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 9, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 9, obj.Y + 48, leg.Width, leg.Height), leg,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw top arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -3, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17),
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -3, obj.Y + 23, arm.Width, arm.Height), arm,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
             }
             else
             {
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 6, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 6, obj.Y + 23, arm.Width, arm.Height), arm, 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, leg.Width, leg.Height), leg, 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw body
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, 19, 32), new Rectangle(24, 0, 19, 32), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, body.Width, body.Height), body, 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw head
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, 23, 22), new Rectangle(0, 0, 23, 22), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, head.Width, head.Height), head, 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
                 if (obj is Player)
@@ -1000,12 +1005,11 @@ namespace Survive
                     spriteBatch.Draw(gunSheet, new Rectangle(obj.X+22, obj.Y+31, rect.Width, rect.Height), rect,
                         Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 }
-
                 //draw top leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, 13, 27), new Rectangle(43, 0, 13, 27), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, leg.Width, leg.Height), leg, 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw top arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, 24, 17), new Rectangle(0, 22, 24, 17), 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, arm.Width, arm.Height), arm, 
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
             }
         }
