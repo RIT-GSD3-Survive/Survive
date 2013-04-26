@@ -10,6 +10,12 @@ namespace Survive
     abstract class GameObject
     {
         protected Rectangle location;
+        protected Random rgen;
+
+        public GameObject()
+        {
+            rgen = SurviveGame.rgen;
+        }
 
         public Rectangle Location
         {

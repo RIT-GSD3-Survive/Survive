@@ -10,7 +10,6 @@ namespace Survive
     class Zombie : Humanoid
     {
         //Attributes
-        protected Random rgen;
         protected int attackPower;
         protected ZombieActions zombieAction;
         protected int direction;
@@ -18,7 +17,6 @@ namespace Survive
         public Zombie(Rectangle loc)
             : base(loc)
         {
-            rgen = new Random();
             attackPower = rgen.Next(5) + 5; //attack power between 5-10
             zombieAction = ZombieActions.Patrol;
             moveSpeed = 1;
