@@ -15,6 +15,7 @@ namespace Survive
     {
         //Attributes
         protected string name;
+        protected int weaponIndex;
         protected int number;
         protected PlayerIndex pi;
         protected List<Item> items;
@@ -32,8 +33,9 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             controls = new Control(num);
+            weaponIndex = 0;
             weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
-            currentWeapon = weapons[0];
+            currentWeapon = weapons[weaponIndex];
         }
 
         public Player(string nm, int num, Rectangle loc)
@@ -45,7 +47,7 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weapons.Add(new WeaponStock("Beginner's Pistol",5,5,5,5,5));
-            currentWeapon = weapons[0];
+            currentWeapon = weapons[weaponIndex];
             controls = new Control();
         }
 
@@ -107,6 +109,26 @@ namespace Survive
                 items.Add(item);
                 item.Active = false;
             }
+        }
+
+        public void SwitchWeaponsNext()
+        {
+            weaponIndex += 1;
+            if (weaponIndex > weapons.Count - 1)
+            {
+                weaponIndex = 0;
+            }
+            currentWeapon = weapons[weaponIndex];
+        }
+
+        public void SwitchWeaponsPrevious()
+        {
+            weaponIndex -= 1;
+            if (weaponIndex < 0)
+            {
+                weaponIndex = weapons.Count - 1;
+            }
+            currentWeapon = weapons[weaponIndex];
         }
     }
 }

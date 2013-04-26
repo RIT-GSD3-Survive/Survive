@@ -362,12 +362,12 @@ namespace Survive
                         if (p.Controls.SwitchWeaponsNext())
                         {
                             playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            //p.SwitchWeaponNext();
+                            p.SwitchWeaponsNext();
                         }
                         if (p.Controls.SwitchWeaponsPrevious())
                         {
                             playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            //p.SwitchWeaponPrevious();
+                            p.SwitchWeaponsPrevious();
                         }
                         p.Gravity();
                         p.PosUpdate();
