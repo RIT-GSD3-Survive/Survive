@@ -17,6 +17,7 @@ namespace Survive
         protected Boolean falling; //Allows falling off higher level platforms
         protected Boolean jumping; //Prevents jumping while in air
         protected Boolean invulnerable; //Prevents the player from taking multiple hits from zombies
+        protected Boolean faceRight = true; //True: Facing right.  False: Facing left.
         protected int invulnerableTimer;
 
         public Humanoid(Rectangle loc)
@@ -46,6 +47,14 @@ namespace Survive
         {
             get { return jumping; }
             set { jumping = value; }
+        }
+
+        /// <summary>
+        /// Returns whether or not this humanoid's facing right.  True = Facing right.  False = Facing left.
+        /// </summary>
+        public Boolean FacingRight {
+            get { return faceRight; }
+            set { faceRight = value; }
         }
 
         public int HP
