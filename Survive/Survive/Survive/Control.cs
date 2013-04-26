@@ -87,7 +87,7 @@ namespace Survive {
             return
                 (allowKeyboard && (currentKS.IsKeyDown(Keys.Space) || currentKS.IsKeyDown(Keys.W))) // Using Keyboard and Space or W is pressed
                 || currentGPS.IsButtonDown(Buttons.A) // Player pushing A
-                || currentGPS.ThumbSticks.Left.Y > 0.8f; // Player pushing up left stick
+                || currentGPS.IsButtonDown(Buttons.LeftThumbstickUp); // Player pushing up left stick
         }
 
         public bool IsFire() {
@@ -114,14 +114,14 @@ namespace Survive {
         {
             return
                 (allowKeyboard && (currentMS.ScrollWheelValue < previousMS.ScrollWheelValue))
-                || currentGPS.IsButtonDown(Buttons.DPadLeft);
+                || currentGPS.IsButtonDown(Buttons.LeftShoulder);
         }
 
         public bool SwitchWeaponsNext()
         {
             return
                 (allowKeyboard && (currentMS.ScrollWheelValue > previousMS.ScrollWheelValue))
-                || currentGPS.IsButtonDown(Buttons.DPadRight);
+                || currentGPS.IsButtonDown(Buttons.RightShoulder);
         }
 
         public bool Interact()

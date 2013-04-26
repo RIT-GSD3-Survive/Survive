@@ -53,15 +53,10 @@ namespace Survive
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact, Reload };
         PlayerMovementInput playerMovementInput;
         PlayerOtherInput playerOtherInput;
-        //controller state
-        GamePadState previousGPS;
-        GamePadState currentGPS;
-        //Keyboard State
-        KeyboardState kStateCurrent;
-        KeyboardState kStatePrevious;
-        //Mouse State
-        MouseState mStateCurrent;
-        MouseState mStatePrevious;
+        /// <summary>
+        /// A dummy player for menus
+        /// </summary>
+        Player menuPlayer = new Player("MenuMan", 0, new Rectangle());
         //humanoid
         int humanoidWidth;
         int humanoidHeight;
@@ -213,7 +208,8 @@ namespace Survive
             switch (gameState)
             {
                 case GameState.Menu:
-                    if (playerList[0].Controls.CurrentGPS.IsConnected)
+                    menuPlayer.Controls.Refresh();
+                    if (menuPlayer.Controls.CurrentGPS.IsConnected)
                     {
                         //currentGPS = GamePad.GetState(0);
 
@@ -255,7 +251,7 @@ namespace Survive
                                 menuButtonState = MenuButtonState.Single;
                             }
                         }
-                        if (playerList[0].Controls.CurrentGPS.IsButtonDown(Buttons.A))
+                        if(menuPlayer.Controls.CurrentGPS.IsButtonDown(Buttons.A))
                         {
                             if (menuButtonState == MenuButtonState.Single)
                             {
@@ -266,19 +262,19 @@ namespace Survive
                             {
                                 if (GamePad.GetState(PlayerIndex.One).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
+                                    playerList.Add(new Player("Name", PlayerIndex.One, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 if (GamePad.GetState(PlayerIndex.Two).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 2, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
+                                    playerList.Add(new Player("Name", PlayerIndex.Two, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 if (GamePad.GetState(PlayerIndex.Three).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 3, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
+                                    playerList.Add(new Player("Name", PlayerIndex.Three, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 if (GamePad.GetState(PlayerIndex.Four).IsConnected)
                                 {
-                                    playerList.Add(new Player("Name", 4, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
+                                    playerList.Add(new Player("Name", PlayerIndex.Four, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                                 }
                                 gameState = GameState.InGame;
                             }
@@ -290,54 +286,39 @@ namespace Survive
                     }
                     else
                     {
-                        if (playerList[0].Controls.CurrentMS.X > 280 && playerList[0].Controls.CurrentMS.X < 500)
-                        {
-                            if (playerList[0].Controls.CurrentMS.Y > 165 && playerList[0].Controls.CurrentMS.Y < 210)
-                            {
+                        if(menuPlayer.Controls.CurrentMS.X > 280 && menuPlayer.Controls.CurrentMS.X < 500) {
+                            if(menuPlayer.Controls.CurrentMS.Y > 165 && menuPlayer.Controls.CurrentMS.Y < 210) {
                                 menuButtonState = MenuButtonState.Single;
-                            }
-                            else if (playerList[0].Controls.CurrentMS.Y > 265 && playerList[0].Controls.CurrentMS.Y < 310)
-                            {
+                            } else if(menuPlayer.Controls.CurrentMS.Y > 265 && menuPlayer.Controls.CurrentMS.Y < 310) {
                                 menuButtonState = MenuButtonState.Multi;
-                            }
-                            else if (playerList[0].Controls.CurrentMS.Y > 365 && playerList[0].Controls.CurrentMS.Y < 410)
-                            {
+                            } else if(menuPlayer.Controls.CurrentMS.Y > 365 && menuPlayer.Controls.CurrentMS.Y < 410) {
                                 menuButtonState = MenuButtonState.Quit;
-                            }
-                            else
-                            {
+                            } else {
                                 menuButtonState = MenuButtonState.None;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             menuButtonState = MenuButtonState.None;
                         }
                     }
-                    if (playerList[0].Controls.CurrentMS.LeftButton == ButtonState.Pressed)
+                    if(menuPlayer.Controls.CurrentMS.LeftButton == ButtonState.Pressed)
                     {
                         if (menuButtonState == MenuButtonState.Single)
                         {
                             playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                             gameState = GameState.InGame;
                         }
-                        if (menuButtonState == MenuButtonState.Multi)
-                        {
-                            if (GamePad.GetState(PlayerIndex.One).IsConnected)
-                            {
-                                playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
+                        if (menuButtonState == MenuButtonState.Multi) {
+                            if(GamePad.GetState(PlayerIndex.One).IsConnected) {
+                                playerList.Add(new Player("Name", PlayerIndex.One, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                             }
-                            if (GamePad.GetState(PlayerIndex.Two).IsConnected)
-                            {
-                                playerList.Add(new Player("Name", 2, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
+                            if(GamePad.GetState(PlayerIndex.Two).IsConnected) {
+                                playerList.Add(new Player("Name", PlayerIndex.Two, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
                             }
-                            if (GamePad.GetState(PlayerIndex.Three).IsConnected)
-                            {
-                                playerList.Add(new Player("Name", 3, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
+                            if(GamePad.GetState(PlayerIndex.Three).IsConnected) {
+                                playerList.Add(new Player("Name", PlayerIndex.Three, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
                             }
-                            if (GamePad.GetState(PlayerIndex.Four).IsConnected)
-                            {
-                                playerList.Add(new Player("Name", 4, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
+                            if(GamePad.GetState(PlayerIndex.Four).IsConnected) {
+                                playerList.Add(new Player("Name", PlayerIndex.Four, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                             }
                             gameState = GameState.InGame;
                         }
@@ -617,20 +598,10 @@ namespace Survive
                     break; //end case inGame
 
                 case GameState.Pause:
-                    if (currentGPS.IsConnected)
-                    {
-                        currentGPS = GamePad.GetState(PlayerIndex.One);
-                        if (currentGPS.IsButtonDown(Buttons.A))
-                        {
-                            gameState = GameState.InGame;
-                        }
-                    }
-                    else
-                    {
-                        kStateCurrent = Keyboard.GetState();
-                        if (kStateCurrent.IsKeyDown(Keys.Enter))
-                        {
-                            gameState = GameState.InGame;
+                    foreach(Player p in playerList) {
+                        if(p.Controls.CurrentGPS.IsButtonDown(Buttons.A) || p.Controls.CurrentKS.IsKeyDown(Keys.Enter)) {
+                            gameState = GameState.Menu;
+                            break;
                         }
                     }
                     break;
@@ -642,23 +613,10 @@ namespace Survive
                     break;
 
                 case GameState.GameOver:
-                    if (currentGPS.IsConnected)
-                    {
-                        currentGPS = GamePad.GetState(PlayerIndex.One);
-                        if (SingleKeyPress(Buttons.A))
-                        {
+                    foreach(Player p in playerList) {
+                        if(p.Controls.CurrentGPS.IsButtonDown(Buttons.A) || p.Controls.CurrentKS.IsKeyDown(Keys.Enter)) {
                             gameState = GameState.Menu;
-                            menuButtonState = MenuButtonState.None;
-                        }
-                    }
-                    else
-                    {
-                        //kStatePrevious = kStateCurrent;
-                        kStateCurrent = Keyboard.GetState();
-                        if (kStateCurrent.IsKeyDown(Keys.Enter))
-                        {
-                            gameState = GameState.Menu;
-                            menuButtonState = MenuButtonState.None;
+                            break;
                         }
                     }
                     break;
@@ -719,7 +677,7 @@ namespace Survive
                 case GameState.Pause:
                     DrawGameScreen();
                     spriteBatch.DrawString(Resources.Courier, "PAUSED", new Vector2(320, 225), Color.Black);
-                    if (currentGPS.IsConnected)
+                    if (playerList[0].Controls.CurrentGPS.IsConnected)
                     {
                         spriteBatch.DrawString(Resources.Courier, "Hit A to Continue", new Vector2(245, 265), Color.Black);
                     }
