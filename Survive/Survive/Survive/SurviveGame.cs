@@ -674,36 +674,10 @@ namespace Survive
             switch (gameState)
             {
                 case GameState.Menu:
-                    switch (menuButtonState)
-                    {
-                        case MenuButtonState.None:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
-                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
-                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
-                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
-                            break;
-
-                        case MenuButtonState.Single:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
-                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Gold);
-                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
-                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
-                            break;
-
-                        case MenuButtonState.Multi:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
-                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
-                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Gold);
-                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Black);
-                            break;
-
-                        case MenuButtonState.Quit:
-                            spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
-                            spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), Color.Black);
-                            spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), Color.Black);
-                            spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), Color.Gold);
-                            break;
-                    }
+                    spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
+                    spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), (menuButtonState == MenuButtonState.Single)?Color.Gold:Color.Black);
+                    spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), (menuButtonState == MenuButtonState.Multi) ? Color.Gold : Color.Black);
+                    spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), (menuButtonState == MenuButtonState.Quit) ? Color.Gold : Color.Black);
                     break; //end case Menu
 
                 case GameState.InGame:
