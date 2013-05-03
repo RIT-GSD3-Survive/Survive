@@ -111,6 +111,10 @@ namespace Survive
             {
                 if (this.Location.Intersects(obj.Location))
                 {
+                    //zombie turns to face bullet
+                    if (((Zombie)objCheckingCollision).FacingRight == true && ((Bullet)obj).Direction==1) //both right
+                        ((Zombie)objCheckingCollision).FacingRight = false;
+
                     ((Zombie)objCheckingCollision).HP -= ((Bullet)obj).Damage;
                     ((Bullet)obj).Active = false;
                 }

@@ -496,12 +496,12 @@ namespace Survive
                             if (zombie.X > closestPlayer.X)
                             {
                                 zombie.WalkLeft();
-                                zombie.Direction = -1;
+                                zombie.FacingRight = false;
                             }
                             else if (zombie.X < closestPlayer.X)
                             {
                                 zombie.WalkRight();
-                                zombie.Direction = 1;
+                                zombie.FacingRight = true;
                             }
 
                         }
@@ -512,7 +512,7 @@ namespace Survive
                                 if(zombie.DetectPlayers(player))
                                     zombie.ZombieAction = ZombieActions.Chase;
                             }
-                            if (zombie.Direction > 0) zombie.WalkRight();
+                            if (zombie.FacingRight) zombie.WalkRight();
                             else zombie.WalkLeft();
 
                             zombie.changeDirection();
@@ -945,6 +945,15 @@ namespace Survive
             Rectangle leg = new Rectangle(43, 0, 13, 27);
             Rectangle body = new Rectangle(24, 0, 19, 32);
             Rectangle head = new Rectangle(0, 0, 23, 22);
+            
+            if (obj is Zombie)
+            {
+                int z = 56;
+                arm.X += z;
+                leg.X += z;
+                body.X += z;
+                head.X += z;
+            }
 
             //flip parts
             SpriteEffects flip = SpriteEffects.FlipHorizontally;

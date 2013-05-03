@@ -12,7 +12,6 @@ namespace Survive
         //Attributes
         protected int attackPower;
         protected ZombieActions zombieAction;
-        protected int direction;
 
         public Zombie(Rectangle loc)
             : base(loc)
@@ -20,7 +19,6 @@ namespace Survive
             attackPower = rgen.Next(5) + 5; //attack power between 5-10
             zombieAction = ZombieActions.Patrol;
             moveSpeed = 1;
-            direction = 1;
         }
 
         //Properties
@@ -34,12 +32,6 @@ namespace Survive
         {
             get { return attackPower; }
             set { attackPower = value; }
-        }
-
-        public int Direction
-        {
-            get { return direction; }
-            set { direction = value; }
         }
 
         //methods
@@ -62,13 +54,14 @@ namespace Survive
         {
             //check edges
             if (location.X < 5)
-                direction = 1;
+                faceRight = true;
             else if (location.X > (SurviveGame.viewportWidth - location.Width))
-                direction = -1;
+                faceRight = false;
 
             //randomly change direction
             if (rgen.Next(350) == 1)
-                direction *= -1;
+                if (faceRight) faceRight = false;
+                else faceRight = true;
         }
     }
 }
