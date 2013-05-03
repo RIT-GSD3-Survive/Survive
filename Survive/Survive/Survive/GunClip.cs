@@ -9,7 +9,7 @@ namespace Survive
     {
         int current; //Current amount of ammo in clip
 
-        public GunClip(int reloadSpeedAddition, int clipCapacityAddition)
+        public GunClip(int reloadSpeed, int clipCapacity)
         {
             this.reloadSpeed = reloadSpeed;
             this.clipCapacity = clipCapacity;
