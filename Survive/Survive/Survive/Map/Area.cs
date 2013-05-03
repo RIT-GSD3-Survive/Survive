@@ -14,11 +14,7 @@ namespace Survive {
             get { return name; }
         }
 
-        List<Point> map = new List<Point>();
-
-        public Area() {
-
-        }
+        List<Point> platformMap = new List<Point>();
 
         public Area(NbtCompound cmpd) {
             name = cmpd.Get<NbtString>("name").Value;
@@ -26,26 +22,30 @@ namespace Survive {
             foreach(NbtCompound alpha in ground) {
                 int x = alpha.Get<NbtByte>("x").Value;
                 int y = alpha.Get<NbtByte>("y").Value;
-                map.Add(new Point(x, y));
+                platformMap.Add(new Point(x, y));
             }
         }
 
         public void DrawArea(SpriteBatch sb) {
-            foreach(Point alpha in map) {
+            foreach(Point alpha in platformMap) {
                 sb.Draw(Resources.Tiles, new Vector2((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4), new Rectangle(32, 0, 32, 32), Color.White);
             }
         }
 
         public List<Platform> GetTiles() {
             List<Platform> rtn = new List<Platform>();
-            foreach(Point alpha in map) {
-                int sheetX = 1;
-                if(!map.Contains(new Point(alpha.X - 1, alpha.Y))) {
+            foreach(Point alpha in platformMap) {
+                int sheetX = 1, sheetY = 0;
+                if(!platformMap.Contains(new Point(alpha.X - 1, alpha.Y))) {
                     sheetX = 3;
-                } else if(!map.Contains(new Point(alpha.X + 1, alpha.Y))) {
+                } else if(!platformMap.Contains(new Point(alpha.X + 1, alpha.Y))) {
                     sheetX = 2;
                 }
-                rtn.Add(new Platform(new Rectangle((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4, 32, 32), new Vector2(sheetX, 0)));
+                if(platformMap.Contains(new Point(alpha.X, alpha.Y - 1))) {
+                    sheetY = 1;
+                    sheetX--;
+                }
+                rtn.Add(new Platform(new Rectangle((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4, 32, 32), new Vector2(sheetX, sheetY)));
             }
 
             return rtn;
