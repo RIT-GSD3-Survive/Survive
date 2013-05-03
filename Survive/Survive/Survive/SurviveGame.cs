@@ -22,7 +22,6 @@ namespace Survive
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //images
-        Texture2D playerImage;
         Texture2D GUIAmmo;
         Texture2D GUIAmmoClipEmpty;
         Texture2D GUIAmmoClipFull;
@@ -41,6 +40,7 @@ namespace Survive
         Texture2D bulletImage;
         Texture2D gunSheet;
         Texture2D humanoidSheet;
+        Texture2D portalImage;
         //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
@@ -139,7 +139,7 @@ namespace Survive
 
             // TODO: use this.Content to load your game content here
             Resources.LoadRes(Content);
-            playerImage = this.Content.Load<Texture2D>("Person");
+            portalImage = this.Content.Load<Texture2D>("Portal");
             ammoImage = this.Content.Load<Texture2D>("Ammo");
             medkitImage = this.Content.Load<Texture2D>("Medkit");
             bulletImage = new Texture2D(graphics.GraphicsDevice, 1, 1);

@@ -47,9 +47,9 @@ namespace Survive
         {
             if (zombieAction != ZombieActions.Chase)
             {
-                int rangeMultiplier = 4;
+                int rangeMultiplier = 8;
                 Rectangle detectRange = new Rectangle(
-                    location.X, location.Y,
+                    location.X - ((location.Width * rangeMultiplier) / 2), location.Y - ((location.Height * rangeMultiplier) / 2),
                     location.Width * rangeMultiplier, location.Height * rangeMultiplier);
 
                 if (detectRange.Intersects(player.Location))
