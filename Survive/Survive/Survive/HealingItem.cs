@@ -9,12 +9,9 @@ namespace Survive
 {
     class HealingItem : Item
     {
-        protected int amount;
-
-        public HealingItem(int amt, Rectangle loc)
+        public HealingItem(Rectangle loc)
         {
             location = loc;
-            amount = amt;
         }
     }
 }

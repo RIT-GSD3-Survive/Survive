@@ -87,9 +87,16 @@ namespace Survive
             set { controls = value; }
         }
 
+
         public Portal Vote {
             get { return move; }
             set { move = value; }
+        }
+
+        public int HealingItemsAmount
+        {
+            get { return healingItemsAmount; }
+            set { healingItemsAmount = value; }
         }
 
         // methods
@@ -104,7 +111,7 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100, "Pistol", 5));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
@@ -113,20 +120,23 @@ namespace Survive
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
-            if (currentClip.Current > 0)
+            if (!(GlobalVariables.map.AtSafehouse))
             {
-                currentClip.Current--;
+                if (currentClip.Current > 0)
+                {
+                    currentClip.Current--;
 
-                //check current clip's ammo
-                if (currentClip.Current <= 0) //no ammo left
+                    Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
+                    return b;
+                }
+                else
+                {
                     Reload();
-
-                Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
-                return b;
+                    return null;
+                }
             }
             else
             {
-                Reload();
                 return null;
             }
         }

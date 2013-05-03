@@ -368,7 +368,7 @@ namespace Survive
                         if (p.Controls.Interact())
                         {
                             playerOtherInput = PlayerOtherInput.Interact;
-                            //p.Interact();
+                            p.Interact();
                         }
                         if (p.Controls.Pause())
                         {
