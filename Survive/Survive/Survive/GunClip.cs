@@ -7,7 +7,6 @@ namespace Survive
 {
     class GunClip : GunBits
     {
-        int capacity; //Max capacity
         int current; //Current amount of ammo in clip
 
         public GunClip(int reloadSpeedAddition, int clipCapacityAddition)
@@ -20,12 +19,6 @@ namespace Survive
         {
             get { return current; }
             set { current = value; }
-        }
-
-        public int Capacity
-        {
-            get { return capacity; }
-            set { capacity = value; }
         }
     }
 }

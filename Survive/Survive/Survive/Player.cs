@@ -30,31 +30,17 @@ namespace Survive
         public Player(string nm, PlayerIndex num, Rectangle loc)
             : base(loc)
         {
-            healingItemsAmount = 0;
-            score = 0;
-            ammo = 0;
-            name = nm;
             pi = num;
-            items = new List<Item>();
-            weapons = new List<Weapon>();
-            moveSpeed = 2;
             controls = new Control(num);
-            weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
-            currentWeapon = weapons[weaponIndex];
+            SetUp(nm, loc);
         }
 
         public Player(string nm, int num, Rectangle loc)
             : base(loc)
         {
-            name = nm;
             number = num;
-            items = new List<Item>();
-            weapons = new List<Weapon>();
-            moveSpeed = 2;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
-            currentWeapon = weapons[weaponIndex];
             controls = new Control();
+            SetUp(nm, loc);
         }
 
         //Properties
@@ -100,6 +86,23 @@ namespace Survive
         }
 
         // methods
+        //call in the constructors so we don't have have duplicate lines in each
+        public void SetUp(string nm, Rectangle loc)
+        {
+            healingItemsAmount = 0;
+            score = 0;
+            ammo = 0;
+            name = nm;
+            items = new List<Item>();
+            weapons = new List<Weapon>();
+            moveSpeed = 2;
+            weaponIndex = 0;
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
+            currentWeapon = weapons[weaponIndex];
+            currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
+            currentClip.Current = currentClip.ClipCapacity;
+        }
+
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
@@ -140,6 +143,7 @@ namespace Survive
                 weaponIndex = 0;
             }
             currentWeapon = weapons[weaponIndex];
+            SwitchCurrentClip();
         }
 
         public void SwitchWeaponsPrevious()
@@ -150,6 +154,24 @@ namespace Survive
                 weaponIndex = weapons.Count - 1;
             }
             currentWeapon = weapons[weaponIndex];
+            SwitchCurrentClip();
+        }
+
+        private void SwitchCurrentClip()
+        {
+            //put current ammo into new gun
+            int leftOverAmmo = currentClip.Current;
+            if (leftOverAmmo > currentWeapon.ClipCapacity) //too much ammo for current clip, make excess new ammo item
+            {
+                int excessAmmo = leftOverAmmo - currentWeapon.ClipCapacity;
+                AmmoItem ammoItemAdding = new AmmoItem(excessAmmo, new Rectangle(0, 0, 0, 0));
+                ammoItemAdding.Active = false;
+                items.Add(ammoItemAdding);
+                //remove excess ammo from leftover
+                leftOverAmmo -= excessAmmo;
+            }
+            currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
+            currentClip.Current = leftOverAmmo;
         }
     }
 }

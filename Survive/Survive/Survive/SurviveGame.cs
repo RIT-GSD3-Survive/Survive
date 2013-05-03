@@ -857,7 +857,11 @@ namespace Survive
 
             if (player.CurrentClip != null)
             {
-                int ammoLeft = (player.CurrentClip.Current * height / player.CurrentClip.Capacity);
+                int ammoLeft = 0;
+                if (player.CurrentClip.ClipCapacity != 0)
+                {
+                    ammoLeft = (player.CurrentClip.Current * height / player.CurrentClip.ClipCapacity);
+                }
 
                 //full/partially full clip
                 spriteBatch.Draw(GUIAmmoClipFull,
