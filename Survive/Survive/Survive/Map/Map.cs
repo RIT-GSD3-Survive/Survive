@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive {
     public class Map {
-
         private List<Area> areas = new List<Area>();
 
         public static Dictionary<Area, List<NbtCompound>> portalsToProcess = new Dictionary<Area,List<NbtCompound>>();
