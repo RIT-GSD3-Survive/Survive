@@ -391,6 +391,14 @@ namespace Survive
                             playerOtherInput = PlayerOtherInput.SwitchWeapon;
                             //p.SwitchWeaponPrevious();
                         }
+                        if (p.Controls.Heal())
+                        {
+                            if (p.HealingItemsAmount > 0 && p.HP != 100)
+                            {
+                                p.HealingItemsAmount--;
+                                p.HP += rgen.Next(10, 30);
+                            }
+                        }
                         p.Gravity();
                         p.PosUpdate();
                         p.InvulnerabilityTimer();
