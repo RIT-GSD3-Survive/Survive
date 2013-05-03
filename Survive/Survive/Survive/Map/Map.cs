@@ -17,6 +17,10 @@ namespace Survive {
 
         private Area currArea = null;
 
+        public Boolean AtSafehouse {
+            get { return currArea.Name.Equals("Safehouse", StringComparison.OrdinalIgnoreCase); }
+        }
+
         public Map() {
             if(File.Exists("mapfile.nbt")) {
                 NbtFile saveFile = new NbtFile("mapfile.nbt");
@@ -29,7 +33,7 @@ namespace Survive {
                     }
                 }
                 foreach(Area alpha in areas) {
-                    if(alpha.Name == "default") {
+                    if(alpha.Name.Equals("safehouse", StringComparison.OrdinalIgnoreCase)) {
                         currArea = alpha;
                         break;
                     }
@@ -51,7 +55,7 @@ namespace Survive {
         }
 
         public void DrawArea(SpriteBatch sb) {
-            currArea.DrawArea(sb);
+            if(currArea != null) currArea.DrawArea(sb);
         }
 
         public List<Platform> GetTiles() {

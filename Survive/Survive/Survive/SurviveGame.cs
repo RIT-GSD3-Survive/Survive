@@ -44,10 +44,8 @@ namespace Survive
         //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
-        enum GameLocation { Safehouse, Level1, Level2 };
         MenuButtonState menuButtonState;
         GameState gameState;
-        GameLocation gameLocation;
         //player input
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact, Reload };
         PlayerOtherInput playerOtherInput;
@@ -100,7 +98,6 @@ namespace Survive
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
             gameState = GameState.Menu;
-            gameLocation = GameLocation.Level1;
             hpBarWidth = 130;
             tileSize = 32;
             viewportHeight = GraphicsDevice.Viewport.Height;
@@ -119,7 +116,6 @@ namespace Survive
             gunImagesList.Add("SMG", new Rectangle(13, 0, 23, 13));
             gunImagesList.Add("AR", new Rectangle(36, 0, 40, 12));
 
-            map = new Map();
             initializeGround();
             rgen = new Random();
 
@@ -164,6 +160,8 @@ namespace Survive
             tileSheet = this.Content.Load<Texture2D>("Tiles");
             gunSheet = this.Content.Load<Texture2D>("Guns");
             humanoidSheet = this.Content.Load<Texture2D>("PersonSheet");
+
+            map = new Map();
         }
 
         /// <summary>
@@ -872,31 +870,23 @@ namespace Survive
                 }
 
             // Load in the map.
-            List<Platform> area = map.GetTiles();
-            if (area != null)
-                platformTilesList.AddRange(area);
+            // List<Platform> area = map.GetTiles();
+            // if (area != null)
+            //     platformTilesList.AddRange(area);
         }
 
         private void DrawGround()
         {
             for (int i = 0; i < platformTilesList.Count; i++)
                 spriteBatch.Draw(tileSheet, platformTilesList[i].Location, platformTilesList[i].SourceRectangle, Color.White);
+            map.DrawArea(spriteBatch);
         }
 
         private void DrawGameScreen()
         {
             DrawGround();
-            switch (gameLocation)
-            {
-                case GameLocation.Safehouse:
-                    break;
-                case GameLocation.Level1:
-                    break;
-                case GameLocation.Level2:
-                    break;
-            }
             //draw Zombie
-            if (gameLocation != GameLocation.Safehouse)
+            if (!map.AtSafehouse)
                 foreach (Zombie z in zombieList)
                 {
                     DrawHumanoid(z);

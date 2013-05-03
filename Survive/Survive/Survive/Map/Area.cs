@@ -25,7 +25,7 @@ namespace Survive {
                 int y = alpha.Get<NbtByte>("y").Value;
                 platformMap.Add(new Point(x, y));
             }
-            Map.portalsToProcess[this] = cmpd.Get<NbtList>("portals").ToArray<NbtCompound>().ToList<NbtCompound>();
+            Map.portalsToProcess[this] = cmpd.Get<NbtList>("portal").ToArray<NbtCompound>().ToList<NbtCompound>();
         }
 
         public void AddPortals(List<Portal> toAdd) {
@@ -33,13 +33,6 @@ namespace Survive {
         }
 
         public void DrawArea(SpriteBatch sb) {
-            foreach(Point alpha in platformMap) {
-                sb.Draw(Resources.Tiles, new Vector2((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4), new Rectangle(32, 0, 32, 32), Color.White);
-            }
-        }
-
-        public List<Platform> GetTiles() {
-            List<Platform> rtn = new List<Platform>();
             foreach(Point alpha in platformMap) {
                 int sheetX = 1, sheetY = 0;
                 if(!platformMap.Contains(new Point(alpha.X - 1, alpha.Y))) {
@@ -51,7 +44,17 @@ namespace Survive {
                     sheetY = 1;
                     sheetX--;
                 }
-                rtn.Add(new Platform(new Rectangle((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4, 32, 32), new Vector2(sheetX, sheetY)));
+                sb.Draw(Resources.Tiles, new Vector2((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4), new Rectangle(sheetX * 32, sheetY * 32, 32, 32), Color.White);
+            }
+            foreach(Portal alpha in portals) {
+                alpha.Draw(sb);
+            }
+        }
+
+        public List<Platform> GetTiles() {
+            List<Platform> rtn = new List<Platform>();
+            foreach(Point alpha in platformMap) {
+                rtn.Add(new Platform(new Rectangle((alpha.X - 1) * 32, (alpha.Y + 2) * 32 + 4, 32, 32), new Vector2(1, 0)));
             }
 
             return rtn;
