@@ -23,6 +23,7 @@ namespace Survive
         SpriteBatch spriteBatch;
         //images
         Texture2D GUIAmmo;
+        Texture2D GUIMedkit;
         Texture2D GUIAmmoClipEmpty;
         Texture2D GUIAmmoClipFull;
         Texture2D GUIhpBARgrey;
@@ -140,6 +141,7 @@ namespace Survive
 
 
             GUIAmmo = this.Content.Load<Texture2D>("GUIAmmo");
+            GUIMedkit = this.Content.Load<Texture2D>("GUIMedkit");
             GUIAmmoClipEmpty = this.Content.Load<Texture2D>("GUIAmmoClipEmpty");
             GUIAmmoClipFull = this.Content.Load<Texture2D>("GUIAmmoClipFull");
 
@@ -736,6 +738,27 @@ namespace Survive
             }
         }
 
+        private void drawMedkitIcons(Player player)
+        {
+            int mkX = 77;
+            if (player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
+                mkX = 696;
+
+            int mkY = 38;
+            if (player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
+                mkY = 431;
+
+            int mkDir = -1;
+            if (player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
+                mkDir = 1;
+
+            for (int i = 0; i < player.HealingItemsAmount; i++)
+            {
+                spriteBatch.Draw(GUIMedkit,
+                    new Rectangle(mkX + (16 * i * mkDir), mkY, GUIMedkit.Width, GUIMedkit.Height), Color.White);
+            }
+        }
+
         private void drawAmmo(Player player)
         {
             int ammoX = 106;
@@ -901,6 +924,7 @@ namespace Survive
                     }
                 }
                 drawAmmo(p);
+                drawMedkitIcons(p);
                 drawAmmoClips(p);
                 drawHPBar(p);
             }
