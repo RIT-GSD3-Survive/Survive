@@ -112,20 +112,23 @@ namespace Survive
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
-            if (currentClip.Current > 0)
+            if (!(GlobalVariables.map.AtSafehouse))
             {
-                currentClip.Current--;
+                if (currentClip.Current > 0)
+                {
+                    currentClip.Current--;
 
-                //check current clip's ammo
-                if (currentClip.Current <= 0) //no ammo left
+                    Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
+                    return b;
+                }
+                else
+                {
                     Reload();
-
-                Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
-                return b;
+                    return null;
+                }
             }
             else
             {
-                Reload();
                 return null;
             }
         }
