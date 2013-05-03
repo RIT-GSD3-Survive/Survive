@@ -365,7 +365,7 @@ namespace Survive
                             playerOtherInput = PlayerOtherInput.Fire;
                             Bullet b = null;
                             if ((b = p.Fire()) != null)
-                                bulletList.Add(p.Fire());
+                                bulletList.Add(b);
                         }
                         if (p.Controls.Interact())
                         {
