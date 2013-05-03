@@ -139,10 +139,28 @@ namespace Survive
                     if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X + this.Location.Width > obj.X + obj.Location.Width)
                     {
                         this.X += 2;
+                        if (this is Zombie)
+                        {
+                            //if (this.Y > objCheckingCollision.Y)
+                            //{
+                                this.Jump();
+                                this.PosUpdate();
+                                this.Gravity();
+                            //}
+                        }
                     }
                     else if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X < obj.X)
                     {
                         this.X -= 2;
+                        if (this is Zombie)
+                        {
+                            //if (this.Y > objCheckingCollision.Y)
+                            //{
+                                this.Jump();
+                                this.PosUpdate();
+                                this.Gravity();
+                            //}
+                        }
                     }
                     /*
                     else if (this.Y < obj.Y + obj.Location.Height && this.Y > obj.Y)

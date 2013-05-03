@@ -496,7 +496,12 @@ namespace Survive
                             if (zombie.X > closestPlayer.X)
                             {
                                 zombie.WalkLeft();
+<<<<<<< HEAD
                                 zombie.FacingRight = false;
+=======
+                                zombie.Direction = -1;
+                                
+>>>>>>> Zombie can jump onto platforms
                             }
                             else if (zombie.X < closestPlayer.X)
                             {
@@ -504,6 +509,8 @@ namespace Survive
                                 zombie.FacingRight = true;
                             }
 
+                            zombie.PosUpdate();
+                            zombie.Gravity();
                         }
                         else if (zombie.ZombieAction == ZombieActions.Patrol)
                         {
