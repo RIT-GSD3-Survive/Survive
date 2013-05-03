@@ -13,6 +13,8 @@ namespace Survive {
 
         private List<Area> areas = new List<Area>();
 
+        public static Dictionary<Area, List<NbtCompound>> portalsToProcess = new Dictionary<Area,List<NbtCompound>>();
+
         private Area currArea = null;
 
         public Map() {
@@ -32,6 +34,19 @@ namespace Survive {
                         break;
                     }
                 }
+                foreach(Area alpha in portalsToProcess.Keys) {
+                    List<Portal> newPortals = new List<Portal>();
+                    foreach(NbtCompound beta in portalsToProcess[alpha]) {
+                        foreach(Area charlie in areas) {
+                            if(charlie.Name == beta.Get<NbtString>("linkTo").StringValue) {
+                                newPortals.Add(new Portal(new Microsoft.Xna.Framework.Rectangle(beta.Get<NbtByte>("x").IntValue * 32 + 4, beta.Get<NbtByte>("y").IntValue * 32 + 8, 25, 24),
+                                    charlie, beta.Get<NbtByte>("linkX").IntValue * 32, beta.Get<NbtByte>("linkY").IntValue * 32));
+                            }
+                        }
+                    }
+                    alpha.AddPortals(newPortals);
+                }
+                portalsToProcess.Clear();
             }
         }
 

@@ -15,6 +15,7 @@ namespace Survive {
         }
 
         List<Point> platformMap = new List<Point>();
+        List<Portal> portals = new List<Portal>();
 
         public Area(NbtCompound cmpd) {
             name = cmpd.Get<NbtString>("name").Value;
@@ -24,6 +25,11 @@ namespace Survive {
                 int y = alpha.Get<NbtByte>("y").Value;
                 platformMap.Add(new Point(x, y));
             }
+            Map.portalsToProcess[this] = cmpd.Get<NbtList>("portals").ToArray<NbtCompound>().ToList<NbtCompound>();
+        }
+
+        public void AddPortals(List<Portal> toAdd) {
+            portals.AddRange(toAdd);
         }
 
         public void DrawArea(SpriteBatch sb) {
