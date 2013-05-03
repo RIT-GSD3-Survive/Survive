@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Survive
 {
-    //global enum
+    //global variables
     enum ZombieActions { Patrol, Chase }
 
     /// <summary>
@@ -249,7 +249,7 @@ namespace Survive
                                 menuButtonState = MenuButtonState.Single;
                             }
                         }
-                        if(menuPlayer.Controls.CurrentGPS.IsButtonDown(Buttons.A))
+                        if (menuPlayer.Controls.CurrentGPS.IsButtonDown(Buttons.A))
                         {
                             playerList.Clear(); // Empty the player list.
                             if (menuButtonState == MenuButtonState.Single)
@@ -285,21 +285,31 @@ namespace Survive
                     }
                     else
                     {
-                        if(menuPlayer.Controls.CurrentMS.X > 280 && menuPlayer.Controls.CurrentMS.X < 500) {
-                            if(menuPlayer.Controls.CurrentMS.Y > 165 && menuPlayer.Controls.CurrentMS.Y < 210) {
+                        if (menuPlayer.Controls.CurrentMS.X > 280 && menuPlayer.Controls.CurrentMS.X < 500)
+                        {
+                            if (menuPlayer.Controls.CurrentMS.Y > 165 && menuPlayer.Controls.CurrentMS.Y < 210)
+                            {
                                 menuButtonState = MenuButtonState.Single;
-                            } else if(menuPlayer.Controls.CurrentMS.Y > 265 && menuPlayer.Controls.CurrentMS.Y < 310) {
+                            }
+                            else if (menuPlayer.Controls.CurrentMS.Y > 265 && menuPlayer.Controls.CurrentMS.Y < 310)
+                            {
                                 menuButtonState = MenuButtonState.Multi;
-                            } else if(menuPlayer.Controls.CurrentMS.Y > 365 && menuPlayer.Controls.CurrentMS.Y < 410) {
+                            }
+                            else if (menuPlayer.Controls.CurrentMS.Y > 365 && menuPlayer.Controls.CurrentMS.Y < 410)
+                            {
                                 menuButtonState = MenuButtonState.Quit;
-                            } else {
+                            }
+                            else
+                            {
                                 menuButtonState = MenuButtonState.None;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             menuButtonState = MenuButtonState.None;
                         }
                     }
-                    if(menuPlayer.Controls.CurrentMS.LeftButton == ButtonState.Pressed)
+                    if (menuPlayer.Controls.CurrentMS.LeftButton == ButtonState.Pressed)
                     {
                         playerList.Clear(); // Empty the player list.
                         if (menuButtonState == MenuButtonState.Single)
@@ -307,17 +317,22 @@ namespace Survive
                             playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                             gameState = GameState.InGame;
                         }
-                        if (menuButtonState == MenuButtonState.Multi) {
-                            if(GamePad.GetState(PlayerIndex.One).IsConnected) {
+                        if (menuButtonState == MenuButtonState.Multi)
+                        {
+                            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                            {
                                 playerList.Add(new Player("Name", PlayerIndex.One, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                             }
-                            if(GamePad.GetState(PlayerIndex.Two).IsConnected) {
+                            if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                            {
                                 playerList.Add(new Player("Name", PlayerIndex.Two, new Rectangle(220, 345, humanoidWidth, humanoidHeight)));
                             }
-                            if(GamePad.GetState(PlayerIndex.Three).IsConnected) {
+                            if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                            {
                                 playerList.Add(new Player("Name", PlayerIndex.Three, new Rectangle(240, 345, humanoidWidth, humanoidHeight)));
                             }
-                            if(GamePad.GetState(PlayerIndex.Four).IsConnected) {
+                            if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                            {
                                 playerList.Add(new Player("Name", PlayerIndex.Four, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                             }
                             gameState = GameState.InGame;
@@ -484,9 +499,11 @@ namespace Survive
                             //get closest player
                             int distanceClosestPlayer = int.MaxValue;
                             Player closestPlayer = null;
-                            foreach(Player player in playerList) {
+                            foreach (Player player in playerList)
+                            {
                                 int dist = (int)Math.Sqrt(Math.Pow((player.X - zombie.X), 2) + Math.Pow((player.Y - zombie.Y), 2));
-                                if(dist < distanceClosestPlayer) {
+                                if (dist < distanceClosestPlayer)
+                                {
                                     distanceClosestPlayer = dist;
                                     closestPlayer = player;
                                 }
@@ -508,8 +525,9 @@ namespace Survive
                         else if (zombie.ZombieAction == ZombieActions.Patrol)
                         {
                             //move back and forth until player is detected
-                            foreach(Player player in playerList) {
-                                if(zombie.DetectPlayers(player))
+                            foreach (Player player in playerList)
+                            {
+                                if (zombie.DetectPlayers(player))
                                     zombie.ZombieAction = ZombieActions.Chase;
                             }
                             if (zombie.FacingRight) zombie.WalkRight();
@@ -521,7 +539,8 @@ namespace Survive
 
                         foreach (Zombie z in zombieList)
                         {
-                            foreach(Player player in playerList) {
+                            foreach (Player player in playerList)
+                            {
                                 player.CheckCollisions(z, player);
                             }
                             foreach (Platform p in platformTilesList)
@@ -541,13 +560,13 @@ namespace Survive
                             }
                             zombieList.Remove(zombieList[i]);
                         }
-
                     } //end loop through zombies' actions
 
                     //check if player can pickup item
                     foreach (Item item in activeItems)
                     {
-                        foreach(Player p in playerList) {
+                        foreach (Player p in playerList)
+                        {
                             p.PickUpItemCheck(item);
                         }
                     }
@@ -584,20 +603,25 @@ namespace Survive
 
                     // Check Player Liveliness
                     List<Player> temp = new List<Player>(playerList); // Create a temporary list to be looping through
-                    foreach(Player p in temp) {
-                        if(p.HP <= 0) { // If they're dead
+                    foreach (Player p in temp)
+                    {
+                        if (p.HP <= 0)
+                        { // If they're dead
                             playerList.Remove(p); // Remove from player list
                         }
                     }
-                    if(playerList.Count == 0) { // If everyone's dead
+                    if (playerList.Count == 0)
+                    { // If everyone's dead
                         gameState = GameState.GameOver; // Game Over.
                     }
 
                     break; //end case inGame
 
                 case GameState.Pause:
-                    foreach(Player p in playerList) {
-                        if(SingleKeyPress(p, Buttons.A) || SingleKeyPress(p, Keys.Enter)) {
+                    foreach (Player p in playerList)
+                    {
+                        if (SingleKeyPress(p, Buttons.A) || SingleKeyPress(p, Keys.Enter))
+                        {
                             gameState = GameState.Menu;
                             break;
                         }
@@ -612,7 +636,8 @@ namespace Survive
 
                 case GameState.GameOver:
                     menuPlayer.Controls.Refresh();
-                    if(SingleKeyPress(Buttons.A) || SingleKeyPress(Keys.Enter)) {
+                    if (SingleKeyPress(Buttons.A) || SingleKeyPress(Keys.Enter))
+                    {
                         gameState = GameState.Menu;
                         menuButtonState = MenuButtonState.None;
                         break;
@@ -717,18 +742,26 @@ namespace Survive
             return SingleKeyPress(menuPlayer, b);
         }
 
-        private Boolean SingleKeyPress(Player p, Keys k) {
-            if(p.Controls.CurrentKS.IsKeyDown(k) && p.Controls.PreviousKS.IsKeyDown(k)) {
+        private Boolean SingleKeyPress(Player p, Keys k)
+        {
+            if (p.Controls.CurrentKS.IsKeyDown(k) && p.Controls.PreviousKS.IsKeyDown(k))
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
 
-        private Boolean SingleKeyPress(Player p, Buttons b) {
-            if(p.Controls.CurrentGPS.IsButtonDown(b) && p.Controls.PreviousGPS.IsButtonUp(b)) {
+        private Boolean SingleKeyPress(Player p, Buttons b)
+        {
+            if (p.Controls.CurrentGPS.IsButtonDown(b) && p.Controls.PreviousGPS.IsButtonUp(b))
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
@@ -736,11 +769,11 @@ namespace Survive
         private void drawHPBar(Player player)
         {
             int barX = 6;
-            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 barX = 662;
 
             int barY = 63;
-            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 barY = 428;
 
             //calculates bar size
@@ -760,15 +793,15 @@ namespace Survive
         private void drawAmmoClips(Player player)
         {
             int ammoX = 89;
-            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 ammoX = 696;
 
             int ammoY = 50;
-            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 ammoY = 443;
 
             int ammoDir = -1;
-            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 ammoDir = 1;
 
             if (player.Items.Count > 0)
@@ -792,10 +825,10 @@ namespace Survive
         private void drawAmmo(Player player)
         {
             int ammoX = 106;
-            if(player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Two || player.PIndex == PlayerIndex.Four)
                 ammoX = 632;
             int ammoY = 5;
-            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 ammoY = 441;
 
             int width = GUIAmmoClipEmpty.Width;
@@ -809,7 +842,7 @@ namespace Survive
                 rotate = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
 
             int ammoDir = 1;
-            if(player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
+            if (player.PIndex == PlayerIndex.Three || player.PIndex == PlayerIndex.Four)
                 ammoDir = 0;
 
             //empty clip
@@ -877,9 +910,11 @@ namespace Survive
             foreach (Bullet bullet in bulletList)
                 spriteBatch.Draw(bulletImage, bullet.Location, Color.White);
 
-            foreach(Player p in playerList) {
+            foreach (Player p in playerList)
+            {
                 DrawHumanoid(p);
-                switch(playerOtherInput) {
+                switch (playerOtherInput)
+                {
                     case PlayerOtherInput.Jump:
                         break;
                     case PlayerOtherInput.Fire:
@@ -917,9 +952,12 @@ namespace Survive
             spriteBatch.Draw(GUIMain, new Rectangle(0, 0, GUIMain.Width, GUIMain.Height), Color.White);
 
             //get players then loop through and draw GUI elements
-            foreach(Player p in playerList) {
-                if(p.PIndex != PlayerIndex.One) {
-                    switch(p.PIndex) {
+            foreach (Player p in playerList)
+            {
+                if (p.PIndex != PlayerIndex.One)
+                {
+                    switch (p.PIndex)
+                    {
                         case PlayerIndex.Two:
                             spriteBatch.Draw(GUIp2, new Rectangle(619, 5, GUIp2.Width, GUIp2.Height), Color.White);
                             break;
@@ -961,7 +999,7 @@ namespace Survive
             {
                 flip = SpriteEffects.None;
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -5, obj.Y + 23, arm.Width, arm.Height), arm,
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X - 5, obj.Y + 23, arm.Width, arm.Height), arm,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 48, leg.Width, leg.Height), leg,
@@ -985,36 +1023,36 @@ namespace Survive
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 9, obj.Y + 48, leg.Width, leg.Height), leg,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw top arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X -3, obj.Y + 23, arm.Width, arm.Height), arm,
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X - 3, obj.Y + 23, arm.Width, arm.Height), arm,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
             }
             else
             {
                 //draw bottom arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 6, obj.Y + 23, arm.Width, arm.Height), arm, 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 6, obj.Y + 23, arm.Width, arm.Height), arm,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw bottom leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, leg.Width, leg.Height), leg, 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 8, obj.Y + 48, leg.Width, leg.Height), leg,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw body
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, body.Width, body.Height), body, 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 20, body.Width, body.Height), body,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw head
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, head.Width, head.Height), head, 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X, obj.Y, head.Width, head.Height), head,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw gun (if player)
                 if (obj is Player)
                 {
                     //get gun image rectangle
                     Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
-                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X+22, obj.Y+31, rect.Width, rect.Height), rect,
+                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X + 22, obj.Y + 31, rect.Width, rect.Height), rect,
                         Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 }
                 //draw top leg
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, leg.Width, leg.Height), leg, 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, leg.Width, leg.Height), leg,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 //draw top arm
-                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, arm.Width, arm.Height), arm, 
+                spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 2, obj.Y + 23, arm.Width, arm.Height), arm,
                     Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
             }
         }
