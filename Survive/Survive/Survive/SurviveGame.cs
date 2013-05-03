@@ -363,7 +363,9 @@ namespace Survive
                         if (p.Controls.IsFire())
                         {
                             playerOtherInput = PlayerOtherInput.Fire;
-                            bulletList.Add(p.Fire());
+                            Bullet b = null;
+                            if ((b = p.Fire()) != null)
+                                bulletList.Add(p.Fire());
                         }
                         if (p.Controls.Interact())
                         {

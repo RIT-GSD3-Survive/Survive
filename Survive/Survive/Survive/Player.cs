@@ -106,8 +106,22 @@ namespace Survive
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
-            Bullet b = new Bullet((faceRight?1:0), X, Y+32, currentWeapon.AttackPower+rgen.Next(5));
-            return b;
+            if (currentClip.Current > 0)
+            {
+                currentClip.Current--;
+
+                //check current clip's ammo
+                if (currentClip.Current <= 0) //no ammo left
+                    Reload();
+
+                Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
+                return b;
+            }
+            else
+            {
+                Reload();
+                return null;
+            }
         }
 
         public void PickUpItemCheck(Item item)
@@ -172,6 +186,11 @@ namespace Survive
             }
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = leftOverAmmo;
+        }
+
+        public void Reload()
+        {
+            //check if weapon is beginner's pistol (unlimited ammo)
         }
     }
 }
