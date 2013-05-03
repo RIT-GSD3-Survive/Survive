@@ -209,7 +209,13 @@ namespace Survive
         }
 
         public void Interact() {
-            if(
+            List<Portal> portals = GlobalVariables.map.GetPortals();
+            foreach(Portal alpha in portals) {
+                if(alpha.Location.Intersects(this.Location)) {
+                    move = alpha;
+                    return;
+                }
+            }
         }
     }
 }
