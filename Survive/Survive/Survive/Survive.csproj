@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmmoItem.cs" />
+    <Compile Include="AnimSprite.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="GameObject.cs" />

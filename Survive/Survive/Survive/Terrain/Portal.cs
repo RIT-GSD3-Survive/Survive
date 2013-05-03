@@ -13,6 +13,8 @@ namespace Survive
         protected Area linkTo;
         protected int linkX, linkY;
 
+        private AnimSprite sprite = new AnimSprite(Resources.Portal, new TimeSpan(1500), 4, new Vector2(25, 24));
+
         public Portal(Rectangle loc, Area to, int xlink, int ylink)
             :base(loc)
         {
@@ -38,6 +40,14 @@ namespace Survive
         {
             get { return linkY; }
             set { linkY = value; }
+        }
+
+        public void Update(GameTime gt) {
+            sprite.Update(gt);
+        }
+
+        public void Draw(SpriteBatch sb) {
+            sb.Draw(Resources.Portal, location, sprite.GetCurrClip(), Color.White);
         }
     }
 }
