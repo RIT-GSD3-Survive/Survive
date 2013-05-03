@@ -204,8 +204,24 @@ namespace Survive
 
         public void Reload()
         {
+            GunClip best = null; 
             //check for filled clips
+            foreach (GunBits gunbit in items)
+            {
+                if (gunbit is GunClip)
+                {
+                    if (best == null)
+                        best = (GunClip)gunbit;
+                    else
+                        if (((GunClip)gunbit).Current > best.Current)
+                            best = (GunClip)gunbit;
+                }
+            }
 
+            if (best != null) //best clip found
+            {
+                currentClip = best;
+            }
         }
 
         public void Interact() {
