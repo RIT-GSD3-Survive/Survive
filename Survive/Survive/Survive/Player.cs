@@ -111,7 +111,7 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100, "Pistol", 5));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, int.MaxValue, "Pistol", 5));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
@@ -205,6 +205,7 @@ namespace Survive
         public void Reload()
         {
             //check for filled clips
+
         }
 
         public void Interact() {
