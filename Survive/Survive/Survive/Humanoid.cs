@@ -48,7 +48,11 @@ namespace Survive
             get { return jumping; }
             set { jumping = value; }
         }
-
+        public double MoveSpeed
+        {
+            get { return moveSpeed; }
+            set { moveSpeed = value; }
+        }
         /// <summary>
         /// Returns whether or not this humanoid's facing right.  True = Facing right.  False = Facing left.
         /// </summary>

@@ -513,7 +513,6 @@ namespace Survive
                             if (zombie.X > closestPlayer.X)
                             {
                                 zombie.WalkLeft();
-
                                 zombie.FacingRight = false;
                                 
 
@@ -526,6 +525,15 @@ namespace Survive
 
                             zombie.PosUpdate();
                             zombie.Gravity();
+
+                            if (zombie.Jumping == true)
+                            {
+                                zombie.MoveSpeed = 2;
+                            }
+                            else
+                            {
+                                zombie.MoveSpeed = 1;
+                            }
                         }
                         else if (zombie.ZombieAction == ZombieActions.Patrol)
                         {
@@ -700,6 +708,7 @@ namespace Survive
 
                 case GameState.InGame:
                     DrawGameScreen();
+                    
                     break;
 
                 case GameState.Pause:
@@ -913,7 +922,11 @@ namespace Survive
             //draw Zombie
             if (gameLocation != GameLocation.Safehouse)
                 foreach (Zombie z in zombieList)
+                {
                     DrawHumanoid(z);
+                    spriteBatch.DrawString(Resources.Courier, "Zombie Jumping: " + zombieList[0].Jumping, new Vector2(200, 100), Color.Black);
+                }
+
 
             //draw bullets
             foreach (Bullet bullet in bulletList)
