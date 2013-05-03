@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using fNbt;
 
 namespace Survive {
-    class Area {
+    public class Area {
         private String name = "";
 
         public String Name {
