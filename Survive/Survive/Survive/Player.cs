@@ -18,7 +18,7 @@ namespace Survive
         protected int weaponIndex;
         protected int number;
         protected PlayerIndex pi;
-        protected List<Item> items;
+        protected List<GunBits> items;
         protected List<Weapon> weapons;
         protected Weapon currentWeapon;
         protected GunClip currentClip;
@@ -74,7 +74,7 @@ namespace Survive
             set { currentClip = value; }
         }
 
-        public List<Item> Items
+        public List<GunBits> Items
         {
             get { return items; }
         }
@@ -99,11 +99,11 @@ namespace Survive
             score = 0;
             ammo = 0;
             name = nm;
-            items = new List<Item>();
+            items = new List<GunBits>();
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5, "Pistol", 5));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100, "Pistol", 5));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
@@ -139,17 +139,17 @@ namespace Survive
                 {
                     ammo += rgen.Next(100);
                 }
-                if (item is HealingItem)
+                else if (item is HealingItem)
                 {
                     healingItemsAmount++;
                 }
-                if (item is Weapon)
+                else if (item is Weapon)
                 {
                     weapons.Add((Weapon)item);
                 }
-                else
+                else if(item is GunBits)
                 {
-                    items.Add(item);
+                    items.Add((GunBits)item);
                 }
                 item.Active = false;
             }
@@ -181,13 +181,10 @@ namespace Survive
         {
             //put current ammo into new gun
             int leftOverAmmo = currentClip.Current;
-            if (leftOverAmmo > currentWeapon.ClipCapacity) //too much ammo for current clip, make excess new ammo item
+            if (leftOverAmmo > currentWeapon.ClipCapacity) //too much ammo for current clip, convert back to ammo
             {
                 int excessAmmo = leftOverAmmo - currentWeapon.ClipCapacity;
-                AmmoItem ammoItemAdding = new AmmoItem(excessAmmo, new Rectangle(0, 0, 0, 0));
-                ammoItemAdding.Active = false;
-                items.Add(ammoItemAdding);
-                //remove excess ammo from leftover
+                ammo += excessAmmo;
                 leftOverAmmo -= excessAmmo;
             }
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
@@ -196,7 +193,7 @@ namespace Survive
 
         public void Reload()
         {
-            //check if weapon is beginner's pistol (unlimited ammo)
+            //check for filled clips
         }
     }
 }
