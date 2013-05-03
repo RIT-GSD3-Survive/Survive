@@ -144,5 +144,12 @@ namespace Survive {
                 (allowKeyboard && (currentKS.IsKeyDown(Keys.P)))
                 || currentGPS.IsButtonDown(Buttons.Start);
         }
+
+        public bool Heal()
+        {
+            return 
+                (allowKeyboard && (currentKS.IsKeyDown(Keys.H) && previousKS.IsKeyUp(Keys.H)))
+                || (currentGPS.IsButtonDown(Buttons.Y) && previousGPS.IsButtonUp(Buttons.Y));
+        }
     }
 }

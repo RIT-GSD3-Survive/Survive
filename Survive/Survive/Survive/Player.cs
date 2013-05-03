@@ -85,6 +85,12 @@ namespace Survive
             set { controls = value; }
         }
 
+        public int HealingItemsAmount
+        {
+            get { return healingItemsAmount; }
+            set { healingItemsAmount = value; }
+        }
+
         // methods
         //call in the constructors so we don't have have duplicate lines in each
         public void SetUp(string nm, Rectangle loc)
@@ -97,7 +103,7 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 5, "Pistol", 5));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;

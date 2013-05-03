@@ -389,6 +389,14 @@ namespace Survive
                             playerOtherInput = PlayerOtherInput.SwitchWeapon;
                             //p.SwitchWeaponPrevious();
                         }
+                        if (p.Controls.Heal())
+                        {
+                            if (p.HealingItemsAmount > 0)
+                            {
+                                p.HP += rgen.Next(10, 30);
+                                p.HealingItemsAmount--;
+                            }
+                        }
                         p.Gravity();
                         p.PosUpdate();
                         p.InvulnerabilityTimer();
@@ -397,93 +405,6 @@ namespace Survive
                             p.CheckCollisions(pl, p);
                         }
                     }
-
-                    /*
-                    if (currentGPS.IsConnected)
-                    {
-                        if (left.X > 0)
-                        {
-                            playerMovementInput = PlayerMovementInput.Right;
-                            p1.WalkRight();
-                        }
-                        if (left.X < 0)
-                        {
-                            playerMovementInput = PlayerMovementInput.Left;
-                            p1.WalkLeft();
-                        }
-                        if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && !(p1.Jumping))
-                        {
-                            playerOtherInput = PlayerOtherInput.Jump;
-                            p1.Jump();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.RightTrigger))
-                        {
-                            playerOtherInput = PlayerOtherInput.Fire;
-                            bulletList.Add(p1.Fire());
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
-                        {
-                            playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            //p1.SwitchWeapon();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.B))
-                        {
-                            playerOtherInput = PlayerOtherInput.Interact;
-                            //p1.Interact();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.X))
-                        {
-                            playerOtherInput = PlayerOtherInput.Reload;
-                            //p1.Reload();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.Start))
-                        {
-                            gameState = GameState.Pause;
-                        }
-                    }//end gamePad is connected
-                    else
-                    {
-                        if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && !(p1.Jumping))
-                        {
-                            p1.Jump();
-                            playerOtherInput = PlayerOtherInput.Jump;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.A))
-                        {
-                            p1.WalkLeft();
-                            playerMovementInput = PlayerMovementInput.Left;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.P))
-                        {
-                            gameState = GameState.Pause;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.D))
-                        {
-                            p1.WalkRight();
-                            playerMovementInput = PlayerMovementInput.Right;
-                        }
-                        if (mStateCurrent.LeftButton == ButtonState.Pressed)
-                        {
-                            bulletList.Add(p1.Fire());
-                            playerOtherInput = PlayerOtherInput.Fire;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.E))
-                        {
-                            playerOtherInput = PlayerOtherInput.Interact;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.R))
-                        {
-                            playerOtherInput = PlayerOtherInput.Reload;
-                        }
-                    }//end gamePad is not connected 
-                    p1.Gravity();
-                    p1.PosUpdate();
-                    p1.InvulnerabilityTimer();
-                    foreach (Platform p in platformTilesList)
-                    {
-                        p1.CheckCollisions(p, p1);
-                    }
-                    */
 
                     //always at least one zombie
                     if (zombieList.Count == 0)
@@ -569,7 +490,11 @@ namespace Survive
                             }
                             else if (rgen.Next(10) == 0)
                             {
-                                activeItems.Add(new HealingItem(rgen.Next(25, 50), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
+                                activeItems.Add(new HealingItem(new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
+                            }
+                            else if (rgen.Next(10) == 0)
+                            {
+                                activeItems.Add(new WeaponStock("Weapon!", rgen.Next(1, 10), rgen.Next(1, 5), rgen.Next(1, 25), rgen.Next(1, 10), rgen.Next(12, 50), "SMG", rgen.Next(1, 10)));
                             }
                             zombieList.Remove(zombieList[i]);
                         }
@@ -925,11 +850,28 @@ namespace Survive
 
                 if (item.Active == true)
                 {
-                    Texture2D draw = ammoImage;
+                    if (item.GetType() == typeof(AmmoItem))
+                    {
+                        spriteBatch.Draw(ammoImage, item.Location, Color.White);
+                    }
                     if (item.GetType() == typeof(HealingItem))
-                        draw = medkitImage;
-
-                    spriteBatch.Draw(draw, item.Location, Color.White);
+                        spriteBatch.Draw(medkitImage, item.Location, Color.White);
+                    if (item.GetType() == typeof(WeaponStock))
+                    {
+                        WeaponStock weapon = (WeaponStock)item;
+                        if (weapon.Type.Equals("Pistol"))
+                        {
+                            spriteBatch.Draw(gunSheet, item.Location, gunImagesList["Pistol"], Color.White);
+                        }
+                        else if (weapon.Type.Equals("SMG"))
+                        {
+                            spriteBatch.Draw(gunSheet, item.Location, gunImagesList["SMG"], Color.White);
+                        }
+                        else if (weapon.Type.Equals("AR"))
+                        {
+                            spriteBatch.Draw(gunSheet, item.Location, gunImagesList["AR"], Color.White);
+                        }
+                    }
                 }
                 else //item has been picked up
                 {
