@@ -59,7 +59,11 @@ namespace Survive {
         }
 
         public List<Platform> GetTiles() {
-            return (currArea != null)?currArea.GetTiles():null;
+            return (currArea != null) ? currArea.GetTiles() : null;
+        }
+
+        public List<Portal> GetPortals() {
+            return (currArea != null) ? currArea.GetPortals() : null;
         }
     }
 }

@@ -59,5 +59,9 @@ namespace Survive {
 
             return rtn;
         }
+
+        public List<Portal> GetPortals() {
+            return portals;
+        }
     }
 }

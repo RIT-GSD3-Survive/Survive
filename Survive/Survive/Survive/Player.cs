@@ -27,6 +27,8 @@ namespace Survive
         protected int ammo;
         protected int healingItemsAmount;
 
+        protected Portal move = null;
+
         public Player(string nm, PlayerIndex num, Rectangle loc)
             : base(loc)
         {
@@ -83,6 +85,11 @@ namespace Survive
         {
             get { return controls; }
             set { controls = value; }
+        }
+
+        public Portal Vote {
+            get { return move; }
+            set { move = value; }
         }
 
         // methods
@@ -188,6 +195,10 @@ namespace Survive
         public void Reload()
         {
             //check for filled clips
+        }
+
+        public void Interact() {
+            if(
         }
     }
 }

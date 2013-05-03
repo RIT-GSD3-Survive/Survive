@@ -127,8 +127,8 @@ namespace Survive {
         public bool Interact()
         {
             return
-                (allowKeyboard && (currentKS.IsKeyDown(Keys.E)))
-                || currentGPS.IsButtonDown(Buttons.B);
+                (allowKeyboard && (previousKS.IsKeyUp(Keys.E)) && (currentKS.IsKeyDown(Keys.E)))
+                || (previousGPS.IsButtonUp(Buttons.B) && currentGPS.IsButtonDown(Buttons.B));
         }
 
         public bool Reload()
