@@ -135,7 +135,6 @@ namespace Survive
                 //{
                 if (this.Location.Intersects(obj.Location))
                 {
-
                     if (this.Y < obj.Y && this.Y + this.Location.Height > obj.Y + obj.Location.Height && this.X + this.Location.Width > obj.X + obj.Location.Width)
                     {
                         this.X += 2;

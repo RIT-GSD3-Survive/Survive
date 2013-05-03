@@ -23,10 +23,16 @@ namespace Survive
         protected Weapon currentWeapon;
         protected GunClip currentClip;
         protected Control controls;
+        protected int score;
+        protected int ammo;
+        protected int healingItemsAmount;
 
         public Player(string nm, PlayerIndex num, Rectangle loc)
             : base(loc)
         {
+            healingItemsAmount = 0;
+            score = 0;
+            ammo = 0;
             name = nm;
             pi = num;
             items = new List<Item>();
@@ -106,7 +112,22 @@ namespace Survive
             //make sure player is colliding with item
             if (this.location.Intersects(item.Location))
             {
-                items.Add(item);
+                if (item is AmmoItem)
+                {
+                    ammo += rgen.Next(100);
+                }
+                if (item is HealingItem)
+                {
+                    healingItemsAmount++;
+                }
+                if (item is Weapon)
+                {
+                    weapons.Add((Weapon)item);
+                }
+                else
+                {
+                    items.Add(item);
+                }
                 item.Active = false;
             }
         }

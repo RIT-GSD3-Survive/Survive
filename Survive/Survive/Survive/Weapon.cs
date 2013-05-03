@@ -54,6 +54,12 @@ namespace Survive
             set { clipCapacity = value; }
         }
 
+        public int FireRate
+        {
+            get { return fireRate; }
+            set { fireRate = value; }
+        }
+
         public string Type
         {
             get

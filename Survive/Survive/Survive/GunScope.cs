@@ -7,9 +7,9 @@ namespace Survive
 {
     class GunScope : GunBits
     {
-        public GunScope(int accuracyAddition)
+        public GunScope(int accur)
         {
-            accuracy += accuracyAddition;
+            accuracy = accur;
         }
     }
 }

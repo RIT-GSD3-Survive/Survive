@@ -12,8 +12,8 @@ namespace Survive
 
         public GunClip(int reloadSpeedAddition, int clipCapacityAddition)
         {
-            reloadSpeed += reloadSpeedAddition;
-            clipCapacity += clipCapacityAddition;
+            this.reloadSpeed = reloadSpeed;
+            this.clipCapacity = clipCapacity;
         }
 
         public int Current

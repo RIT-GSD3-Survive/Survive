@@ -7,13 +7,13 @@ namespace Survive
 {
     class GunBody : GunBits
     {
-        public GunBody(int accuracyAddition, int weightAddition, int attackPowerAddition, int reloadSpeedAddition, int clipCapacityAddition)
+        public GunBody(int accur, int weight, int ap, int reloadSpeed)
         {
-            accuracy += accuracyAddition;
-            weight += weightAddition;
-            attackPower += attackPowerAddition;
-            reloadSpeed += reloadSpeedAddition;
-            clipCapacity += clipCapacityAddition;
+            accuracy = accur;
+            this.weight = weight;
+            attackPower = ap;
+            this.reloadSpeed += reloadSpeed;
+            this.clipCapacity = 1;
         }
     }
 }
