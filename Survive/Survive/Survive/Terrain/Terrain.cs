@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Terrain : GameObject
+    public class Terrain : GameObject
     {
         //Attributes
         protected Boolean collidable;

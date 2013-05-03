@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Platform : Terrain
+    public class Platform : Terrain
     {
         protected int tileSize;
         protected Rectangle sourceRect;

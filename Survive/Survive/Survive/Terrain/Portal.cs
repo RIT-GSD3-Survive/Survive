@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Portal : Terrain
+    public class Portal : Terrain
     {
         //attributes
         protected Area linkTo;

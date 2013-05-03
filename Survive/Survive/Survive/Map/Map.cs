@@ -9,7 +9,7 @@ using fNbt;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive {
-    class Map {
+    public class Map {
 
         private List<Area> areas = new List<Area>();
 

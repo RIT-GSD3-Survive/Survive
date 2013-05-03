@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    abstract class GameObject
+    public abstract class GameObject
     {
         protected Rectangle location;
         protected Random rgen;
