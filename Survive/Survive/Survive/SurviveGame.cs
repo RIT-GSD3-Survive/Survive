@@ -484,6 +484,25 @@ namespace Survive
                     }
                     */
 
+                    bool go = true;
+                    Portal use = null;
+                    foreach(Player p in playerList) {
+                        if(use == null && p.Vote != null) {
+                            use = p.Vote;
+                        } else {
+                            go = false;
+                        }
+                    }
+                    if(go && use != null) {
+                        GlobalVariables.map.SwitchArea(use.LinkTo);
+                        foreach(Player p in playerList) {
+                            p.X = use.LinkX;
+                            p.Y = use.LinkY;
+                            p.Vote = null;
+                        }
+                        zombieList.Clear();
+                    }
+
                     //always at least one zombie
                     if (zombieList.Count == 0)
                         zombieList.Add(new Zombie(new Rectangle(400, 345, humanoidWidth, humanoidHeight)));

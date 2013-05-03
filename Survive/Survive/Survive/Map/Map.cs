@@ -64,5 +64,9 @@ namespace Survive {
         public List<Portal> GetPortals() {
             return (currArea != null) ? currArea.GetPortals() : null;
         }
+
+        public void SwitchArea(Area to) {
+            currArea = to;
+        }
     }
 }

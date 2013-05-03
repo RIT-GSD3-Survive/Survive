@@ -47,7 +47,7 @@ namespace Survive
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(Resources.Portal, location, sprite.GetCurrClip(), Color.White);
+            sb.Draw(Resources.Portal, new Rectangle(location.X, location.Y + 64, location.Width, location.Height), sprite.GetCurrClip(), Color.White);
         }
     }
 }
