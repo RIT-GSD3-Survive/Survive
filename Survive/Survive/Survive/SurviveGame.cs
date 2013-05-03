@@ -72,9 +72,6 @@ namespace Survive
         List<Bullet> bulletList;
         Dictionary<String, Rectangle> gunImagesList;
 
-        // Map.
-        Map map;
-
         //Random generator
         public static Random rgen;
 
@@ -163,7 +160,7 @@ namespace Survive
             gunSheet = this.Content.Load<Texture2D>("Guns");
             humanoidSheet = this.Content.Load<Texture2D>("PersonSheet");
 
-            map = new Map();
+            GlobalVariables.map = new Map();
         }
 
         /// <summary>
@@ -571,7 +568,7 @@ namespace Survive
                             }
                             else if (rgen.Next(10) == 0)
                             {
-                                activeItems.Add(new HealingItem(rgen.Next(25, 50), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
+                                activeItems.Add(new HealingItem(new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
                             }
                             zombieList.Remove(zombieList[i]);
                         }
@@ -902,14 +899,14 @@ namespace Survive
         {
             for (int i = 0; i < platformTilesList.Count; i++)
                 spriteBatch.Draw(tileSheet, platformTilesList[i].Location, platformTilesList[i].SourceRectangle, Color.White);
-            map.DrawArea(spriteBatch);
+            GlobalVariables.map.DrawArea(spriteBatch);
         }
 
         private void DrawGameScreen()
         {
             DrawGround();
             //draw Zombie
-            if (!map.AtSafehouse)
+            if(!GlobalVariables.map.AtSafehouse)
                 foreach (Zombie z in zombieList)
                 {
                     DrawHumanoid(z);
