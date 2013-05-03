@@ -396,94 +396,7 @@ namespace Survive
                             p.CheckCollisions(pl, p);
                         }
                     }
-
-                    /*
-                    if (currentGPS.IsConnected)
-                    {
-                        if (left.X > 0)
-                        {
-                            playerMovementInput = PlayerMovementInput.Right;
-                            p1.WalkRight();
-                        }
-                        if (left.X < 0)
-                        {
-                            playerMovementInput = PlayerMovementInput.Left;
-                            p1.WalkLeft();
-                        }
-                        if (left.Y > 0.8 || currentGPS.IsButtonDown(Buttons.A) && !(p1.Jumping))
-                        {
-                            playerOtherInput = PlayerOtherInput.Jump;
-                            p1.Jump();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.RightTrigger))
-                        {
-                            playerOtherInput = PlayerOtherInput.Fire;
-                            bulletList.Add(p1.Fire());
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.DPadLeft) || currentGPS.IsButtonDown(Buttons.DPadRight))
-                        {
-                            playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            //p1.SwitchWeapon();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.B))
-                        {
-                            playerOtherInput = PlayerOtherInput.Interact;
-                            //p1.Interact();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.X))
-                        {
-                            playerOtherInput = PlayerOtherInput.Reload;
-                            //p1.Reload();
-                        }
-                        if (currentGPS.IsButtonDown(Buttons.Start))
-                        {
-                            gameState = GameState.Pause;
-                        }
-                    }//end gamePad is connected
-                    else
-                    {
-                        if (kStateCurrent.IsKeyDown(Keys.W) || kStateCurrent.IsKeyDown(Keys.Space) && !(p1.Jumping))
-                        {
-                            p1.Jump();
-                            playerOtherInput = PlayerOtherInput.Jump;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.A))
-                        {
-                            p1.WalkLeft();
-                            playerMovementInput = PlayerMovementInput.Left;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.P))
-                        {
-                            gameState = GameState.Pause;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.D))
-                        {
-                            p1.WalkRight();
-                            playerMovementInput = PlayerMovementInput.Right;
-                        }
-                        if (mStateCurrent.LeftButton == ButtonState.Pressed)
-                        {
-                            bulletList.Add(p1.Fire());
-                            playerOtherInput = PlayerOtherInput.Fire;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.E))
-                        {
-                            playerOtherInput = PlayerOtherInput.Interact;
-                        }
-                        if (kStateCurrent.IsKeyDown(Keys.R))
-                        {
-                            playerOtherInput = PlayerOtherInput.Reload;
-                        }
-                    }//end gamePad is not connected 
-                    p1.Gravity();
-                    p1.PosUpdate();
-                    p1.InvulnerabilityTimer();
-                    foreach (Platform p in platformTilesList)
-                    {
-                        p1.CheckCollisions(p, p1);
-                    }
-                    */
-
+                   
                     bool go = true;
                     Portal use = null;
                     foreach(Player p in playerList) {
@@ -506,90 +419,93 @@ namespace Survive
                     //always at least one zombie
                     if (zombieList.Count == 0)
                         zombieList.Add(new Zombie(new Rectangle(400, 345, humanoidWidth, humanoidHeight)));
-
-                    for (int i = 0; i < zombieList.Count; i++)
+                    if(!(GlobalVariables.map.AtSafehouse))
                     {
-                        //run zombie actions
-                        Zombie zombie = zombieList[i];
-
-                        if (zombie.ZombieAction == ZombieActions.Chase)
+                        for (int i = 0; i < zombieList.Count; i++)
                         {
-                            //get closest player
-                            int distanceClosestPlayer = int.MaxValue;
-                            Player closestPlayer = null;
-                            foreach (Player player in playerList)
+                            //run zombie actions
+                            Zombie zombie = zombieList[i];
+
+                            if (zombie.ZombieAction == ZombieActions.Chase)
                             {
-                                int dist = (int)Math.Sqrt(Math.Pow((player.X - zombie.X), 2) + Math.Pow((player.Y - zombie.Y), 2));
-                                if (dist < distanceClosestPlayer)
+                                //get closest player
+                                int distanceClosestPlayer = int.MaxValue;
+                                Player closestPlayer = null;
+                                foreach (Player player in playerList)
                                 {
-                                    distanceClosestPlayer = dist;
-                                    closestPlayer = player;
+                                    int dist = (int)Math.Sqrt(Math.Pow((player.X - zombie.X), 2) + Math.Pow((player.Y - zombie.Y), 2));
+                                    if (dist < distanceClosestPlayer)
+                                    {
+                                        distanceClosestPlayer = dist;
+                                        closestPlayer = player;
+                                    }
+                                }
+
+                                //chase after closest player
+                                if (zombie.X > closestPlayer.X)
+                                {
+                                    zombie.WalkLeft();
+                                    zombie.FacingRight = false;
+
+
+                                }
+                                else if (zombie.X < closestPlayer.X)
+                                {
+                                    zombie.WalkRight();
+                                    zombie.FacingRight = true;
+                                }
+
+                                zombie.PosUpdate();
+                                zombie.Gravity();
+
+                                if (zombie.Jumping == true)
+                                {
+                                    zombie.MoveSpeed = 2;
+                                }
+                                else
+                                {
+                                    zombie.MoveSpeed = 1;
                                 }
                             }
+                            else if (zombie.ZombieAction == ZombieActions.Patrol)
+                            {
+                                //move back and forth until player is detected
+                                foreach (Player player in playerList)
+                                {
+                                    if (zombie.DetectPlayers(player))
+                                        zombie.ZombieAction = ZombieActions.Chase;
+                                }
+                                if (zombie.FacingRight) zombie.WalkRight();
+                                else zombie.WalkLeft();
 
-                            //chase after closest player
-                            if (zombie.X > closestPlayer.X)
-                            {
-                                zombie.WalkLeft();
-                                zombie.FacingRight = false;
-                                
+                                zombie.changeDirection();
+                            }
+                            else zombie.ZombieAction = ZombieActions.Patrol;
 
-                            }
-                            else if (zombie.X < closestPlayer.X)
+                            foreach (Zombie z in zombieList)
                             {
-                                zombie.WalkRight();
-                                zombie.FacingRight = true;
+                                foreach (Player player in playerList)
+                                {
+                                    player.CheckCollisions(z, player);
+                                }
+                                foreach (Platform p in platformTilesList)
+                                {
+                                    z.CheckCollisions(p, z);
+                                }
                             }
-
-                            zombie.PosUpdate();
-                            zombie.Gravity();
-
-                            if (zombie.Jumping == true)
+                            if (zombie.HP <= 0)
                             {
-                                zombie.MoveSpeed = 2;
+                                activeItems.Add(new WeaponStock("WEAPON!", rgen.Next(1,10), rgen.Next(1,5), rgen.Next(1,25), rgen.Next(1,10), rgen.Next(12,100), "SMG", rgen.Next(1,5)));
+                                if (rgen.Next(10) == 0)
+                                {
+                                    activeItems.Add(new AmmoItem(rgen.Next(50, 100), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
+                                }
+                                else if (rgen.Next(10) == 0)
+                                {
+                                    activeItems.Add(new HealingItem(new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
+                                }
+                                zombieList.Remove(zombieList[i]);
                             }
-                            else
-                            {
-                                zombie.MoveSpeed = 1;
-                            }
-                        }
-                        else if (zombie.ZombieAction == ZombieActions.Patrol)
-                        {
-                            //move back and forth until player is detected
-                            foreach (Player player in playerList)
-                            {
-                                if (zombie.DetectPlayers(player))
-                                    zombie.ZombieAction = ZombieActions.Chase;
-                            }
-                            if (zombie.FacingRight) zombie.WalkRight();
-                            else zombie.WalkLeft();
-
-                            zombie.changeDirection();
-                        }
-                        else zombie.ZombieAction = ZombieActions.Patrol;
-
-                        foreach (Zombie z in zombieList)
-                        {
-                            foreach (Player player in playerList)
-                            {
-                                player.CheckCollisions(z, player);
-                            }
-                            foreach (Platform p in platformTilesList)
-                            {
-                                z.CheckCollisions(p, z);
-                            }
-                        }
-                        if (zombie.HP <= 0)
-                        {
-                            if (rgen.Next(10) == 0)
-                            {
-                                activeItems.Add(new AmmoItem(rgen.Next(50, 100), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
-                            }
-                            else if (rgen.Next(10) == 0)
-                            {
-                                activeItems.Add(new HealingItem(new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
-                            }
-                            zombieList.Remove(zombieList[i]);
                         }
                     } //end loop through zombies' actions
 
@@ -964,11 +880,17 @@ namespace Survive
 
                 if (item.Active == true)
                 {
-                    Texture2D draw = ammoImage;
+                    if (item.GetType() == typeof(AmmoItem))
+                    {
+                        spriteBatch.Draw(ammoImage, item.Location, Color.White);
+                    }
                     if (item.GetType() == typeof(HealingItem))
-                        draw = medkitImage;
-
-                    spriteBatch.Draw(draw, item.Location, Color.White);
+                        spriteBatch.Draw(medkitImage, item.Location, Color.White);
+                    if (item is Weapon)
+                    {
+                        Weapon weapon = (Weapon)item;
+                        spriteBatch.Draw(gunSheet, weapon.Location, gunImagesList[weapon.Type], Color.White);
+                    }
                 }
                 else //item has been picked up
                 {
