@@ -347,15 +347,18 @@ namespace Survive
                         if (p.Controls.MoveRight())
                         {
                             p.WalkRight();
+                            p.Vote = null;
                         }
                         if (p.Controls.MoveLeft())
                         {
                             p.WalkLeft();
+                            p.Vote = null;
                         }
                         if (p.Controls.IsJump())
                         {
                             playerOtherInput = PlayerOtherInput.Jump;
                             p.Jump();
+                            p.Vote = null;
                         }
                         if (p.Controls.IsFire())
                         {
