@@ -114,6 +114,11 @@ namespace Survive
             gunImagesList.Add("Pistol", new Rectangle(0, 0, 11, 8));
             gunImagesList.Add("SMG", new Rectangle(13, 0, 23, 13));
             gunImagesList.Add("AR", new Rectangle(36, 0, 40, 12));
+            gunImagesList.Add("GunBarrel", new Rectangle(0,14,29,10));
+            gunImagesList.Add("GunScope", new Rectangle(0,24,26,10));
+            gunImagesList.Add("GunStock", new Rectangle(29,14,10,12));
+            gunImagesList.Add("GunBody", new Rectangle(26, 25, 28, 16));
+            gunImagesList.Add("GunClip", new Rectangle(55,13, 18, 24));
 
             initializeGround();
             rgen = new Random();
