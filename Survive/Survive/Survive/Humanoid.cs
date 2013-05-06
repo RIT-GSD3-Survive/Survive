@@ -24,7 +24,7 @@ namespace Survive
         {
             location = loc;
             maxHP = hp = 100;
-            falling = false;
+            falling = true;
             jumping = false;
             invulnerable = true;
             invulnerableTimer = 0;
