@@ -507,6 +507,9 @@ namespace Survive
                                 {
                                     z.CheckCollisions(p, z);
                                 }
+                                foreach(Platform pl in GlobalVariables.map.GetTiles()) {
+                                    z.CheckCollisions(pl, z);
+                                }
                             }
                             if (zombie.HP <= 0)
                             {
