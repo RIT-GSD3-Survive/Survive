@@ -138,6 +138,9 @@
     <Compile Include="Resources.cs" />
     <Compile Include="SurviveGame.cs" />
     <Compile Include="Terrain\Terrain.cs" />
+    <Compile Include="Tinkering\Button.cs" />
+    <Compile Include="Tinkering\TinkerBackend.cs" />
+    <Compile Include="Tinkering\WIPGun.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="WeaponCustomizable.cs" />
     <Compile Include="WeaponMelee.cs" />

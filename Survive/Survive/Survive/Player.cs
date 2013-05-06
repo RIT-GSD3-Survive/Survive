@@ -82,6 +82,10 @@ namespace Survive
             get { return items; }
         }
 
+        public List<Weapon> Weapons {
+            get { return weapons; }
+        }
+
         public Control Controls
         {
             get { return controls; }
