@@ -17,7 +17,7 @@ namespace Survive
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class SurviveGame : Microsoft.Xna.Framework.Game
+    public class SurviveGame :Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -114,11 +114,11 @@ namespace Survive
             gunImagesList.Add("Pistol", new Rectangle(0, 0, 11, 8));
             gunImagesList.Add("SMG", new Rectangle(13, 0, 23, 13));
             gunImagesList.Add("AR", new Rectangle(36, 0, 40, 12));
-            gunImagesList.Add("GunBarrel", new Rectangle(0,14,29,10));
-            gunImagesList.Add("GunScope", new Rectangle(0,24,26,10));
-            gunImagesList.Add("GunStock", new Rectangle(29,14,10,12));
+            gunImagesList.Add("GunBarrel", new Rectangle(0, 14, 29, 10));
+            gunImagesList.Add("GunScope", new Rectangle(0, 24, 26, 10));
+            gunImagesList.Add("GunStock", new Rectangle(29, 14, 10, 12));
             gunImagesList.Add("GunBody", new Rectangle(26, 25, 28, 16));
-            gunImagesList.Add("GunClip", new Rectangle(55,13, 18, 24));
+            gunImagesList.Add("GunClip", new Rectangle(55, 13, 18, 24));
 
             initializeGround();
             rgen = new Random();
@@ -411,23 +411,30 @@ namespace Survive
                         {
                             p.CheckCollisions(pl, p);
                         }
-                        foreach(Platform pl in GlobalVariables.map.GetTiles()) {
+                        foreach (Platform pl in GlobalVariables.map.GetTiles())
+                        {
                             p.CheckCollisions(pl, p);
                         }
                     }
-                   
+
                     bool go = true;
                     Portal use = null;
-                    foreach(Player p in playerList) {
-                        if(use == null && p.Vote != null) {
+                    foreach (Player p in playerList)
+                    {
+                        if (use == null && p.Vote != null)
+                        {
                             use = p.Vote;
-                        } else {
+                        }
+                        else
+                        {
                             go = false;
                         }
                     }
-                    if(go && use != null) {
+                    if (go && use != null)
+                    {
                         GlobalVariables.map.SwitchArea(use.LinkTo);
-                        foreach(Player p in playerList) {
+                        foreach (Player p in playerList)
+                        {
                             p.X = use.LinkX;
                             p.Y = use.LinkY;
                             p.Vote = null;
@@ -438,7 +445,7 @@ namespace Survive
                     //always at least one zombie
                     if (zombieList.Count == 0)
                         zombieList.Add(new Zombie(new Rectangle(400, 345, humanoidWidth, humanoidHeight)));
-                    if(!(GlobalVariables.map.AtSafehouse))
+                    if (!(GlobalVariables.map.AtSafehouse))
                     {
                         for (int i = 0; i < zombieList.Count; i++)
                         {
@@ -511,7 +518,8 @@ namespace Survive
                                 {
                                     z.CheckCollisions(p, z);
                                 }
-                                foreach(Platform pl in GlobalVariables.map.GetTiles()) {
+                                foreach (Platform pl in GlobalVariables.map.GetTiles())
+                                {
                                     z.CheckCollisions(pl, z);
                                 }
                             }
@@ -642,14 +650,14 @@ namespace Survive
             {
                 case GameState.Menu:
                     spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
-                    spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), (menuButtonState == MenuButtonState.Single)?Color.Gold:Color.Black);
+                    spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), (menuButtonState == MenuButtonState.Single) ? Color.Gold : Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), (menuButtonState == MenuButtonState.Multi) ? Color.Gold : Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), (menuButtonState == MenuButtonState.Quit) ? Color.Gold : Color.Black);
                     break; //end case Menu
 
                 case GameState.InGame:
                     DrawGameScreen();
-                    
+
                     break;
 
                 case GameState.Pause:
@@ -875,7 +883,7 @@ namespace Survive
             spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.White);
             DrawGround();
             //draw Zombie
-            if(!GlobalVariables.map.AtSafehouse)
+            if (!GlobalVariables.map.AtSafehouse)
                 foreach (Zombie z in zombieList)
                 {
                     DrawHumanoid(z);
@@ -915,16 +923,24 @@ namespace Survive
                 if (item.Active == true)
                 {
                     if (item.GetType() == typeof(AmmoItem))
-                    {
                         spriteBatch.Draw(ammoImage, item.Location, Color.White);
-                    }
-                    if (item.GetType() == typeof(HealingItem))
+                    else if (item.GetType() == typeof(HealingItem))
                         spriteBatch.Draw(medkitImage, item.Location, Color.White);
-                    if (item is Weapon)
+                    else if (item is Weapon)
                     {
                         Weapon weapon = (Weapon)item;
                         spriteBatch.Draw(gunSheet, weapon.Location, gunImagesList[weapon.Type], Color.White);
                     }
+                    else if (item is GunBarrel)
+                        spriteBatch.Draw(gunSheet, item.Location, gunImagesList["GunBarrel"], Color.White);
+                    else if (item is GunBody)
+                        spriteBatch.Draw(gunSheet, item.Location, gunImagesList["GunBody"], Color.White);
+                    else if (item is GunClip)
+                        spriteBatch.Draw(gunSheet, item.Location, gunImagesList["GunClip"], Color.White);
+                    else if (item is GunScope)
+                        spriteBatch.Draw(gunSheet, item.Location, gunImagesList["GunScope"], Color.White);
+                    else if (item is GunStock)
+                        spriteBatch.Draw(gunSheet, item.Location, gunImagesList["GunStock"], Color.White);
                 }
                 else //item has been picked up
                 {
@@ -967,7 +983,7 @@ namespace Survive
             Rectangle leg = new Rectangle(43, 0, 13, 27);
             Rectangle body = new Rectangle(24, 0, 19, 32);
             Rectangle head = new Rectangle(0, 0, 23, 22);
-            
+
             if (obj is Zombie)
             {
                 int z = 56;
