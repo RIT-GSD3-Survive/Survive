@@ -27,6 +27,7 @@ namespace Survive
         protected int ammo;
         protected int healingItemsAmount;
         protected int fireRateTimer;
+        protected int reloadTimer;
 
         protected Portal move = null;
 
@@ -116,11 +117,28 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 10, "Pistol", 20, new Rectangle(0,0,0,0)));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 5, 5, 100000, "Pistol", 10, new Rectangle(0,0,0,0)));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
-            fireRateTimer = currentWeapon.FireRate * 5;
+            fireRateTimer = 150 / CurrentWeapon.FireRate;
+            if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
+            {
+                moveSpeed = 4;
+            }
+            else if (currentWeapon.Weight >= 6 && currentWeapon.Weight <= 10)
+            {
+                moveSpeed = 3;
+            }
+            else if (currentWeapon.Weight >= 11 && currentWeapon.Weight <= 15)
+            {
+                moveSpeed = 2;
+            }
+            else if (currentWeapon.Weight >= 16 && currentWeapon.Weight <= 20)
+            {
+                moveSpeed = 1;
+            }
+            reloadTimer = currentWeapon.ReloadSpeed * 60;
         }
 
         //returns a bullet to add to bulletList
@@ -134,8 +152,8 @@ namespace Survive
                     {
                         currentClip.Current--;
                     }
-                    fireRateTimer = currentWeapon.FireRate / 2;
-                    Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
+                    fireRateTimer = 150 / CurrentWeapon.FireRate;
+                    Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5), currentWeapon.Accuracy);
                     return b;
                 }
                 else
@@ -183,7 +201,23 @@ namespace Survive
                 weaponIndex = 0;
             }
             currentWeapon = weapons[weaponIndex];
-            fireRateTimer = currentWeapon.FireRate * 5;
+            if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
+            {
+                moveSpeed = 4;
+            }
+            else if (currentWeapon.Weight >= 6 && currentWeapon.Weight <= 10)
+            {
+                moveSpeed = 3;
+            }
+            else if (currentWeapon.Weight >= 11 && currentWeapon.Weight <= 15)
+            {
+                moveSpeed = 2;
+            }
+            else if (currentWeapon.Weight >= 16 && currentWeapon.Weight <= 20)
+            {
+                moveSpeed = 1;
+            }
+            reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
         }
 
@@ -195,7 +229,23 @@ namespace Survive
                 weaponIndex = weapons.Count - 1;
             }
             currentWeapon = weapons[weaponIndex];
-            fireRateTimer = currentWeapon.FireRate * 5;
+            if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
+            {
+                moveSpeed = 4;
+            }
+            else if (currentWeapon.Weight >= 6 && currentWeapon.Weight <= 10)
+            {
+                moveSpeed = 3;
+            }
+            else if (currentWeapon.Weight >= 11 && currentWeapon.Weight <= 15)
+            {
+                moveSpeed = 2;
+            }
+            else if (currentWeapon.Weight >= 16 && currentWeapon.Weight <= 20)
+            {
+                moveSpeed = 1;
+            }
+            reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
         }
 
@@ -217,6 +267,9 @@ namespace Survive
         {
             GunClip best = null; 
             //check for filled clips
+            for (int i = 0; i < reloadTimer; i++)
+            {
+            }
             foreach (GunBits gunbit in items)
             {
                 if (gunbit is GunClip)

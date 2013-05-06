@@ -13,15 +13,16 @@ namespace Survive
         protected int direction; // 0 for left, 1 for right
         protected Boolean active;
         protected int damage; //gotten from fired weapon
-
+        protected int accuracy;
 
         //Constructor
-        public Bullet(int dir, int x, int y, int dam)
+        public Bullet(int dir, int x, int y, int dam, int acc)
         {
             direction = dir;
             active = true;
             location = new Rectangle(x, y, 2, 1);
             damage = dam;
+            accuracy = acc;
         }
 
         //Properties
@@ -42,16 +43,21 @@ namespace Survive
             get { return damage; }
         }
 
+        public int Accuracy
+        {
+            get { return accuracy; }
+        }
+
         //Methods
         public void Move()
         {
             if (direction == 0)
             {
-                this.X = this.X - 4;
+                this.X = this.X - 6;
             }
             if (direction == 1)
             {
-                this.X = this.X + 4;
+                this.X = this.X + 6;
             }
         }
     }
