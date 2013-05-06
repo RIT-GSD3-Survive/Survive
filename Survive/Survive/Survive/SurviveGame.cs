@@ -42,6 +42,7 @@ namespace Survive
         Texture2D gunSheet;
         Texture2D humanoidSheet;
         Texture2D portalImage;
+        Texture2D backgroundImage;
         //game/menu states
         enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
@@ -133,6 +134,7 @@ namespace Survive
 
             // TODO: use this.Content to load your game content here
             Resources.LoadRes(Content);
+            backgroundImage = this.Content.Load<Texture2D>("Background");
             portalImage = this.Content.Load<Texture2D>("Portal");
             ammoImage = this.Content.Load<Texture2D>("Ammo");
             medkitImage = this.Content.Load<Texture2D>("Medkit");
@@ -854,6 +856,7 @@ namespace Survive
 
         private void DrawGameScreen()
         {
+            spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.White);
             DrawGround();
             //draw Zombie
             if(!GlobalVariables.map.AtSafehouse)
