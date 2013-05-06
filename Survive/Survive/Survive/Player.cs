@@ -112,7 +112,7 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100000, "Pistol", 20, new Rectangle(0,0,0,0)));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 10, "Pistol", 20, new Rectangle(0,0,0,0)));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
@@ -126,7 +126,10 @@ namespace Survive
             {
                 if (currentClip.Current > 0 && fireRateTimer <= 0)
                 {
-                    currentClip.Current--;
+                    if (currentWeapon.Name != "Beginner's Pistol")
+                    {
+                        currentClip.Current--;
+                    }
                     fireRateTimer = currentWeapon.FireRate / 2;
                     Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
                     return b;
