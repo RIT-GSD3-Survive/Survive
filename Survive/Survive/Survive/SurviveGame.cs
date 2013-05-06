@@ -378,17 +378,17 @@ namespace Survive
                         if (p.Controls.Reload())
                         {
                             playerOtherInput = PlayerOtherInput.Reload;
-                            //p.Reload();
+                            p.Reload();
                         }
                         if (p.Controls.SwitchWeaponsNext())
                         {
                             playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            //p.SwitchWeaponNext();
+                            p.SwitchWeaponsNext();
                         }
                         if (p.Controls.SwitchWeaponsPrevious())
                         {
                             playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            //p.SwitchWeaponPrevious();
+                            p.SwitchWeaponsPrevious();
                         }
                         if (p.Controls.Heal())
                         {
