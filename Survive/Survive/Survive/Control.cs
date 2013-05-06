@@ -113,21 +113,21 @@ namespace Survive {
         public bool SwitchWeaponsPrevious()
         {
             return
-                (allowKeyboard && (currentKS.IsKeyDown(Keys.Q)))
+                (allowKeyboard && (currentMS.ScrollWheelValue > previousMS.ScrollWheelValue))
                 || currentGPS.IsButtonDown(Buttons.LeftShoulder);
         }
 
         public bool SwitchWeaponsNext()
         {
             return
-                (allowKeyboard && (currentKS.IsKeyDown(Keys.E)))
+                (allowKeyboard && (currentMS.ScrollWheelValue < previousMS.ScrollWheelValue))
                 || currentGPS.IsButtonDown(Buttons.RightShoulder);
         }
 
         public bool Interact()
         {
             return
-                (allowKeyboard && (previousKS.IsKeyUp(Keys.E)) && (currentKS.IsKeyDown(Keys.F)))
+                (allowKeyboard && (previousKS.IsKeyUp(Keys.E)) && (currentKS.IsKeyDown(Keys.E)))
                 || (previousGPS.IsButtonUp(Buttons.B) && currentGPS.IsButtonDown(Buttons.B));
         }
 
