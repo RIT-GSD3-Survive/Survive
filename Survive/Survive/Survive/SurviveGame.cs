@@ -402,6 +402,7 @@ namespace Survive
                         p.Gravity();
                         p.PosUpdate();
                         p.InvulnerabilityTimer();
+                        p.FireRateTimer();
                         foreach (Platform pl in platformTilesList)
                         {
                             p.CheckCollisions(pl, p);

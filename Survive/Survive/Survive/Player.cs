@@ -26,6 +26,7 @@ namespace Survive
         protected int score;
         protected int ammo;
         protected int healingItemsAmount;
+        protected int fireRateTimer;
 
         protected Portal move = null;
 
@@ -111,10 +112,11 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100000, "Pistol", 5));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 5, 5, 5, 5, 100000, "Pistol", 20));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
+            fireRateTimer = currentWeapon.FireRate * 5;
         }
 
         //returns a bullet to add to bulletList
@@ -122,10 +124,10 @@ namespace Survive
         {
             if (!(GlobalVariables.map.AtSafehouse))
             {
-                if (currentClip.Current > 0)
+                if (currentClip.Current > 0 && fireRateTimer <= 0)
                 {
                     currentClip.Current--;
-
+                    fireRateTimer = currentWeapon.FireRate / 2;
                     Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5));
                     return b;
                 }
@@ -174,6 +176,7 @@ namespace Survive
                 weaponIndex = 0;
             }
             currentWeapon = weapons[weaponIndex];
+            fireRateTimer = currentWeapon.FireRate * 5;
             SwitchCurrentClip();
         }
 
@@ -185,6 +188,7 @@ namespace Survive
                 weaponIndex = weapons.Count - 1;
             }
             currentWeapon = weapons[weaponIndex];
+            fireRateTimer = currentWeapon.FireRate * 5;
             SwitchCurrentClip();
         }
 
@@ -232,6 +236,11 @@ namespace Survive
                     return;
                 }
             }
+        }
+
+        public void FireRateTimer()
+        {
+            fireRateTimer--;
         }
     }
 }
