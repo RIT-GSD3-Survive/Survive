@@ -407,6 +407,9 @@ namespace Survive
                         {
                             p.CheckCollisions(pl, p);
                         }
+                        foreach(Platform pl in GlobalVariables.map.GetTiles()) {
+                            p.CheckCollisions(pl, p);
+                        }
                     }
                    
                     bool go = true;
