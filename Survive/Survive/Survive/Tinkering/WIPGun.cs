@@ -17,7 +17,7 @@ namespace Survive.Tinkering {
         private GunStock stock = null;
         private GunClip clip = null;
 
-        public static implicit operator WeaponCustomizable(WIPGun gun) {
+        public static explicit operator WeaponCustomizable(WIPGun gun) {
             if(gun.body == null || gun.barrel == null || gun.stock == null) {
                 throw new Exception("A required component is missing!");
             } else {
@@ -31,6 +31,31 @@ namespace Survive.Tinkering {
                     return new WeaponCustomizable(gun.body, gun.barrel, gun.stock);
                 }
             }
+        }
+
+        public GunBody Body {
+            get { return body; }
+            set { body = value; }
+        }
+
+        public GunBarrel Barrel {
+            get { return barrel; }
+            set { barrel = value; }
+        }
+
+        public GunStock Stock {
+            get { return stock; }
+            set { stock = value; }
+        }
+
+        public GunScope Scope {
+            get { return scope; }
+            set { scope = value; }
+        }
+
+        public GunClip Clip {
+            get { return clip; }
+            set { clip = value; }
         }
     }
 }

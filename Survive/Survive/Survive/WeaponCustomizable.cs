@@ -70,5 +70,17 @@ namespace Survive
             reloadSpeed += body.ReloadSpeed + clip.ReloadSpeed;
             clipCapacity += body.ClipCapacity + clip.ClipCapacity;
         }
+
+        public static implicit operator Survive.Tinkering.WIPGun(WeaponCustomizable gun) {
+            Survive.Tinkering.WIPGun wip = new Tinkering.WIPGun();
+
+            wip.Barrel = gun.barrel;
+            wip.Body = gun.body;
+            wip.Clip = gun.clip;
+            wip.Scope = gun.scope;
+            wip.Stock = gun.stock;
+
+            return wip;
+        }
     }
 }

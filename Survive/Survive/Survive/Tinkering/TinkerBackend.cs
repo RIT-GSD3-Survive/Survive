@@ -29,5 +29,42 @@ namespace Survive.Tinkering {
         public List<Weapon> GetWeapons() {
             return p.Weapons;
         }
+
+        public void BeginGun() {
+            wip = new WIPGun();
+        }
+
+        public WeaponCustomizable FinishGun() {
+            p.Items.Remove(wip.Body);
+            p.Items.Remove(wip.Barrel);
+            p.Items.Remove(wip.Stock);
+            if(wip.Scope != null) {
+                p.Items.Remove(wip.Scope);
+            }
+            if(wip.Clip != null) {
+                p.Items.Remove(wip.Clip);
+            }
+
+            WeaponCustomizable newGun = (WeaponCustomizable)wip;
+            wip = null;
+
+            return newGun;
+        }
+
+        public void ModGun(WeaponCustomizable gun) {
+            if(!p.Weapons.Contains(gun)) {
+                return;
+            } else {
+                wip = gun;
+
+                p.Items.AddRange(new GunBits[] { wip.Barrel, wip.Body, wip.Stock });
+                if(wip.Clip != null) {
+                    p.Items.Add(wip.Clip);
+                }
+                if(wip.Scope != null) {
+                    p.Items.Add(wip.Scope);
+                }
+            }
+        }
     }
 }
