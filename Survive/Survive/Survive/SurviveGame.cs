@@ -863,7 +863,7 @@ namespace Survive
                 foreach (Zombie z in zombieList)
                 {
                     DrawHumanoid(z);
-                    spriteBatch.DrawString(Resources.Courier, "Zombie Jumping: " + zombieList[0].Jumping, new Vector2(200, 100), Color.Black);
+                    //spriteBatch.DrawString(Resources.Courier, "Zombie Jumping: " + zombieList[0].Jumping, new Vector2(200, 100), Color.Black);
                 }
 
 
