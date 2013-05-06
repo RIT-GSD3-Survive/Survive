@@ -10,7 +10,7 @@ namespace Survive
     class Humanoid : GameObject
     {
         //attributes
-        protected double moveSpeed;
+        protected int moveSpeed;
         protected int hp;
         protected int maxHP;
         protected double yVelocity = 0.0;
@@ -48,7 +48,7 @@ namespace Survive
             get { return jumping; }
             set { jumping = value; }
         }
-        public double MoveSpeed
+        public int MoveSpeed
         {
             get { return moveSpeed; }
             set { moveSpeed = value; }
@@ -143,7 +143,7 @@ namespace Survive
                 {
                     if (this.Y <= obj.Y && this.Y + this.Location.Height >= obj.Y + obj.Location.Height && this.X + this.Location.Width >= obj.X + obj.Location.Width)
                     {
-                        this.X += 2;
+                        this.X += this.moveSpeed;
                         if (this is Zombie)
                         {
                             //if (this.Y > objCheckingCollision.Y)
@@ -156,7 +156,7 @@ namespace Survive
                     }
                     else if (this.Y <= obj.Y && this.Y + this.Location.Height >= obj.Y + obj.Location.Height && this.X <= obj.X)
                     {
-                        this.X -= 2;
+                        this.X -= moveSpeed;
                         if (this is Zombie)
                         {
                             //if (this.Y > objCheckingCollision.Y)

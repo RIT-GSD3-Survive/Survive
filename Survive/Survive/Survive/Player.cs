@@ -121,7 +121,7 @@ namespace Survive
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
-            fireRateTimer = 150 / CurrentWeapon.FireRate;
+            fireRateTimer = 100 / CurrentWeapon.FireRate;
             if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
             {
                 moveSpeed = 4;
@@ -152,7 +152,7 @@ namespace Survive
                     {
                         currentClip.Current--;
                     }
-                    fireRateTimer = 150 / CurrentWeapon.FireRate;
+                    fireRateTimer = 100 / CurrentWeapon.FireRate;
                     Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5), currentWeapon.Accuracy);
                     return b;
                 }
@@ -201,6 +201,7 @@ namespace Survive
                 weaponIndex = 0;
             }
             currentWeapon = weapons[weaponIndex];
+            fireRateTimer = 100 / currentWeapon.FireRate;
             if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
             {
                 moveSpeed = 4;
@@ -229,6 +230,7 @@ namespace Survive
                 weaponIndex = weapons.Count - 1;
             }
             currentWeapon = weapons[weaponIndex];
+            fireRateTimer = 100 / currentWeapon.FireRate;
             if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
             {
                 moveSpeed = 4;

@@ -527,15 +527,15 @@ namespace Survive
                                 }
                                 else if (rgen.Next(15) == 0)
                                 {
-                                    activeItems.Add(new WeaponStock("Pistol", rgen.Next(60, 100), rgen.Next(1, 5), rgen.Next(10, 25), rgen.Next(1, 3), rgen.Next(6, 12), "Pistol", rgen.Next(1, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
+                                    activeItems.Add(new WeaponStock("Pistol", rgen.Next(60, 100), rgen.Next(1, 5), rgen.Next(10, 25), rgen.Next(1, 3), rgen.Next(6, 12), "Pistol", rgen.Next(1, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["Pistol"].Height, gunImagesList["Pistol"].Width * 3, gunImagesList["Pistol"].Height * 3)));
                                 }
                                 else if (rgen.Next(10) == 0)
                                 {
-                                    activeItems.Add(new WeaponStock("SMG", rgen.Next(50, 100), rgen.Next(6, 10), rgen.Next(10, 25), rgen.Next(2, 5), rgen.Next(20, 40), "SMG", rgen.Next(1, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
+                                    activeItems.Add(new WeaponStock("SMG", rgen.Next(50, 100), rgen.Next(6, 10), rgen.Next(10, 25), rgen.Next(2, 5), rgen.Next(20, 40), "SMG", rgen.Next(1, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["SMG"].Height, gunImagesList["SMG"].Width * 2, gunImagesList["SMG"].Height * 2)));
                                 }
                                 else if (rgen.Next(5) == 0)
                                 {
-                                    activeItems.Add(new WeaponStock("AR", rgen.Next(75, 100), rgen.Next(11, 20), rgen.Next(20, 50), rgen.Next(4, 10), rgen.Next(30, 50), "AR", rgen.Next(1, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
+                                    activeItems.Add(new WeaponStock("AR", rgen.Next(75, 100), rgen.Next(11, 20), rgen.Next(20, 50), rgen.Next(4, 10), rgen.Next(30, 50), "AR", rgen.Next(1, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["AR"].Height, gunImagesList["AR"].Width, gunImagesList["AR"].Height)));
                                 }
                                 zombieList.Remove(zombieList[i]);
                             }
