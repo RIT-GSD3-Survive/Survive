@@ -254,7 +254,7 @@ namespace Survive
                             if (menuButtonState == MenuButtonState.Single)
                             {
                                 playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
-                                gameState = GameState.InGame;
+                                GlobalVariables.gameState = GlobalVariables.GameState.InGame;
                             }
                             if (menuButtonState == MenuButtonState.Multi)
                             {
@@ -405,9 +405,9 @@ namespace Survive
                         p.PosUpdate();
                         p.InvulnerabilityTimer();
                         p.FireRateTimer();
-                        foreach (Platform pl in platformTilesList)
+                        for(int i=50; i<75; i++)
                         {
-                            p.CheckCollisions(pl, p);
+                            p.CheckCollisions(platformTilesList[i], p);
                         }
                         foreach (Platform pl in GlobalVariables.map.GetTiles())
                         {
@@ -512,9 +512,9 @@ namespace Survive
                                 {
                                     player.CheckCollisions(z, player);
                                 }
-                                foreach (Platform p in platformTilesList)
+                                for(int j=50; j<75; j++)
                                 {
-                                    z.CheckCollisions(p, z);
+                                    z.CheckCollisions(platformTilesList[j], z);
                                 }
                                 foreach (Platform pl in GlobalVariables.map.GetTiles())
                                 {
@@ -608,7 +608,7 @@ namespace Survive
                     {
                         if (SingleKeyPress(p, Buttons.A) || SingleKeyPress(p, Keys.Enter))
                         {
-                            GlobalVariables.gameState = GlobalVariables.GameState.Menu;
+                            GlobalVariables.gameState = GlobalVariables.GameState.InGame;
                             break;
                         }
                     }
