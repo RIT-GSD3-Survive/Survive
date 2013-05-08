@@ -12,5 +12,9 @@ namespace Survive
         public static int player3Score = 0;
         public static int player4Score = 0;
         public static Map map;
+
+        //game/menu states
+        public enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
+        public static GameState gameState;
     }
 }

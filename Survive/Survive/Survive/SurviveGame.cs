@@ -44,10 +44,8 @@ namespace Survive
         Texture2D portalImage;
         Texture2D backgroundImage;
         //game/menu states
-        enum GameState { Menu, InGame, Pause, SingleTinker, MultiTinker, GameOver };
         enum MenuButtonState { None, Single, Multi, Quit };
         MenuButtonState menuButtonState;
-        GameState gameState;
         //player input
         enum PlayerOtherInput { Jump, Fire, SwitchWeapon, Interact, Reload };
         PlayerOtherInput playerOtherInput;
@@ -96,7 +94,7 @@ namespace Survive
         {
             // TODO: Add your initialization logic here
             menuButtonState = MenuButtonState.None;
-            gameState = GameState.Menu;
+            GlobalVariables.gameState = GlobalVariables.GameState.Menu;
             hpBarWidth = 130;
             tileSize = 32;
             viewportHeight = GraphicsDevice.Viewport.Height;
@@ -204,9 +202,9 @@ namespace Survive
             Vector2 right = sticks.Right;
             */
             // TODO: Add your update logic here
-            switch (gameState)
+            switch(GlobalVariables.gameState)
             {
-                case GameState.Menu:
+                case GlobalVariables.GameState.Menu:
                     menuPlayer.Controls.Refresh();
                     if (menuPlayer.Controls.CurrentGPS.IsConnected)
                     {
@@ -276,7 +274,7 @@ namespace Survive
                                 {
                                     playerList.Add(new Player("Name", PlayerIndex.Four, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                                 }
-                                gameState = GameState.InGame;
+                                GlobalVariables.gameState = GlobalVariables.GameState.InGame;
                             }
                             if (menuButtonState == MenuButtonState.Quit)
                             {
@@ -316,7 +314,7 @@ namespace Survive
                         if (menuButtonState == MenuButtonState.Single)
                         {
                             playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
-                            gameState = GameState.InGame;
+                            GlobalVariables.gameState = GlobalVariables.GameState.InGame;
                         }
                         if (menuButtonState == MenuButtonState.Multi)
                         {
@@ -336,7 +334,7 @@ namespace Survive
                             {
                                 playerList.Add(new Player("Name", PlayerIndex.Four, new Rectangle(260, 345, humanoidWidth, humanoidHeight)));
                             }
-                            gameState = GameState.InGame;
+                            GlobalVariables.gameState = GlobalVariables.GameState.InGame;
                         }
                         if (menuButtonState == MenuButtonState.Quit)
                         {
@@ -345,7 +343,7 @@ namespace Survive
                     }
                     break;
 
-                case GameState.InGame:
+                case GlobalVariables.GameState.InGame:
                     foreach (Player p in playerList)
                     {
                         if (p.Controls.MoveRight())
@@ -378,7 +376,7 @@ namespace Survive
                         }
                         if (p.Controls.Pause())
                         {
-                            gameState = GameState.Pause;
+                            GlobalVariables.gameState = GlobalVariables.GameState.Pause;
                         }
                         if (p.Controls.Reload())
                         {
@@ -600,33 +598,33 @@ namespace Survive
                     }
                     if (playerList.Count == 0)
                     { // If everyone's dead
-                        gameState = GameState.GameOver; // Game Over.
+                        GlobalVariables.gameState = GlobalVariables.GameState.GameOver; // Game Over.
                     }
 
                     break; //end case inGame
 
-                case GameState.Pause:
+                case GlobalVariables.GameState.Pause:
                     foreach (Player p in playerList)
                     {
                         if (SingleKeyPress(p, Buttons.A) || SingleKeyPress(p, Keys.Enter))
                         {
-                            gameState = GameState.Menu;
+                            GlobalVariables.gameState = GlobalVariables.GameState.Menu;
                             break;
                         }
                     }
                     break;
 
-                case GameState.SingleTinker:
+                case GlobalVariables.GameState.SingleTinker:
                     break;
 
-                case GameState.MultiTinker:
+                case GlobalVariables.GameState.MultiTinker:
                     break;
 
-                case GameState.GameOver:
+                case GlobalVariables.GameState.GameOver:
                     menuPlayer.Controls.Refresh();
                     if (SingleKeyPress(Buttons.A) || SingleKeyPress(Keys.Enter))
                     {
-                        gameState = GameState.Menu;
+                        GlobalVariables.gameState = GlobalVariables.GameState.Menu;
                         menuButtonState = MenuButtonState.None;
                         break;
                     }
@@ -646,21 +644,21 @@ namespace Survive
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            switch (gameState)
+            switch(GlobalVariables.gameState)
             {
-                case GameState.Menu:
+                case GlobalVariables.GameState.Menu:
                     spriteBatch.DrawString(Resources.Courier, " SURVIVE!", new Vector2(323, 75), Color.Crimson);
                     spriteBatch.DrawString(Resources.Courier, "Single Player", new Vector2(300, 175), (menuButtonState == MenuButtonState.Single) ? Color.Gold : Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Multi Player", new Vector2(310, 275), (menuButtonState == MenuButtonState.Multi) ? Color.Gold : Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Quit", new Vector2(360, 375), (menuButtonState == MenuButtonState.Quit) ? Color.Gold : Color.Black);
                     break; //end case Menu
 
-                case GameState.InGame:
+                case GlobalVariables.GameState.InGame:
                     DrawGameScreen();
 
                     break;
 
-                case GameState.Pause:
+                case GlobalVariables.GameState.Pause:
                     DrawGameScreen();
                     spriteBatch.DrawString(Resources.Courier, "PAUSED", new Vector2(320, 225), Color.Black);
                     if (playerList[0].Controls.CurrentGPS.IsConnected)
@@ -673,13 +671,13 @@ namespace Survive
                     }
                     break;
 
-                case GameState.SingleTinker:
+                case GlobalVariables.GameState.SingleTinker:
                     break;
 
-                case GameState.MultiTinker:
+                case GlobalVariables.GameState.MultiTinker:
                     break;
 
-                case GameState.GameOver:
+                case GlobalVariables.GameState.GameOver:
                     spriteBatch.DrawString(Resources.Courier, "GAME OVER!", new Vector2(320, 75), Color.Maroon);
                     spriteBatch.DrawString(Resources.Courier, "Score : ", new Vector2(300, 175), Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Hit Enter to Continue", new Vector2(240, 275), Color.Black);
