@@ -419,12 +419,13 @@ namespace Survive
                     Portal use = null;
                     foreach (Player p in playerList)
                     {
-                        if (use == null && p.Vote != null)
-                        {
-                            use = p.Vote;
-                        }
-                        else
-                        {
+                        if(p.Vote != null) {
+                            if(use == null || p.Vote == use) {
+                                use = p.Vote;
+                            } else {
+                                go = false;
+                            }
+                        } else {
                             go = false;
                         }
                     }
@@ -920,7 +921,6 @@ namespace Survive
                     case PlayerOtherInput.SwitchWeapon:
                         break;
                 }
-                break;
             }
 
             //draw in items
