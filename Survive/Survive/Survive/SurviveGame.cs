@@ -610,7 +610,7 @@ namespace Survive
                     {
                         if (SingleKeyPress(p, Buttons.A) || SingleKeyPress(p, Keys.Enter))
                         {
-                            gameState = GameState.Menu;
+                            gameState = GameState.InGame;
                             break;
                         }
                     }
