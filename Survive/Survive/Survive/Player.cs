@@ -96,7 +96,7 @@ namespace Survive
         public int Ammo
         {
             get { return ammo; }
-            set { ammo = value; }
+            set { ammo = value;}
         }
 
         public Portal Vote {
@@ -161,9 +161,13 @@ namespace Survive
                     Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5), currentWeapon.Accuracy);
                     return b;
                 }
-                else
+                else if (currentClip.Current <= 0)
                 {
                     Reload();
+                    return null;
+                }
+                else
+                {
                     return null;
                 }
             }
@@ -186,10 +190,10 @@ namespace Survive
                 {
                     healingItemsAmount++;
                 }
-                else if (item is WeaponStock)
+                else if (item is Weapon)
                 {
-                    weapons.Add((WeaponStock)item);
-                    items.Add(((WeaponStock)item).Clip);
+                    weapons.Add((Weapon)item);
+                    items.Add(((Weapon)item).Clip);
                 }
                 else if(item is GunBits)
                 {
@@ -267,7 +271,7 @@ namespace Survive
                 ammo += excessAmmo;
                 leftOverAmmo -= excessAmmo;
             }
-            currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
+            currentClip = currentWeapon.Clip;
             currentClip.Current = leftOverAmmo;
         }
 
@@ -298,24 +302,24 @@ namespace Survive
         {
             GunClip best = null; 
             //check for filled clips
-            for (int i = 0; i < reloadTimer; i++)
+            if (reloadTimer == 0)
             {
-            }
-            foreach (GunBits gunbit in items)
-            {
-                if (gunbit is GunClip)
+                foreach (GunBits gunbit in items)
                 {
-                    if (best == null)
-                        best = (GunClip)gunbit;
-                    else
-                        if (((GunClip)gunbit).Current > best.Current)
+                    if (gunbit is GunClip)
+                    {
+                        if (best == null)
                             best = (GunClip)gunbit;
+                        else
+                            if (((GunClip)gunbit).Current > best.Current)
+                                best = (GunClip)gunbit;
+                    }
                 }
-            }
 
-            if (best != null) //best clip found
-            {
-                currentClip = best;
+                if (best != null) //best clip found
+                {
+                    currentClip = best;
+                }
             }
         }
 
@@ -335,6 +339,15 @@ namespace Survive
             if (fireRateTimer < 0)
             {
                 fireRateTimer = 0;
+            }
+        }
+
+        public void ReloadTimer()
+        {
+            reloadTimer--;
+            if (reloadTimer < 0)
+            {
+                reloadTimer = 0;
             }
         }
     }
