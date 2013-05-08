@@ -13,6 +13,7 @@ namespace Survive
         {
             this.reloadSpeed = reloadSpeed;
             this.clipCapacity = clipCapacity;
+            current = clipCapacity;
         }
 
         public int Current

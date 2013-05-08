@@ -111,13 +111,13 @@ namespace Survive
         {
             healingItemsAmount = 0;
             score = 0;
-            ammo = 0;
+            ammo = 1000;
             name = nm;
             items = new List<GunBits>();
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 5, 5, 100000, "Pistol", 10, new Rectangle(0,0,0,0)));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 5, 5, 1, "Pistol", 10, new Rectangle(0,0,0,0)));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
@@ -146,9 +146,9 @@ namespace Survive
         {
             if (!(GlobalVariables.map.AtSafehouse))
             {
-                if (currentClip.Current > 0 && fireRateTimer <= 0)
+                if ((currentClip.Current > 0 || (currentWeapon.Name.Equals("Beginner's Pistol"))) && fireRateTimer <= 0)
                 {
-                    if (currentWeapon.Name != "Beginner's Pistol")
+                    if (!(currentWeapon.Name.Equals("Beginner's Pistol")))
                     {
                         currentClip.Current--;
                     }
@@ -265,6 +265,26 @@ namespace Survive
             currentClip.Current = leftOverAmmo;
         }
 
+        /// <summary>
+        /// Used to refill the clips when the player is in the Safehouse
+        /// </summary>
+        private void RefillClips()
+        {
+            foreach (GunClip clip in items)
+            {
+                if (ammo >= clip.ClipCapacity)
+                {
+                    clip.Current = clip.ClipCapacity;
+                    ammo -= clip.ClipCapacity;
+                }
+                else if (ammo > 0)
+                {
+                    clip.Current = ammo;
+                    ammo = 0;
+                }
+            }
+        }
+
         public void Reload()
         {
             GunClip best = null; 
@@ -303,6 +323,10 @@ namespace Survive
         public void FireRateTimer()
         {
             fireRateTimer--;
+            if (fireRateTimer < 0)
+            {
+                fireRateTimer = 0;
+            }
         }
     }
 }
