@@ -510,6 +510,22 @@ namespace Survive
                                     zombie.FacingRight = true;
                                 }
 
+                                if (closestPlayer.Y < zombie.Y)
+                                {
+                                    int side = 1;
+                                    if (zombie.FacingRight) { side *= -1; }
+                                    Rectangle inFront = new Rectangle(zombie.X + (side * tileSize), zombie.Y - 5, zombie.Location.Width, zombie.Location.Height);
+                                    //check for lack of platform in front of them to jump
+                                    foreach (Platform tile in GlobalVariables.map.GetTiles())
+                                    {
+
+                                        if (tile.Location.Intersects(inFront))
+                                        {
+                                            zombie.Jump();
+                                        }
+                                    }
+                                }
+
                                 if (zombie.Jumping == true)
                                 {
                                     zombie.MoveSpeed = 2;
