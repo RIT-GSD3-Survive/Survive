@@ -432,12 +432,13 @@ namespace Survive
                     Portal use = null;
                     foreach (Player p in playerList)
                     {
-                        if (use == null && p.Vote != null)
-                        {
-                            use = p.Vote;
-                        }
-                        else
-                        {
+                        if(p.Vote != null) {
+                            if(use == null || p.Vote == use) {
+                                use = p.Vote;
+                            } else {
+                                go = false;
+                            }
+                        } else {
                             go = false;
                         }
                     }
@@ -468,9 +469,13 @@ namespace Survive
 
                     //always at least one zombie
                     if (zombieList.Count == 0)
-                        zombieList.Add(new Zombie(new Rectangle(400, 345, humanoidWidth, humanoidHeight)));
+                        zombieList.Add(new Zombie(new Rectangle(rgen.Next(viewportWidth), viewportHeight/2, humanoidWidth, humanoidHeight)));
                     if (!(GlobalVariables.map.AtSafehouse))
                     {
+                        //chance of spawning a zombie
+                        if (rgen.Next(100) == 0 && zombieList.Count<10)
+                            zombieList.Add(new Zombie(new Rectangle(rgen.Next()*viewportWidth, viewportHeight / 2, humanoidWidth, humanoidHeight)));
+
                         for (int i = 0; i < zombieList.Count; i++)
                         {
                             //run zombie actions
