@@ -350,6 +350,7 @@ namespace Survive
                         Console.Clear();
                         Console.WriteLine("Player: " + p.PIndex.ToString());
                         Console.WriteLine("Ammo: " + p.Ammo);
+                        Console.WriteLine("Reloading: " + p.Reloading);
                         Console.WriteLine("Current Weapon Info:");
                         Console.WriteLine("Type: " + p.CurrentWeapon.Type);
                         Console.WriteLine("Power: " + p.CurrentWeapon.AttackPower);
@@ -418,6 +419,10 @@ namespace Survive
                         p.PosUpdate();
                         p.InvulnerabilityTimer();
                         p.FireRateTimer();
+                        if (p.Reloading)
+                        {
+                            p.ReloadTimer++;
+                        }
                         for(int i=50; i<75; i++)
                         {
                             p.CheckCollisions(platformTilesList[i], p);

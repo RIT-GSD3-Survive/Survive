@@ -28,6 +28,7 @@ namespace Survive
         protected int healingItemsAmount;
         protected int fireRateTimer;
         protected int reloadTimer;
+        protected Boolean reloading;
 
         protected Portal move = null;
 
@@ -110,10 +111,23 @@ namespace Survive
             set { healingItemsAmount = value; }
         }
 
+        public Boolean Reloading
+        {
+            get { return reloading; }
+            set { reloading = value; }
+        }
+
+        public int ReloadTimer
+        {
+            get { return reloadTimer; }
+            set { reloadTimer = value; }
+        }
+
         // methods
         //call in the constructors so we don't have have duplicate lines in each
         public void SetUp(string nm, Rectangle loc)
         {
+            reloading = false;
             healingItemsAmount = 0;
             score = 0;
             ammo = 1000;
@@ -143,7 +157,7 @@ namespace Survive
             {
                 moveSpeed = 1;
             }
-            reloadTimer = currentWeapon.ReloadSpeed * 60;
+            reloadTimer = 0;
         }
 
         //returns a bullet to add to bulletList
@@ -228,7 +242,6 @@ namespace Survive
             {
                 moveSpeed = 1;
             }
-            reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
         }
 
@@ -257,7 +270,6 @@ namespace Survive
             {
                 moveSpeed = 1;
             }
-            reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
         }
 
@@ -300,9 +312,10 @@ namespace Survive
 
         public void Reload()
         {
-            GunClip best = null; 
+            GunClip best = null;
+            reloading = true;
             //check for filled clips
-            if (reloadTimer == 0)
+            if (reloadTimer >= (currentWeapon.ReloadSpeed*60))
             {
                 foreach (GunBits gunbit in items)
                 {
@@ -320,6 +333,8 @@ namespace Survive
                 {
                     currentClip = best;
                 }
+                reloadTimer = 0;
+                reloading = false;
             }
         }
 
@@ -339,15 +354,6 @@ namespace Survive
             if (fireRateTimer < 0)
             {
                 fireRateTimer = 0;
-            }
-        }
-
-        public void ReloadTimer()
-        {
-            reloadTimer--;
-            if (reloadTimer < 0)
-            {
-                reloadTimer = 0;
             }
         }
     }
