@@ -270,16 +270,19 @@ namespace Survive
         /// </summary>
         private void RefillClips()
         {
+            int missingAmmo;
             foreach (GunClip clip in items)
             {
-                if (ammo >= clip.ClipCapacity)
+                missingAmmo = clip.ClipCapacity - clip.Current;
+                if (ammo >= missingAmmo)
                 {
                     clip.Current = clip.ClipCapacity;
-                    ammo -= clip.ClipCapacity;
+                    ammo -= missingAmmo;
                 }
-                else if (ammo > 0)
+                else if (ammo > 0 && (clip.Current + ammo < clip.ClipCapacity))
                 {
-                    clip.Current = ammo;
+
+                    clip.Current += ammo;
                     ammo = 0;
                 }
             }
