@@ -18,6 +18,7 @@ namespace Survive
         protected int reloadSpeed;
         protected int clipCapacity;
         protected int fireRate;
+        protected GunClip clip;
 
         //Properties
         public string Name
@@ -70,6 +71,12 @@ namespace Survive
                 return type;
             }
             set { type = value; }
+        }
+
+        public GunClip Clip
+        {
+            get { return clip; }
+            set { clip = value; }
         }
     }
 }

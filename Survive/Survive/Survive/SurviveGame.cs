@@ -473,7 +473,7 @@ namespace Survive
                     if (!(GlobalVariables.map.AtSafehouse))
                     {
                         //chance of spawning a zombie
-                        if (rgen.Next(100) == 0 && zombieList.Count<10)
+                        if (rgen.Next(100) == 0 && zombieList.Count<(playerList.Count*5))
                             zombieList.Add(new Zombie(new Rectangle(rgen.Next()*viewportWidth, viewportHeight / 2, humanoidWidth, humanoidHeight)));
 
                         for (int i = 0; i < zombieList.Count; i++)
@@ -508,6 +508,22 @@ namespace Survive
                                 {
                                     zombie.WalkRight();
                                     zombie.FacingRight = true;
+                                }
+
+                                if (closestPlayer.Y < zombie.Y)
+                                {
+                                    int side = 1;
+                                    if (zombie.FacingRight) { side *= -1; }
+                                    Rectangle inFront = new Rectangle(zombie.X + (side * (tileSize-23)), zombie.Y - 10, zombie.Location.Width, zombie.Location.Height);
+                                    //check for lack of platform in front of them to jump
+                                    foreach (Platform tile in GlobalVariables.map.GetTiles())
+                                    {
+
+                                        if (tile.Location.Intersects(inFront))
+                                        {
+                                            zombie.Jump();
+                                        }
+                                    }
                                 }
 
                                 if (zombie.Jumping == true)
@@ -1041,8 +1057,15 @@ namespace Survive
                 {
                     //get gun image rectangle
                     Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
-                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X - 9, obj.Y + 31, rect.Width, rect.Height), rect,
-                        Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                    if (((Player)obj).CurrentWeapon.Type == "Pistol")
+                        spriteBatch.Draw(gunSheet, new Rectangle(obj.X - 9, obj.Y + 31, rect.Width, rect.Height), rect,
+                            Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                    else if (((Player)obj).CurrentWeapon.Type == "SMG")
+                        spriteBatch.Draw(gunSheet, new Rectangle(obj.X - 12, obj.Y + 31, rect.Width, rect.Height), rect,
+                            Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                    else if (((Player)obj).CurrentWeapon.Type == "AR")
+                        spriteBatch.Draw(gunSheet, new Rectangle(obj.X - 25, obj.Y + 29, rect.Width, rect.Height), rect,
+                            Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 }
 
                 //draw top leg
@@ -1071,8 +1094,15 @@ namespace Survive
                 {
                     //get gun image rectangle
                     Rectangle rect = gunImagesList[((Player)obj).CurrentWeapon.Type];
-                    spriteBatch.Draw(gunSheet, new Rectangle(obj.X + 22, obj.Y + 31, rect.Width, rect.Height), rect,
-                        Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                    if (((Player)obj).CurrentWeapon.Type == "Pistol")
+                        spriteBatch.Draw(gunSheet, new Rectangle(obj.X + 22, obj.Y + 31, rect.Width, rect.Height), rect,
+                            Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                    else if (((Player)obj).CurrentWeapon.Type == "SMG")
+                        spriteBatch.Draw(gunSheet, new Rectangle(obj.X + 10, obj.Y + 31, rect.Width, rect.Height), rect,
+                            Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
+                    else if (((Player)obj).CurrentWeapon.Type == "AR")
+                        spriteBatch.Draw(gunSheet, new Rectangle(obj.X + 12, obj.Y + 29, rect.Width, rect.Height), rect,
+                            Color.White, 0.0f, new Vector2(0, 0), flip, 0.0f);
                 }
                 //draw top leg
                 spriteBatch.Draw(humanoidSheet, new Rectangle(obj.X + 1, obj.Y + 48, leg.Width, leg.Height), leg,
