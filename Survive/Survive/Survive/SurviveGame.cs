@@ -501,8 +501,6 @@ namespace Survive
                                 {
                                     zombie.WalkLeft();
                                     zombie.FacingRight = false;
-
-
                                 }
                                 else if (zombie.X < closestPlayer.X)
                                 {

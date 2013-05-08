@@ -113,7 +113,7 @@ namespace Survive {
         public bool SwitchWeaponsPrevious()
         {
             return
-                (allowKeyboard && (currentMS.ScrollWheelValue > previousMS.ScrollWheelValue))
+                (allowKeyboard && (currentMS.ScrollWheelValue > previousMS.ScrollWheelValue)) 
                 || (currentGPS.IsButtonDown(Buttons.LeftShoulder) && previousGPS.IsButtonUp(Buttons.LeftShoulder));
         }
 
@@ -121,6 +121,7 @@ namespace Survive {
         {
             return
                 (allowKeyboard && (currentMS.ScrollWheelValue < previousMS.ScrollWheelValue))
+                || (allowKeyboard && (previousKS.IsKeyUp(Keys.Q)) && (currentKS.IsKeyDown(Keys.Q)))
                 || (currentGPS.IsButtonDown(Buttons.RightShoulder) && previousGPS.IsButtonUp(Buttons.RightShoulder));
         }
 
