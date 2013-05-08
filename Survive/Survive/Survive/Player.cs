@@ -93,6 +93,11 @@ namespace Survive
             set { controls = value; }
         }
 
+        public int Ammo
+        {
+            get { return ammo; }
+            set { ammo = value; }
+        }
 
         public Portal Vote {
             get { return move; }
@@ -117,7 +122,7 @@ namespace Survive
             weapons = new List<Weapon>();
             moveSpeed = 2;
             weaponIndex = 0;
-            weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 5, 5, 1, "Pistol", 10, new Rectangle(0,0,0,0)));
+            weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 10, 5, 1, "Pistol", 10, new Rectangle(0,0,0,0)));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
             currentClip.Current = currentClip.ClipCapacity;
@@ -221,17 +226,6 @@ namespace Survive
             }
             reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
-
-            //Weapon Info printed to Console
-            Console.Clear();
-            Console.WriteLine("Current Weapon Info:");
-            Console.WriteLine("Type: " + currentWeapon.Type);
-            Console.WriteLine("Power: " + currentWeapon.AttackPower);
-            Console.WriteLine("Fire Rate: " + currentWeapon.FireRate);
-            Console.WriteLine("Accuracy: " + currentWeapon.Accuracy);
-            Console.WriteLine("Clip Capacity: " + currentWeapon.ClipCapacity);
-            Console.WriteLine("Weight: " + currentWeapon.Weight);
-            Console.WriteLine("Reload Speed: " + currentWeapon.ReloadSpeed);
         }
 
         public void SwitchWeaponsPrevious()
@@ -261,17 +255,6 @@ namespace Survive
             }
             reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
-
-            //Weapon Info printed to Console
-            Console.Clear();
-            Console.WriteLine("Current Weapon Info:");
-            Console.WriteLine("Type: " + currentWeapon.Type);
-            Console.WriteLine("Power: " + currentWeapon.AttackPower);
-            Console.WriteLine("Fire Rate: " + currentWeapon.FireRate);
-            Console.WriteLine("Accuracy: " + currentWeapon.Accuracy);
-            Console.WriteLine("Clip Capacity: " + currentWeapon.ClipCapacity);
-            Console.WriteLine("Weight: " + currentWeapon.Weight);
-            Console.WriteLine("Reload Speed: " + currentWeapon.ReloadSpeed);
         }
 
         private void SwitchCurrentClip()
