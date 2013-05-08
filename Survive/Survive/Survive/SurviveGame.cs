@@ -479,9 +479,6 @@ namespace Survive
                                     zombie.FacingRight = true;
                                 }
 
-                                zombie.PosUpdate();
-                                zombie.Gravity();
-
                                 if (zombie.Jumping == true)
                                 {
                                     zombie.MoveSpeed = 2;
@@ -506,21 +503,22 @@ namespace Survive
                             }
                             else zombie.ZombieAction = ZombieActions.Patrol;
 
-                            foreach (Zombie z in zombieList)
+                            zombie.PosUpdate();
+                            zombie.Gravity();
+
+                            foreach (Player player in playerList)
                             {
-                                foreach (Player player in playerList)
-                                {
-                                    player.CheckCollisions(z, player);
-                                }
+                                player.CheckCollisions(zombie, player);
+                            }
                                 for(int j=50; j<75; j++)
                                 {
-                                    z.CheckCollisions(platformTilesList[j], z);
+                                    zombie.CheckCollisions(platformTilesList[j], zombie);
                                 }
                                 foreach (Platform pl in GlobalVariables.map.GetTiles())
                                 {
-                                    z.CheckCollisions(pl, z);
+                                    zombie.CheckCollisions(pl, zombie);
                                 }
-                            }
+                            
                             if (zombie.HP <= 0)
                             {
                                 if (rgen.Next(40) == 0)
