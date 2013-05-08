@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive {
-    class Resources {
+    public class Resources {
         private static SpriteFont courier, courierSmall;
 
         private static Texture2D tiles, portal;
@@ -32,6 +32,19 @@ namespace Survive {
             courierSmall = cm.Load<SpriteFont>("CourierSmall");
             tiles = cm.Load<Texture2D>("Tiles");
             portal = cm.Load<Texture2D>("Portal");
+            Tinker.LoadRes(cm);
+        }
+
+        public class Tinker {
+            private static Texture2D singleBack;
+
+            public static void LoadRes(ContentManager cm) {
+                singleBack = cm.Load<Texture2D>("TinkerScreen/BackButton");
+            }
+
+            public static Texture2D SingleBack {
+                get { return singleBack; }
+            }
         }
     }
 }
