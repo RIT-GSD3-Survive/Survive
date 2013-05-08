@@ -181,9 +181,10 @@ namespace Survive
                 {
                     healingItemsAmount++;
                 }
-                else if (item is Weapon)
+                else if (item is WeaponStock)
                 {
-                    weapons.Add((Weapon)item);
+                    weapons.Add((WeaponStock)item);
+                    items.Add(((WeaponStock)item).Clip);
                 }
                 else if(item is GunBits)
                 {
@@ -220,6 +221,17 @@ namespace Survive
             }
             reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
+
+            //Weapon Info printed to Console
+            Console.Clear();
+            Console.WriteLine("Current Weapon Info:");
+            Console.WriteLine("Type: " + currentWeapon.Type);
+            Console.WriteLine("Power: " + currentWeapon.AttackPower);
+            Console.WriteLine("Fire Rate: " + currentWeapon.FireRate);
+            Console.WriteLine("Accuracy: " + currentWeapon.Accuracy);
+            Console.WriteLine("Clip Capacity: " + currentWeapon.ClipCapacity);
+            Console.WriteLine("Weight: " + currentWeapon.Weight);
+            Console.WriteLine("Reload Speed: " + currentWeapon.ReloadSpeed);
         }
 
         public void SwitchWeaponsPrevious()
@@ -249,6 +261,17 @@ namespace Survive
             }
             reloadTimer = currentWeapon.ReloadSpeed * 60;
             SwitchCurrentClip();
+
+            //Weapon Info printed to Console
+            Console.Clear();
+            Console.WriteLine("Current Weapon Info:");
+            Console.WriteLine("Type: " + currentWeapon.Type);
+            Console.WriteLine("Power: " + currentWeapon.AttackPower);
+            Console.WriteLine("Fire Rate: " + currentWeapon.FireRate);
+            Console.WriteLine("Accuracy: " + currentWeapon.Accuracy);
+            Console.WriteLine("Clip Capacity: " + currentWeapon.ClipCapacity);
+            Console.WriteLine("Weight: " + currentWeapon.Weight);
+            Console.WriteLine("Reload Speed: " + currentWeapon.ReloadSpeed);
         }
 
         private void SwitchCurrentClip()
@@ -268,7 +291,7 @@ namespace Survive
         /// <summary>
         /// Used to refill the clips when the player is in the Safehouse
         /// </summary>
-        private void RefillClips()
+        public void RefillClips()
         {
             int missingAmmo;
             foreach (GunClip clip in items)

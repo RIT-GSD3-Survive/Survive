@@ -431,11 +431,24 @@ namespace Survive
                     if (go && use != null)
                     {
                         GlobalVariables.map.SwitchArea(use.LinkTo);
-                        foreach (Player p in playerList)
+                        if (use.LinkTo.Name.Equals("Safehouse", StringComparison.OrdinalIgnoreCase))
                         {
-                            p.X = use.LinkX;
-                            p.Y = use.LinkY;
-                            p.Vote = null;
+                            foreach (Player p in playerList)
+                            {
+                                p.X = use.LinkX;
+                                p.Y = use.LinkY;
+                                p.Vote = null;
+                                p.RefillClips();
+                            }
+                        }
+                        else
+                        {
+                            foreach (Player p in playerList)
+                            {
+                                p.X = use.LinkX;
+                                p.Y = use.LinkY;
+                                p.Vote = null;
+                            }
                         }
                         zombieList.Clear();
                     }
