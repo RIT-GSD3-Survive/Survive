@@ -163,7 +163,7 @@ namespace Survive
         //returns a bullet to add to bulletList
         public Bullet Fire()
         {
-            if (!(GlobalVariables.map.AtSafehouse))
+            if (!(GlobalVariables.map.AtSafehouse) && reloading == false)
             {
                 if ((currentClip.Current > 0 || (currentWeapon.Name.Equals("Beginner's Pistol"))) && fireRateTimer <= 0)
                 {
@@ -219,6 +219,8 @@ namespace Survive
 
         public void SwitchWeaponsNext()
         {
+            reloading = false;
+            reloadTimer = 0;
             weaponIndex += 1;
             if (weaponIndex > weapons.Count - 1)
             {
@@ -247,6 +249,8 @@ namespace Survive
 
         public void SwitchWeaponsPrevious()
         {
+            reloading = false;
+            reloadTimer = 0;
             weaponIndex -= 1;
             if (weaponIndex < 0)
             {
