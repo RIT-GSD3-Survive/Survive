@@ -10,7 +10,6 @@ namespace Survive
         //Gun parts
         protected GunBarrel barrel;
         protected GunBody body;
-        protected GunClip clip;
         protected GunScope scope;
         protected GunStock stock;
 

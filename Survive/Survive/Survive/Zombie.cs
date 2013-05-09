@@ -41,8 +41,8 @@ namespace Survive
             {
                 int rangeMultiplier = 4;
                 Rectangle detectRange = new Rectangle(
-                    location.X - ((location.Width * rangeMultiplier) / 2), location.Y - ((location.Height * rangeMultiplier) / 2),
-                    location.Width * rangeMultiplier, location.Height * rangeMultiplier/2);
+                    location.X - (((location.Width * rangeMultiplier * 2) / 2) - location.Width), location.Y - (((location.Height * rangeMultiplier) / 2) - location.Height),
+                    location.Width * rangeMultiplier * 2, location.Height * rangeMultiplier / 2);
 
                 if (detectRange.Intersects(player.Location))
                     return true;
