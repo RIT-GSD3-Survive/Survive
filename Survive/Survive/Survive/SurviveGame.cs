@@ -351,6 +351,7 @@ namespace Survive
                         Console.WriteLine("Player: " + p.PIndex.ToString());
                         Console.WriteLine("Ammo: " + p.Ammo);
                         Console.WriteLine("Reloading: " + p.Reloading);
+                        Console.WriteLine("Time spent reloading: " + p.ReloadTimer);
                         Console.WriteLine("Current Weapon Info:");
                         Console.WriteLine("Type: " + p.CurrentWeapon.Type);
                         Console.WriteLine("Power: " + p.CurrentWeapon.AttackPower);
@@ -359,7 +360,10 @@ namespace Survive
                         Console.WriteLine("Ammo in Clip: " + p.CurrentClip.Current);
                         Console.WriteLine("Clip Capacity: " + p.CurrentClip.ClipCapacity);
                         Console.WriteLine("Weight: " + p.CurrentWeapon.Weight);
-                        Console.WriteLine("Reload Speed: " + p.CurrentWeapon.ReloadSpeed);
+                        if (p.NextClip != null)
+                        {
+                            Console.WriteLine("Reload Speed (Next Clip): " + p.NextClip.ReloadSpeed);
+                        }
                         if (p.Controls.MoveRight())
                         {
                             p.WalkRight();
@@ -395,6 +399,7 @@ namespace Survive
                         if (p.Controls.Reload())
                         {
                             playerOtherInput = PlayerOtherInput.Reload;
+                            p.FindNextBestClip();
                             p.Reload();
                         }
                         if (p.Controls.SwitchWeaponsNext())
@@ -421,7 +426,9 @@ namespace Survive
                         p.FireRateTimer();
                         if (p.Reloading)
                         {
+                            p.FindNextBestClip();
                             p.ReloadTimer++;
+                            p.Reload();
                         }
                         for(int i=50; i<75; i++)
                         {
@@ -470,6 +477,7 @@ namespace Survive
                             }
                         }
                         zombieList.Clear();
+                        activeItems.Clear();
                     }
 
                     //always at least one zombie
