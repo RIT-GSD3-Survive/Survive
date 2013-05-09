@@ -32,6 +32,7 @@ namespace Survive.Tinkering {
                     newWeap = new WeaponCustomizable(gun.body, gun.barrel, gun.stock);
                 }
                 newWeap.Name = "CustWeapon";
+                newWeap.Type = "AR";
                 return newWeap;
             }
         }
