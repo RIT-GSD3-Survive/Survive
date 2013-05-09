@@ -283,7 +283,7 @@ namespace Survive {
                     break;
 
                 case GlobalVariables.GameState.InGame:
-                    Console.Clear();
+                    //Console.Clear();
                     foreach(Player p in playerList) {
                         if(p.Tinkering) {
                             if(playerList.Count == 1) {

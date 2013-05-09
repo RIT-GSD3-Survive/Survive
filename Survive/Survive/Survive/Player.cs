@@ -386,6 +386,7 @@ namespace Survive
 
         public void Update(GameTime gt, List<Platform> ptl, List<Bullet> bl) {
             //Weapon Info printed to Console
+            /*
             Console.WriteLine("Player: " + PIndex.ToString());
             Console.WriteLine("Ammo: " + Ammo);
             Console.WriteLine("Reloading: " + Reloading);
@@ -400,6 +401,7 @@ namespace Survive
             Console.WriteLine("Weight: " + CurrentWeapon.Weight);
             Console.WriteLine("Inventory: " + Items.Count);
             Console.WriteLine();
+            */
             if(NextClip != null) {
                 Console.WriteLine("Reload Speed (Next Clip): " + NextClip.ReloadSpeed);
             }
