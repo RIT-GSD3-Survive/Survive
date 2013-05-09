@@ -17,7 +17,7 @@ namespace Survive {
         private Area currArea = null;
 
         public Boolean AtSafehouse {
-            get { return currArea.Name.Equals("Safehouse", StringComparison.OrdinalIgnoreCase); }
+            get { return currArea.Name.StartsWith("Safehouse", StringComparison.OrdinalIgnoreCase); }
         }
 
         public Map() {

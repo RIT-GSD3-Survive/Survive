@@ -9,7 +9,7 @@ namespace Survive {
     public class Resources {
         private static SpriteFont courier, courierSmall;
 
-        private static Texture2D tiles, portal;
+        private static Texture2D tiles, portal, table;
 
         public static SpriteFont Courier {
             get { return courier; }
@@ -27,11 +27,16 @@ namespace Survive {
             get { return portal; }
         }
 
+        public static Texture2D Table {
+            get { return table; }
+        }
+
         public static void LoadRes(ContentManager cm) {
             courier = cm.Load<SpriteFont>("Courier");
             courierSmall = cm.Load<SpriteFont>("CourierSmall");
             tiles = cm.Load<Texture2D>("Tiles");
             portal = cm.Load<Texture2D>("Portal");
+            table = cm.Load<Texture2D>("TinkerTableWIP");
             Tinker.LoadRes(cm);
         }
 
