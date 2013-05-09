@@ -344,10 +344,10 @@ namespace Survive
                     break;
 
                 case GlobalVariables.GameState.InGame:
+                    Console.Clear();
                     foreach (Player p in playerList)
                     {
                         //Weapon Info printed to Console
-                        Console.Clear();
                         Console.WriteLine("Player: " + p.PIndex.ToString());
                         Console.WriteLine("Ammo: " + p.Ammo);
                         Console.WriteLine("Reloading: " + p.Reloading);
@@ -360,6 +360,7 @@ namespace Survive
                         Console.WriteLine("Ammo in Clip: " + p.CurrentClip.Current);
                         Console.WriteLine("Clip Capacity: " + p.CurrentClip.ClipCapacity);
                         Console.WriteLine("Weight: " + p.CurrentWeapon.Weight);
+                        Console.WriteLine();
                         if (p.NextClip != null)
                         {
                             Console.WriteLine("Reload Speed (Next Clip): " + p.NextClip.ReloadSpeed);
