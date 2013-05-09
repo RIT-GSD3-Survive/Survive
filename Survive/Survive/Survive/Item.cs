@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survive
 {
-    class Item : GameObject
+    public class Item : GameObject
     {
         protected Boolean active;
 

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Weapon : Item
+    public class Weapon : Item
     {
         //Attributes
         protected string type;

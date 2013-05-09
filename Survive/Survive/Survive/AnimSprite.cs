@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Survive {
-    class AnimSprite {
+    public class AnimSprite {
         private Texture2D sprite;
         private TimeSpan time = new TimeSpan(0);
         private int frame = 0;

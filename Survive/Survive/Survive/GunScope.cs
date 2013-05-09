@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class GunScope : GunBits
+    public class GunScope : GunBits
     {
         public GunScope(int accur, Rectangle loc)
         {

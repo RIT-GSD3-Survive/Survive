@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Humanoid : GameObject
+    public class Humanoid : GameObject
     {
         //attributes
         protected int moveSpeed;

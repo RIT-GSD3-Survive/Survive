@@ -6,6 +6,7 @@ using System.Text;
 using System.IO;
 
 using fNbt;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive {
@@ -55,6 +56,7 @@ namespace Survive {
 
         public void DrawArea(SpriteBatch sb) {
             if(currArea != null) currArea.DrawArea(sb);
+            if(AtSafehouse) sb.Draw(Resources.Table, GlobalVariables.tableLoc, Color.White);
         }
 
         public List<Platform> GetTiles() {

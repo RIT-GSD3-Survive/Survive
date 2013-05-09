@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class GunClip : GunBits
+    public class GunClip : GunBits
     {
         int current; //Current amount of ammo in clip
 

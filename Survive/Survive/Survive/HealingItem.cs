@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class HealingItem : Item
+    public class HealingItem : Item
     {
         public HealingItem(Rectangle loc)
         {

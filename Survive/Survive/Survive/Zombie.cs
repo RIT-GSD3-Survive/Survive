@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Zombie : Humanoid
+    public class Zombie : Humanoid
     {
         //Attributes
         protected int attackPower;

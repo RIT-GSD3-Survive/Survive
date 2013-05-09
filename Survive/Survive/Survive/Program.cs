@@ -11,6 +11,7 @@ namespace Survive {
         {
             using (SurviveGame game = new SurviveGame())
             {
+                GlobalVariables.survGameInstance = game;
                 game.Run();
             }
         }

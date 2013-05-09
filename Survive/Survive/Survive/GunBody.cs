@@ -7,13 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class GunBody : GunBits
+    public class GunBody : GunBits
     {
-        public GunBody(int accur, int weight, int ap, int reloadSpeed, Rectangle loc)
+        public GunBody(int accur, int weight, int ap, int fr, int reloadSpeed, Rectangle loc)
         {
             accuracy = accur;
             this.weight = weight;
             attackPower = ap;
+            fireRate = fr;
             this.reloadSpeed += reloadSpeed;
             this.clipCapacity = 1;
             location = loc;

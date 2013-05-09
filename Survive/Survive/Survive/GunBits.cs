@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survive
 {
-    class GunBits : Item
+    public class GunBits : Item
     {
         protected int accuracy;
         protected int weight;
@@ -49,6 +49,11 @@ namespace Survive
         {
             get { return clipCapacity; }
             set { clipCapacity = value; }
+        }
+
+        public int FireRate {
+            get { return fireRate; }
+            set { fireRate = value; }
         }
     }
 }

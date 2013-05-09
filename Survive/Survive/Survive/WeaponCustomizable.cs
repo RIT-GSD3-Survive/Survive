@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survive
 {
-    class WeaponCustomizable : Weapon
+    public class WeaponCustomizable : Weapon
     {
         //Gun parts
         protected GunBarrel barrel;
@@ -23,6 +23,7 @@ namespace Survive
             accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy;
             weight += barrel.Weight + body.Weight + stock.Weight;
             attackPower += barrel.AttackPower + body.AttackPower;
+            fireRate += body.FireRate;
             reloadSpeed += body.ReloadSpeed;
             clipCapacity += body.ClipCapacity;
         }
@@ -37,6 +38,7 @@ namespace Survive
             accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy;
             weight += barrel.Weight + body.Weight + stock.Weight;
             attackPower += barrel.AttackPower + body.AttackPower;
+            fireRate += body.FireRate;
             reloadSpeed += body.ReloadSpeed + clip.ReloadSpeed;
             clipCapacity += body.ClipCapacity + clip.ClipCapacity;
         }
@@ -51,6 +53,7 @@ namespace Survive
             accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy + scope.Accuracy;
             weight += barrel.Weight + body.Weight + stock.Weight;
             attackPower += barrel.AttackPower + body.AttackPower;
+            fireRate += body.FireRate;
             reloadSpeed += body.ReloadSpeed;
             clipCapacity += body.ClipCapacity;
         }
@@ -66,6 +69,7 @@ namespace Survive
             accuracy += barrel.Accuracy + body.Accuracy + stock.Accuracy + scope.Accuracy;
             weight += barrel.Weight + body.Weight + stock.Weight;
             attackPower += barrel.AttackPower + body.AttackPower;
+            fireRate += body.FireRate;
             reloadSpeed += body.ReloadSpeed + clip.ReloadSpeed;
             clipCapacity += body.ClipCapacity + clip.ClipCapacity;
         }

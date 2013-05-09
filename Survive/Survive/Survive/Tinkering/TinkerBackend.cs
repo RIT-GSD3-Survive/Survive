@@ -6,8 +6,17 @@ using System.Text;
 using Survive;
 
 namespace Survive.Tinkering {
-    class TinkerBackend {
+    public class TinkerBackend {
+        public enum BitType {
+            Barrel, Body, Clip, Scope, Stock, None
+        }
+
         private WIPGun wip = null;
+
+        public WIPGun WIP {
+            get { return wip; }
+            set { wip = value; }
+        }
 
         private Player p;
 
@@ -34,7 +43,7 @@ namespace Survive.Tinkering {
             wip = new WIPGun();
         }
 
-        public WeaponCustomizable FinishGun() {
+        public void FinishGun() {
             p.Items.Remove(wip.Body);
             p.Items.Remove(wip.Barrel);
             p.Items.Remove(wip.Stock);
@@ -45,10 +54,8 @@ namespace Survive.Tinkering {
                 p.Items.Remove(wip.Clip);
             }
 
-            WeaponCustomizable newGun = (WeaponCustomizable)wip;
+            p.Weapons.Add((WeaponCustomizable)wip);
             wip = null;
-
-            return newGun;
         }
 
         public void ModGun(WeaponCustomizable gun) {
@@ -56,6 +63,8 @@ namespace Survive.Tinkering {
                 return;
             } else {
                 wip = gun;
+
+                p.Weapons.Remove(gun);
 
                 p.Items.AddRange(new GunBits[] { wip.Barrel, wip.Body, wip.Stock });
                 if(wip.Clip != null) {

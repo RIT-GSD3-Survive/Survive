@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class AmmoItem : Item
+    public class AmmoItem : Item
     {
         protected int amount;
 

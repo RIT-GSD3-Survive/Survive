@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
 namespace Survive {
-    class Control {
+    public class Control {
 
         PlayerIndex pi;
         bool allowKeyboard = false;

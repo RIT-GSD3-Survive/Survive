@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Survive
 {
-    class Bullet: GameObject
+    public class Bullet : GameObject
     {
         //Attributes
         protected int direction; // 0 for left, 1 for right

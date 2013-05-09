@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Survive {
     //global variables
-    enum ZombieActions { Patrol, Chase }
+    public enum ZombieActions { Patrol, Chase }
 
     /// <summary>
     /// This is the main type for your game
@@ -67,7 +67,10 @@ namespace Survive {
         //items
         List<Item> activeItems;
         List<Bullet> bulletList;
-        Dictionary<String, Rectangle> gunImagesList;
+        public static Dictionary<String, Rectangle> gunImagesList;
+
+        //Tinker Vars
+        Tinkering.SingleTinker singleTinkerInstance;
 
         //Random generator
         public static Random rgen;
@@ -110,7 +113,7 @@ namespace Survive {
             gunImagesList.Add("AR", new Rectangle(36, 0, 40, 12));
             gunImagesList.Add("GunBarrel", new Rectangle(0, 13, 29, 10));
             gunImagesList.Add("GunScope", new Rectangle(0, 23, 26, 10));
-            gunImagesList.Add("GunStock", new Rectangle(28, 13, 10, 18));
+            gunImagesList.Add("GunStock", new Rectangle(29, 13, 20, 12));
             gunImagesList.Add("GunBody", new Rectangle(26, 25, 28, 16));
             gunImagesList.Add("GunClip", new Rectangle(54, 12, 18, 24));
 
@@ -215,6 +218,7 @@ namespace Survive {
                             if(menuButtonState == MenuButtonState.Single) {
                                 playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                                 GlobalVariables.gameState = GlobalVariables.GameState.InGame;
+                                singleTinkerInstance = new Tinkering.SingleTinker(playerList[0]);
                             }
                             if(menuButtonState == MenuButtonState.Multi) {
                                 if(GamePad.GetState(PlayerIndex.One).IsConnected) {
@@ -255,6 +259,7 @@ namespace Survive {
                         if(menuButtonState == MenuButtonState.Single) {
                             playerList.Add(new Player("Name", 1, new Rectangle(200, 345, humanoidWidth, humanoidHeight)));
                             GlobalVariables.gameState = GlobalVariables.GameState.InGame;
+                            singleTinkerInstance = new Tinkering.SingleTinker(playerList[0]);
                         }
                         if(menuButtonState == MenuButtonState.Multi) {
                             if(GamePad.GetState(PlayerIndex.One).IsConnected) {
@@ -280,83 +285,14 @@ namespace Survive {
                 case GlobalVariables.GameState.InGame:
                     Console.Clear();
                     foreach(Player p in playerList) {
-                        //Weapon Info printed to Console
-                        Console.WriteLine("Player: " + p.PIndex.ToString());
-                        Console.WriteLine("Ammo: " + p.Ammo);
-                        Console.WriteLine("Reloading: " + p.Reloading);
-                        Console.WriteLine("Time spent reloading: " + p.ReloadTimer);
-                        Console.WriteLine("Current Weapon Info:");
-                        Console.WriteLine("Type: " + p.CurrentWeapon.Type);
-                        Console.WriteLine("Power: " + p.CurrentWeapon.AttackPower);
-                        Console.WriteLine("Fire Rate: " + p.CurrentWeapon.FireRate);
-                        Console.WriteLine("Accuracy: " + p.CurrentWeapon.Accuracy);
-                        Console.WriteLine("Ammo in Clip: " + p.CurrentClip.Current);
-                        Console.WriteLine("Clip Capacity: " + p.CurrentClip.ClipCapacity);
-                        Console.WriteLine("Weight: " + p.CurrentWeapon.Weight);
-                        Console.WriteLine("Inventory: " + p.Items.Count);
-                        Console.WriteLine();
-                        if(p.NextClip != null) {
-                            Console.WriteLine("Reload Speed (Next Clip): " + p.NextClip.ReloadSpeed);
-                        }
-                        if(p.Controls.MoveRight()) {
-                            p.WalkRight();
-                            p.Vote = null;
-                        }
-                        if(p.Controls.MoveLeft()) {
-                            p.WalkLeft();
-                            p.Vote = null;
-                        }
-                        if(p.Controls.IsJump()) {
-                            playerOtherInput = PlayerOtherInput.Jump;
-                            p.Jump();
-                            p.Vote = null;
-                        }
-                        if(p.Controls.IsFire()) {
-                            playerOtherInput = PlayerOtherInput.Fire;
-                            Bullet b = null;
-                            if((b = p.Fire()) != null)
-                                bulletList.Add(b);
-                        }
-                        if(p.Controls.Interact()) {
-                            playerOtherInput = PlayerOtherInput.Interact;
-                            p.Interact();
-                        }
-                        if(p.Controls.Pause()) {
-                            GlobalVariables.gameState = GlobalVariables.GameState.Pause;
-                        }
-                        if(p.Controls.Reload()) {
-                            playerOtherInput = PlayerOtherInput.Reload;
-                            p.FindNextBestClip();
-                            p.Reload();
-                        }
-                        if(p.Controls.SwitchWeaponsNext()) {
-                            playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            p.SwitchWeaponsNext();
-                        }
-                        if(p.Controls.SwitchWeaponsPrevious()) {
-                            playerOtherInput = PlayerOtherInput.SwitchWeapon;
-                            p.SwitchWeaponsPrevious();
-                        }
-                        if(p.Controls.Heal()) {
-                            if(p.HealingItemsAmount > 0 && p.HP != 100) {
-                                p.HealingItemsAmount--;
-                                p.HP += rgen.Next(10, 30);
+                        if(p.Tinkering) {
+                            if(playerList.Count == 1) {
+                                singleTinkerInstance.Update();
+                            } else {
+                                ;
                             }
-                        }
-                        p.Gravity();
-                        p.PosUpdate();
-                        p.InvulnerabilityTimer();
-                        p.FireRateTimer();
-                        if(p.Reloading) {
-                            p.FindNextBestClip();
-                            p.ReloadTimer++;
-                            p.Reload();
-                        }
-                        for(int i = 50; i < 75; i++) {
-                            p.CheckCollisions(platformTilesList[i], p);
-                        }
-                        foreach(Platform pl in GlobalVariables.map.GetTiles()) {
-                            p.CheckCollisions(pl, p);
+                        } else {
+                            p.Update(gameTime, platformTilesList, bulletList);
                         }
                     }
 
@@ -476,32 +412,29 @@ namespace Survive {
                                 else if (itemDrop > 75) //10%
                                     activeItems.Add(new HealingItem(new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
 
-                                /* ============ Zombie GunBit Drops ============= */ //30%
-                                else if (itemDrop > 70) //5%
+                                /* ============ Zombie GunBit Drops ============= */ //35%
+                                else if (itemDrop > 69) //6%
                                     activeItems.Add(new GunBarrel(rgen.Next(25, 75), rgen.Next(5, 20), rgen.Next(1, 8),  new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunBarrel"].Height, gunImagesList["GunBarrel"].Width, gunImagesList["GunBarrel"].Height)));
-                                else if (itemDrop > 65) //5%
+                                else if (itemDrop > 63) //6%
                                     activeItems.Add(new GunStock(rgen.Next(25, 75), rgen.Next(1, 8), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunStock"].Height, gunImagesList["GunStock"].Width, gunImagesList["GunStock"].Height)));
-                                else if (itemDrop > 57) //8%
+                                else if (itemDrop > 54) //9%
                                     activeItems.Add(new GunClip(rgen.Next(1, 10), rgen.Next(5, 50), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunClip"].Height, gunImagesList["GunClip"].Width, gunImagesList["GunClip"].Height)));
-                                else if (itemDrop > 49) //8%
-                                    activeItems.Add(new GunBody(rgen.Next(25, 75), rgen.Next(1, 8), rgen.Next(10, 50), rgen.Next(1, 10), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunBody"].Height, gunImagesList["GunBody"].Width, gunImagesList["GunBody"].Height)));
-                                else if (itemDrop > 45) //4%
+                                else if (itemDrop > 45) //9%
+                                    activeItems.Add(new GunBody(rgen.Next(25, 75), rgen.Next(1, 8), rgen.Next(10, 50), rgen.Next(5, 20), rgen.Next(1, 10), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunBody"].Height, gunImagesList["GunBody"].Width, gunImagesList["GunBody"].Height)));
+                                else if (itemDrop > 40) //5%
                                     activeItems.Add(new GunScope(rgen.Next(25, 75), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunScope"].Height, gunImagesList["GunScope"].Width, gunImagesList["GunScope"].Height)));
-                                /* ============ Zombie Weapon Drops ============= */ //20%
-                                else if (itemDrop > 34) //11%
+                                /* ============ Zombie Weapon Drops ============= */ //12%
+                                else if (itemDrop > 35) //5%
                                     activeItems.Add(new WeaponStock("Pistol", rgen.Next(60, 100), rgen.Next(1, 5), rgen.Next(10, 25), rgen.Next(1, 3), rgen.Next(6, 12), "Pistol", rgen.Next(5, 10), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["Pistol"].Height * 3, gunImagesList["Pistol"].Width * 3, gunImagesList["Pistol"].Height * 3)));
-                                else if (itemDrop > 27) //7%
+                                else if (itemDrop > 30) //5%
                                     activeItems.Add(new WeaponStock("SMG", rgen.Next(50, 100), rgen.Next(6, 10), rgen.Next(10, 25), rgen.Next(2, 5), rgen.Next(20, 40), "SMG", rgen.Next(10, 20), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["SMG"].Height * 2, gunImagesList["SMG"].Width * 2, gunImagesList["SMG"].Height * 2)));
-                                else if (itemDrop > 25) //2%
+                                else if (itemDrop > 28) //2%
                                     activeItems.Add(new WeaponStock("AR", rgen.Next(75, 100), rgen.Next(11, 20), rgen.Next(20, 50), rgen.Next(4, 10), rgen.Next(30, 50), "AR", rgen.Next(5, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["AR"].Height, gunImagesList["AR"].Width, gunImagesList["AR"].Height)));
 
                                 zombieList.Remove(zombieList[i]);
                             }
                         }
                     } //end loop through zombies' actions
-                    else {
-
-                    }
 
                     //check if player can pickup item
                     foreach(Item item in activeItems) {
@@ -556,12 +489,6 @@ namespace Survive {
                     }
                     break;
 
-                case GlobalVariables.GameState.SingleTinker:
-                    break;
-
-                case GlobalVariables.GameState.MultiTinker:
-                    break;
-
                 case GlobalVariables.GameState.GameOver:
                     menuPlayer.Controls.Refresh();
                     if(SingleKeyPress(Buttons.A) || SingleKeyPress(Keys.Enter)) {
@@ -593,7 +520,11 @@ namespace Survive {
                     break; //end case Menu
 
                 case GlobalVariables.GameState.InGame:
-                    DrawGameScreen();
+                    if(playerList.Count == 1 && playerList[0].Tinkering) {
+                        singleTinkerInstance.Draw(spriteBatch);
+                    } else {
+                        DrawGameScreen();
+                    }
 
                     break;
 
@@ -605,12 +536,6 @@ namespace Survive {
                     } else {
                         spriteBatch.DrawString(Resources.Courier, "Hit Enter to Continue", new Vector2(240, 265), Color.Black);
                     }
-                    break;
-
-                case GlobalVariables.GameState.SingleTinker:
-                    break;
-
-                case GlobalVariables.GameState.MultiTinker:
                     break;
 
                 case GlobalVariables.GameState.GameOver:
