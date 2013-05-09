@@ -145,7 +145,7 @@ namespace Survive
             weaponIndex = 0;
             weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 10, 5, 1, "Pistol", 10, new Rectangle(0,0,0,0)));
             currentWeapon = weapons[weaponIndex];
-            currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
+            currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity, new Rectangle(0,0,0,0));
             nextClip = null;
             currentClip.Current = currentClip.ClipCapacity;
             fireRateTimer = 100 / CurrentWeapon.FireRate;

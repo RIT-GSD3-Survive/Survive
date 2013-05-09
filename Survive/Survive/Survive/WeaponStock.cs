@@ -20,7 +20,7 @@ namespace Survive
             type = typ;
             fireRate = fr;
             location = loc;
-            clip = new GunClip(reloadSpeed, clipCapacity);
+            clip = new GunClip(reloadSpeed, clipCapacity, new Rectangle(0,0,0,0));
         }
     }
 }

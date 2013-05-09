@@ -108,11 +108,11 @@ namespace Survive {
             gunImagesList.Add("Pistol", new Rectangle(0, 0, 11, 8));
             gunImagesList.Add("SMG", new Rectangle(13, 0, 23, 13));
             gunImagesList.Add("AR", new Rectangle(36, 0, 40, 12));
-            gunImagesList.Add("GunBarrel", new Rectangle(0, 14, 29, 10));
-            gunImagesList.Add("GunScope", new Rectangle(0, 24, 26, 10));
-            gunImagesList.Add("GunStock", new Rectangle(29, 14, 10, 12));
+            gunImagesList.Add("GunBarrel", new Rectangle(0, 13, 29, 10));
+            gunImagesList.Add("GunScope", new Rectangle(0, 23, 26, 10));
+            gunImagesList.Add("GunStock", new Rectangle(28, 13, 10, 18));
             gunImagesList.Add("GunBody", new Rectangle(26, 25, 28, 16));
-            gunImagesList.Add("GunClip", new Rectangle(55, 13, 18, 24));
+            gunImagesList.Add("GunClip", new Rectangle(54, 12, 18, 24));
 
             initializeGround();
             rgen = new Random();
@@ -293,6 +293,7 @@ namespace Survive {
                         Console.WriteLine("Ammo in Clip: " + p.CurrentClip.Current);
                         Console.WriteLine("Clip Capacity: " + p.CurrentClip.ClipCapacity);
                         Console.WriteLine("Weight: " + p.CurrentWeapon.Weight);
+                        Console.WriteLine("Inventory: " + p.Items.Count);
                         Console.WriteLine();
                         if(p.NextClip != null) {
                             Console.WriteLine("Reload Speed (Next Clip): " + p.NextClip.ReloadSpeed);
@@ -465,18 +466,35 @@ namespace Survive {
                                 zombie.CheckCollisions(pl, zombie);
                             }
 
-                            if(zombie.HP <= 0) {
-                                if(rgen.Next(40) == 0) {
+                            if (zombie.HP <= 0)
+                            {
+                                int itemDrop = rgen.Next(100);
+                                /* ============ Zombie Item Drops ============= */
+                                //25%
+                                if (itemDrop > 85) //15% 
                                     activeItems.Add(new AmmoItem(rgen.Next(50, 100), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - ammoImage.Height, ammoImage.Width, ammoImage.Height)));
-                                } else if(rgen.Next(25) == 0) {
+                                else if (itemDrop > 75) //10%
                                     activeItems.Add(new HealingItem(new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - medkitImage.Height, medkitImage.Width, medkitImage.Height)));
-                                } else if(rgen.Next(15) == 0) {
+
+                                /* ============ Zombie GunBit Drops ============= */ //30%
+                                else if (itemDrop > 70) //5%
+                                    activeItems.Add(new GunBarrel(rgen.Next(25, 75), rgen.Next(5, 20), rgen.Next(1, 8),  new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunBarrel"].Height, gunImagesList["GunBarrel"].Width, gunImagesList["GunBarrel"].Height)));
+                                else if (itemDrop > 65) //5%
+                                    activeItems.Add(new GunStock(rgen.Next(25, 75), rgen.Next(1, 8), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunStock"].Height, gunImagesList["GunStock"].Width, gunImagesList["GunStock"].Height)));
+                                else if (itemDrop > 57) //8%
+                                    activeItems.Add(new GunClip(rgen.Next(1, 10), rgen.Next(5, 50), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunClip"].Height, gunImagesList["GunClip"].Width, gunImagesList["GunClip"].Height)));
+                                else if (itemDrop > 49) //8%
+                                    activeItems.Add(new GunBody(rgen.Next(25, 75), rgen.Next(1, 8), rgen.Next(10, 50), rgen.Next(1, 10), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunBody"].Height, gunImagesList["GunBody"].Width, gunImagesList["GunBody"].Height)));
+                                else if (itemDrop > 45) //4%
+                                    activeItems.Add(new GunScope(rgen.Next(25, 75), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["GunScope"].Height, gunImagesList["GunScope"].Width, gunImagesList["GunScope"].Height)));
+                                /* ============ Zombie Weapon Drops ============= */ //20%
+                                else if (itemDrop > 34) //11%
                                     activeItems.Add(new WeaponStock("Pistol", rgen.Next(60, 100), rgen.Next(1, 5), rgen.Next(10, 25), rgen.Next(1, 3), rgen.Next(6, 12), "Pistol", rgen.Next(5, 10), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["Pistol"].Height * 3, gunImagesList["Pistol"].Width * 3, gunImagesList["Pistol"].Height * 3)));
-                                } else if(rgen.Next(10) == 0) {
+                                else if (itemDrop > 27) //7%
                                     activeItems.Add(new WeaponStock("SMG", rgen.Next(50, 100), rgen.Next(6, 10), rgen.Next(10, 25), rgen.Next(2, 5), rgen.Next(20, 40), "SMG", rgen.Next(10, 20), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["SMG"].Height * 2, gunImagesList["SMG"].Width * 2, gunImagesList["SMG"].Height * 2)));
-                                } else if(rgen.Next(5) == 0) {
+                                else if (itemDrop > 25) //2%
                                     activeItems.Add(new WeaponStock("AR", rgen.Next(75, 100), rgen.Next(11, 20), rgen.Next(20, 50), rgen.Next(4, 10), rgen.Next(30, 50), "AR", rgen.Next(5, 15), new Rectangle(zombieList[i].X, zombieList[i].Y + zombieList[i].Location.Height - gunImagesList["AR"].Height, gunImagesList["AR"].Width, gunImagesList["AR"].Height)));
-                                }
+
                                 zombieList.Remove(zombieList[i]);
                             }
                         }
