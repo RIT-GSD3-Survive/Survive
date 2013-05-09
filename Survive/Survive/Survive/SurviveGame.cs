@@ -736,7 +736,7 @@ namespace Survive
 
                 case GlobalVariables.GameState.GameOver:
                     spriteBatch.DrawString(Resources.Courier, "GAME OVER!", new Vector2(320, 75), Color.Maroon);
-                    spriteBatch.DrawString(Resources.Courier, "Score : ", new Vector2(300, 175), Color.Black);
+                    //spriteBatch.DrawString(Resources.Courier, "Score : ", new Vector2(300, 175), Color.Black);
                     spriteBatch.DrawString(Resources.Courier, "Hit Enter to Continue", new Vector2(240, 275), Color.Black);
                     break;
             }//end switch GameStates
