@@ -22,6 +22,7 @@ namespace Survive
         protected List<Weapon> weapons;
         protected Weapon currentWeapon;
         protected GunClip currentClip;
+        protected GunClip nextClip;
         protected Control controls;
         protected int score;
         protected int ammo;
@@ -77,6 +78,12 @@ namespace Survive
         {
             get { return currentClip; }
             set { currentClip = value; }
+        }
+
+        public GunClip NextClip
+        {
+            get { return nextClip; }
+            set { nextClip = value; }
         }
 
         public List<GunBits> Items
@@ -139,6 +146,7 @@ namespace Survive
             weapons.Add(new WeaponStock("Beginner's Pistol", 75, 1, 10, 5, 1, "Pistol", 10, new Rectangle(0,0,0,0)));
             currentWeapon = weapons[weaponIndex];
             currentClip = new GunClip(currentWeapon.ReloadSpeed, currentWeapon.ClipCapacity);
+            nextClip = null;
             currentClip.Current = currentClip.ClipCapacity;
             fireRateTimer = 100 / CurrentWeapon.FireRate;
             if (currentWeapon.Weight >= 0 && currentWeapon.Weight <= 5)
@@ -175,8 +183,9 @@ namespace Survive
                     Bullet b = new Bullet((faceRight ? 1 : 0), X, Y + 32, currentWeapon.AttackPower + rgen.Next(5), currentWeapon.Accuracy);
                     return b;
                 }
-                else if (currentClip.Current <= 0)
+                else if (currentClip.Current <= 0 && !(currentWeapon.Name.Equals("Beginner's Pistol")))
                 {
+                    FindNextBestClip();
                     Reload();
                     return null;
                 }
@@ -244,7 +253,8 @@ namespace Survive
             {
                 moveSpeed = 1;
             }
-            SwitchCurrentClip();
+            currentClip = currentWeapon.Clip;
+            //SwitchCurrentClip();
         }
 
         public void SwitchWeaponsPrevious()
@@ -274,7 +284,8 @@ namespace Survive
             {
                 moveSpeed = 1;
             }
-            SwitchCurrentClip();
+            currentClip = currentWeapon.Clip;
+            //SwitchCurrentClip();
         }
 
         private void SwitchCurrentClip()
@@ -314,13 +325,11 @@ namespace Survive
             }
         }
 
-        public void Reload()
+        public void FindNextBestClip()
         {
-            GunClip best = null;
-            reloading = true;
-            //check for filled clips
-            if (reloadTimer >= (currentWeapon.ReloadSpeed*60))
+            if (nextClip == null)
             {
+                GunClip best = null;
                 foreach (GunBits gunbit in items)
                 {
                     if (gunbit is GunClip)
@@ -335,8 +344,19 @@ namespace Survive
 
                 if (best != null) //best clip found
                 {
-                    currentClip = best;
+                    nextClip = best;
                 }
+            }
+        }
+
+        public void Reload()
+        {
+            reloading = true;
+            //check for filled clips
+            if (reloadTimer >= (nextClip.ReloadSpeed*60))
+            {
+                currentClip = nextClip;
+                nextClip = null;
                 reloadTimer = 0;
                 reloading = false;
             }
